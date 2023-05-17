@@ -1,0 +1,71 @@
+  // BOUTON================
+
+  .btnBlueF {
+      background-color: $White;
+      border-radius: 15px;
+      border-color: $blue1;
+      padding: 1px 6px 1px 6px;
+      margin-bottom: 5px;
+      color: $blue1;
+  }
+
+  .btnBlueF:hover {
+      transition: 0.5s;
+      background-color: $blue1;
+      color: $White !important;
+      // font-weight: bold;
+
+  }
+
+  .btnRed {
+      background-color: $red1 !important;
+      border-radius: 10px;
+      border: none !important;
+      padding: 8px;
+      color: $White !important;
+      margin-bottom: 5px;
+
+  }
+
+  .btnRed:hover {
+      transition: 0.5s;
+      background-color: $red1 !important;
+      color: $White !important;
+      //   font-weight: bold;
+
+  }
+
+  .btnBlue {
+      background-color: $blue1 !important;
+      border-radius: 8px;
+      border: none !important;
+      padding: 8px;
+      margin-bottom: 5px;
+      color: $White !important;
+  }
+
+  .btnBlue:hover {
+      transition: 0.5s;
+      background-color: $blue2 !important;
+      color: $White !important;
+      //   font-weight: bold;
+
+  }
+
+  .btnWhite {
+      background-color: $White !important;
+      border-radius: 15px !important;
+      border-color: $blue1 !important;
+      padding: 8px;
+      margin-bottom: 5px;
+      color: $blue1 !important;
+      font-weight: bold !important;
+  }
+
+  .btnWhite:hover {
+      transition: 0.5s;
+      background-color: $blue1 !important;
+      color: $White !important;
+      //   font-weight: bold;
+
+  }
