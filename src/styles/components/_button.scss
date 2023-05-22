@@ -1,28 +1,29 @@
   // BOUTON================
 
-  .btnBlueF {
-      background-color: $White;
-      border-radius: 15px;
-      border-color: $blue1;
-      padding: 1px 6px 1px 6px;
+  .btnBlue2 {
+      background-color: $blue3 !important;
+      border-radius: 5px;
+      border: none !important;
+      padding: 4px 6px 4px 6px;
       margin-bottom: 5px;
-      color: $blue1;
+      color: $blue2;
   }
 
-  .btnBlueF:hover {
+  .btnBlue2:hover {
       transition: 0.5s;
-      background-color: $blue1;
+      background-color: $blue1 !important;
       color: $White !important;
       // font-weight: bold;
 
   }
 
   .btnRed {
-      background-color: $red1 !important;
-      border-radius: 10px;
+      background-color: $red2 !important;
+      border-radius: 5px;
       border: none !important;
-      padding: 8px;
-      color: $White !important;
+      padding: 4px 6px 4px 6px;
+
+      color: $blue2 !important;
       margin-bottom: 5px;
 
   }
@@ -37,9 +38,9 @@
 
   .btnBlue {
       background-color: $blue1 !important;
-      border-radius: 8px;
+      border-radius: 5px;
       border: none !important;
-      padding: 8px;
+      padding: 4px 6px 4px 6px;
       margin-bottom: 5px;
       color: $White !important;
   }
@@ -56,7 +57,7 @@
       background-color: $White !important;
       border-radius: 15px !important;
       border-color: $blue1 !important;
-      padding: 8px;
+      padding: 4px 6px 4px 6px;
       margin-bottom: 5px;
       color: $blue1 !important;
       font-weight: bold !important;
@@ -65,6 +66,23 @@
   .btnWhite:hover {
       transition: 0.5s;
       background-color: $blue1 !important;
+      color: $White !important;
+      //   font-weight: bold;
+
+  }
+
+  .btnGreen {
+      background-color: $green2 !important;
+      border-radius: 5px;
+      border: none !important;
+      padding: 4px 6px 4px 6px;
+      margin-bottom: 5px;
+      color: $blue2 !important;
+  }
+
+  .btnGreen:hover {
+      transition: 0.5s;
+      background-color: $green1 !important;
       color: $White !important;
       //   font-weight: bold;
 
