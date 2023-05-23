@@ -49,7 +49,7 @@ const ShowRegulator = () => {
         },
       })
       .then(() => {
-        navigate("/appmail_contacts"); // Redirige vers la page d'index après la suppression
+        navigate("/regulators"); // Redirige vers la page d'index après la suppression
       })
       .catch((error) => {
         console.log(error);
@@ -175,10 +175,14 @@ const ShowRegulator = () => {
                             : "Indisponible"}
                         </td>
                       </tr>
-                      <tr>
-                        <th>Cause d'indisponibilité</th>
-                        <td>{showRegulator.cause_unavailability_regulator}</td>
-                      </tr>
+                      {showRegulator.availability_Regulator === 0 ? (
+                        <tr>
+                          <th>Cause d'indisponibilité</th>
+                          <td>
+                            {showRegulator.cause_unavailability_regulator}
+                          </td>
+                        </tr>
+                      ) : null}
                       <tr>
                         <th>Date de création</th>
                         <td>{formatDateShow2(showRegulator.created_at)}</td>

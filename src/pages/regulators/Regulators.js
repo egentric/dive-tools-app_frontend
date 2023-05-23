@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Regulators = () => {
   const [regulators, setRegulators] = useState([]);
+
   const formatDate = (date) => {
     const dateParts = date.split("-");
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
