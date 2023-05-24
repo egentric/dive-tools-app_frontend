@@ -19,26 +19,32 @@ const EditBcd = () => {
   const [qrcodeBcd, setQrcodeBcd] = useState("");
   const [availabilityBcd, setAvailabilityBcd] = useState("");
   const [causeUnavailabilityBcd, setCauseUnavailabilityBcd] = useState("");
-  const [counterLoanBcd, setCounterLoanBcd] = useState("");
-  //   const [resetCounter, setResetCounter] = useState(false);
-
-  //   const handleCounterReset = () => {
-  //     setCounterLoanBcd(0);
-  //   };
-
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-
-  //     if (resetCounter) {
-  //       setCounterLoanBcd(0);
-  //     }
-  //   };
-
   const [validationError, setValidationError] = useState({});
 
+  const [counterLoanBcd, setCounterLoanBcd] = useState(0);
+  //   const initialCounter = counterLoanBcd;
+  const [labelValue, setLabelValue] = useState("");
+
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    const valueToSend = isChecked ? 0 : labelValue;
+
+    setCounterLoanBcd(valueToSend);
+    setLabelValue(isChecked ? counterLoanBcd.toString() : "");
+
+    if (isChecked) {
+      window.alert("Le compteur va être remit à zéro !");
+    }
+  };
+
   useEffect(() => {
-    getBcd();
+    const fetchData = async () => {
+      await getBcd();
+      setLabelValue(counterLoanBcd.toString());
+    };
+    fetchData();
   }, []);
+
   // GET - Récupère les valeurs de la fiche avec l'API
   const getBcd = async () => {
     await axios
@@ -85,6 +91,9 @@ const EditBcd = () => {
     if (qrcodeBcd !== null) {
       formData.append("qrcode_BCD", qrcodeBcd);
     }
+    // if (counterLoanBcd !== null) {
+    formData.append("counter_loan_BCD", counterLoanBcd);
+    // }
     // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
@@ -96,7 +105,7 @@ const EditBcd = () => {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
       })
-      .then(navigate("/bcds"))
+      .then(() => navigate("/bcds"))
       .catch(({ response }) => {
         if (response.status != 200) {
           setValidationError(response.data);
@@ -175,7 +184,7 @@ const EditBcd = () => {
                       <Row>
                         <Col md={10}>
                           <Form.Group controlId="codeBcd">
-                            <Form.Label>Code</Form.Label>
+                            <Form.Label className="label">Code</Form.Label>
                             <Form.Control
                               type="text"
                               value={codeBcd}
@@ -187,7 +196,7 @@ const EditBcd = () => {
                         </Col>
                         <Col md={2}>
                           <Form.Group controlId="sizeBcd">
-                            <Form.Label>Taille</Form.Label>
+                            <Form.Label className="label">Taille</Form.Label>
                             <Form.Control
                               type="text"
                               value={sizeBcd}
@@ -198,10 +207,10 @@ const EditBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="markBcd">
-                            <Form.Label>Marque</Form.Label>
+                            <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
                               type="text"
                               value={markBcd}
@@ -214,7 +223,7 @@ const EditBcd = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="modelBcd">
-                            <Form.Label>Modèle</Form.Label>
+                            <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
                               type="text"
                               value={modelBcd}
@@ -225,10 +234,10 @@ const EditBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="yearBcd">
-                            <Form.Label>Année</Form.Label>
+                            <Form.Label className="label">Année</Form.Label>
                             <Form.Control
                               type="number"
                               min="2000" // année minimale
@@ -244,7 +253,9 @@ const EditBcd = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="revisionBcdDate">
-                            <Form.Label>Date de révision</Form.Label>
+                            <Form.Label className="label">
+                              Date de révision
+                            </Form.Label>
                             <Form.Control
                               type="date"
                               value={revisionBcdDate}
@@ -256,10 +267,12 @@ const EditBcd = () => {
                         </Col>
                       </Row>
 
-                      <Row>
+                      <Row className="mt-3">
                         <Col>
                           <Form.Group controlId="qrcodeBcd" className="mb-3">
-                            <Form.Label>Image du QrCode</Form.Label>
+                            <Form.Label className="label">
+                              Image du QrCode
+                            </Form.Label>
                             <Form.Control
                               type="file"
                               onChange={changeHandler}
@@ -267,10 +280,12 @@ const EditBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={4}>
                           <Form.Group controlId="availabilityBcd">
-                            <Form.Label>Disponibilité</Form.Label>
+                            <Form.Label className="label">
+                              Disponibilité
+                            </Form.Label>
                             <Form.Check
                               type="switch"
                               id="custom-switch-user"
@@ -312,25 +327,22 @@ const EditBcd = () => {
                           ) : null}
                         </Col>
                       </Row>
-                      {/* <Row>
+                      <Row className="mt-3">
                         <Col>
                           <Form.Group controlId="counterLoanBcd">
-                            <Form.Label>Remise à zéro du compteur</Form.Label>
+                            <Form.Label className="label">
+                              Compteur: {counterLoanBcd}
+                            </Form.Label>
                             <Form.Check
                               type="checkbox"
                               id="custom-checkbox-counter"
-                              label={`Compteur actuel: ${counterLoanBcd}`}
-                              checked={resetCounter}
-                              onChange={(event) => {
-                                setResetCounter(event.target.checked);
-                                if (!event.target.checked) {
-                                  setCounterLoanBcd(0);
-                                }
-                              }}
+                              label="Remise à zéro du compteur"
+                              checked={counterLoanBcd === 0}
+                              onChange={handleCheckboxChange}
                             />
                           </Form.Group>
                         </Col>
-                      </Row> */}
+                      </Row>
                       <Button
                         className="btn btnBlue2 btn-sm me-2 mt-2 "
                         onClick={() => navigate(-1)}

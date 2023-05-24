@@ -92,6 +92,10 @@ select option {
   background-color: rgba(245, 245, 250, 0.2) !important;
 }
 
+.label {
+  font-weight: bold;
+}
+
 .btnBlue2 {
   background-color: rgb(124, 177, 252) !important;
   border-radius: 5px;
