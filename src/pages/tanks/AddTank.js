@@ -10,11 +10,11 @@ import Select from "react-select";
 const AddTank = () => {
   const navigate = useNavigate();
   const [codeTank, setCodeTank] = useState("");
-  const [gasTank, setgasTank] = useState("");
+  const [gasTank, setGasTank] = useState("");
   const [outletTank, setOutletTank] = useState("");
   const [builderTank, setBuilderTank] = useState("");
   const [markTank, setMarkTank] = useState("");
-  const [numberTank, setnumberTank] = useState("");
+  const [numberTank, setNumberTank] = useState("");
   const [capacityTank, setCapacityTank] = useState("");
   const [firstTestDateTank, setFirstTestDateTank] = useState("");
   const [peTank, setPeTank] = useState("");
@@ -25,7 +25,9 @@ const AddTank = () => {
   const [availabilityTank, setAvailabilityTank] = useState("");
   const [causeUnavailabilityTank, setCauseUnavailabilityTank] = useState("");
 
-  const [userCo, setUserCo] = useState([]);
+  const [userCoId, setUserCoId] = useState("");
+  const [role, setRole] = useState([]);
+
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -42,7 +44,7 @@ const AddTank = () => {
   };
 
   const handleChangeSelect1 = (event) => {
-    setgasTank(event.target.value);
+    setGasTank(event.target.value);
   };
 
   const handleChangeSelect2 = (event) => {
@@ -85,13 +87,17 @@ const AddTank = () => {
         },
       })
       .then((res) => {
-        setUserCo(res.data.data);
-        // setRole(res.data.role_id);
+        setUserCoId(res.data.id);
+        setRole(res.data.role_id);
+        // console.log(res.data);
       });
   };
   // ----------------------- Fonction d'ajout de Tank----------------------------------------//
   const AddFormTank = async (e) => {
     e.preventDefault();
+
+    // Determine the user ID based on the role
+    const userId = role === 1 || role === 2 ? selectedUser.value : userCoId;
 
     const formData = new FormData();
     formData.append("code_tank", codeTank);
@@ -109,7 +115,7 @@ const AddTank = () => {
     formData.append("qrcode_tank", qrcodeTank);
     formData.append("availability_tank", availabilityTank);
     formData.append("cause_unavailability_tank", causeUnavailabilityTank);
-    formData.append("user_id", selectedUser.value);
+    formData.append("user_id", userId);
 
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
@@ -220,14 +226,14 @@ const AddTank = () => {
                               <option value="">
                                 Sélectionnez une capacitée
                               </option>
-                              <option value="4">4</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="10">10</option>
-                              <option value="12">12</option>
-                              <option value="15">15</option>
-                              <option value="18">18</option>
-                              <option value="20">20</option>
+                              <option value="4">4L</option>
+                              <option value="6">6L</option>
+                              <option value="7">7L</option>
+                              <option value="10">10L</option>
+                              <option value="12">12L</option>
+                              <option value="15">15L</option>
+                              <option value="18">18L</option>
+                              <option value="20">20L</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -304,7 +310,7 @@ const AddTank = () => {
                               value={numberTank}
                               placeholder="numéro"
                               onChange={(event) => {
-                                setnumberTank(event.target.value);
+                                setNumberTank(event.target.value);
                               }}
                             />
                           </Form.Group>
@@ -431,25 +437,28 @@ const AddTank = () => {
                           ) : null}
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
-                          <Form.Group>
-                            <Form.Label className="label">
-                              Nom du propriétaire
-                            </Form.Label>
-                            <Select
-                              options={sortedOptions.map((user) => ({
-                                value: user.value,
-                                label: user.label,
-                              }))}
-                              value={selectedUser}
-                              onChange={handleNameChange}
-                              placeholder="Sélectionnez un nom"
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
-
+                      {role === 1 || role === 2 ? (
+                        <Row className="mt-3">
+                          <Col md={6}>
+                            <Form.Group>
+                              <Form.Label className="label">
+                                Nom du propriétaire
+                              </Form.Label>
+                              <Select
+                                options={sortedOptions.map((user) => ({
+                                  value: user.value,
+                                  label: user.label,
+                                }))}
+                                value={selectedUser}
+                                onChange={handleNameChange}
+                                placeholder="Sélectionnez un nom"
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                      ) : (
+                        <input type="hidden" name="userCoId" value={userCoId} />
+                      )}
                       <Button
                         className="btn btnBlue2 btn-sm me-2 mt-3 "
                         onClick={() => navigate(-1)}
