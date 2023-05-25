@@ -82,8 +82,8 @@ const AddRegulator = () => {
                   <h3 className="card-title">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="50"
-                      height="50"
+                      width="60"
+                      height="60"
                       fill="currentColor"
                       class="Regulator"
                       viewBox="0 0 56.69 26.69"
@@ -118,10 +118,11 @@ const AddRegulator = () => {
                       <Row>
                         <Col>
                           <Form.Group controlId="codeRegulator">
-                            <Form.Label>Code</Form.Label>
+                            <Form.Label className="label">Code</Form.Label>
                             <Form.Control
                               type="text"
                               value={codeRegulator}
+                              placeholder="code"
                               onChange={(event) => {
                                 setCodeRegulator(event.target.value);
                               }}
@@ -129,13 +130,14 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="markRegulator">
-                            <Form.Label>Marque</Form.Label>
+                            <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
                               type="text"
                               value={markRegulator}
+                              placeholder="marque"
                               onChange={(event) => {
                                 setMarkRegulator(event.target.value);
                               }}
@@ -145,10 +147,11 @@ const AddRegulator = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="modelRegulator">
-                            <Form.Label>Modèle</Form.Label>
+                            <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
                               type="text"
                               value={modelRegulator}
+                              placeholder="modèle"
                               onChange={(event) => {
                                 setModelRegulator(event.target.value);
                               }}
@@ -156,10 +159,10 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="yearRegulator">
-                            <Form.Label>Année</Form.Label>
+                            <Form.Label className="label">Année</Form.Label>
                             <Form.Control
                               type="number"
                               min="2000" // année minimale
@@ -175,7 +178,9 @@ const AddRegulator = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="revisionRegulatorDate">
-                            <Form.Label>Date de révision</Form.Label>
+                            <Form.Label className="label">
+                              Date de révision
+                            </Form.Label>
                             <Form.Control
                               type="date"
                               value={revisionRegulatorDate}
@@ -187,13 +192,15 @@ const AddRegulator = () => {
                         </Col>
                       </Row>
 
-                      <Row>
+                      <Row className="mt-3">
                         <Col>
                           <Form.Group
                             controlId="qrcodeRegulator"
                             className="mb-3"
                           >
-                            <Form.Label>Image du QrCode</Form.Label>
+                            <Form.Label className="label">
+                              Image du QrCode
+                            </Form.Label>
                             <Form.Control
                               type="file"
                               onChange={changeHandler}
@@ -201,10 +208,12 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={4}>
                           <Form.Group controlId="availabilityRegulator">
-                            <Form.Label>Disponibilité</Form.Label>
+                            <Form.Label className="label">
+                              Disponibilité
+                            </Form.Label>
                             <Form.Check
                               type="switch"
                               id="custom-switch-user"
@@ -234,7 +243,9 @@ const AddRegulator = () => {
                         <Col md={8}>
                           {availabilityRegulator === 0 ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
-                              <Form.Label>Cause d'indisponibilité</Form.Label>
+                              <Form.Label className="label">
+                                Cause d'indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityRegulator}
@@ -249,7 +260,7 @@ const AddRegulator = () => {
                         </Col>
                       </Row>
                       <Button
-                        className="btn btnBlue2 btn-sm me-2 mt-2 "
+                        className="btn btnBlue2 btn-sm me-2 mt-3 "
                         onClick={() => navigate(-1)}
                       >
                         <svg
@@ -268,7 +279,7 @@ const AddRegulator = () => {
                         <span className="menu">Retour</span>
                       </Button>
                       <Button
-                        className="btnGreen mt-2 btn-sm"
+                        className="btnGreen mt-3 btn-sm"
                         size="lg"
                         block="block"
                         type="submit"

@@ -13,6 +13,10 @@ import Bcds from "./pages/bcds/Bcds";
 import AddBcd from "./pages/bcds/AddBcd";
 import EditBcd from "./pages/bcds/EditBcd";
 import ShowBcd from "./pages/bcds/ShowBcd";
+import Tanks from "./pages/tanks/Tanks";
+import AddTank from "./pages/tanks/AddTank";
+import EditTank from "./pages/tanks/EditTank";
+import ShowTank from "./pages/tanks/ShowTank";
 
 function App() {
   return (
@@ -37,6 +41,11 @@ function App() {
         <Route path="/bcds/add" element={<AddBcd />} />
         <Route path="/bcds/edit/:bcd" element={<EditBcd />} />
         <Route path="/bcds/show/:bcd" element={<ShowBcd />} />
+
+        <Route path="/tanks" element={<Tanks />} />
+        <Route path="/tanks/add" element={<AddTank />} />
+        <Route path="/tanks/edit/:tank" element={<EditTank />} />
+        <Route path="/tanks/show/:tank" element={<ShowTank />} />
       </Routes>
     </BrowserRouter>
   );

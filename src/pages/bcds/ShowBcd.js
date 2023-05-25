@@ -97,8 +97,8 @@ const ShowBcd = () => {
                   <h3 className="card-title">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
+                      width="40"
+                      height="40"
                       fill="currentColor"
                       className="BCD"
                       viewBox="0 0 48.9 56.69"

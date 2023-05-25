@@ -24,6 +24,9 @@ const AddBcd = () => {
   const changeHandler = (event) => {
     setQrcodeBcd(event.target.files[0]);
   };
+  const handleChangeSelect = (event) => {
+    setSizeBcd(event.target.value);
+  };
 
   useEffect(() => {
     if (!yearBcd) {
@@ -80,8 +83,8 @@ const AddBcd = () => {
                   <h3 className="card-title">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
+                      width="40"
+                      height="40"
                       fill="currentColor"
                       className="BCD"
                       viewBox="0 0 48.9 56.69"
@@ -135,38 +138,45 @@ const AddBcd = () => {
 
                     <Form onSubmit={AddBcd}>
                       <Row>
-                        <Col md={10}>
+                        <Col md={8}>
                           <Form.Group controlId="codeBcd">
-                            <Form.Label>Code</Form.Label>
+                            <Form.Label className="label">Code</Form.Label>
                             <Form.Control
                               type="text"
                               value={codeBcd}
+                              placeholder="code"
                               onChange={(event) => {
                                 setCodeBcd(event.target.value);
                               }}
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={2}>
+                        <Col md={4}>
                           <Form.Group controlId="sizeBcd">
-                            <Form.Label>Taille</Form.Label>
-                            <Form.Control
-                              type="text"
+                            <Form.Label className="label">Taille</Form.Label>
+                            <Form.Select
                               value={sizeBcd}
-                              onChange={(event) => {
-                                setSizeBcd(event.target.value);
-                              }}
-                            />
+                              onChange={handleChangeSelect}
+                            >
+                              <option value="">Sélectionnez une taille</option>
+                              <option value="XS">XS</option>
+                              <option value="S">S</option>
+                              <option value="M">M</option>
+                              <option value="L">L</option>
+                              <option value="XL">XL</option>
+                              <option value="2XL">2XL</option>
+                            </Form.Select>
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="markBcd">
-                            <Form.Label>Marque</Form.Label>
+                            <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
                               type="text"
                               value={markBcd}
+                              placeholder="marque"
                               onChange={(event) => {
                                 setMarkBcd(event.target.value);
                               }}
@@ -176,10 +186,11 @@ const AddBcd = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="modelBcd">
-                            <Form.Label>Modèle</Form.Label>
+                            <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
                               type="text"
                               value={modelBcd}
+                              placeholder="modèle"
                               onChange={(event) => {
                                 setModelBcd(event.target.value);
                               }}
@@ -187,10 +198,10 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={6}>
                           <Form.Group controlId="yearBcd">
-                            <Form.Label>Année</Form.Label>
+                            <Form.Label className="label">Année</Form.Label>
                             <Form.Control
                               type="number"
                               min="2000" // année minimale
@@ -206,7 +217,9 @@ const AddBcd = () => {
 
                         <Col md={6}>
                           <Form.Group controlId="revisionBcdDate">
-                            <Form.Label>Date de révision</Form.Label>
+                            <Form.Label className="label">
+                              Date de révision
+                            </Form.Label>
                             <Form.Control
                               type="date"
                               value={revisionBcdDate}
@@ -218,10 +231,12 @@ const AddBcd = () => {
                         </Col>
                       </Row>
 
-                      <Row>
+                      <Row className="mt-3">
                         <Col>
                           <Form.Group controlId="qrcodeBcd" className="mb-3">
-                            <Form.Label>Image du QrCode</Form.Label>
+                            <Form.Label className="label">
+                              Image du QrCode
+                            </Form.Label>
                             <Form.Control
                               type="file"
                               onChange={changeHandler}
@@ -229,10 +244,12 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
                         <Col md={4}>
                           <Form.Group controlId="availabilityBcd">
-                            <Form.Label>Disponibilité</Form.Label>
+                            <Form.Label className="label">
+                              Disponibilité
+                            </Form.Label>
                             <Form.Check
                               type="switch"
                               id="custom-switch-user"
@@ -262,7 +279,9 @@ const AddBcd = () => {
                         <Col md={8}>
                           {availabilityBcd === 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
-                              <Form.Label>Cause d'indisponibilité</Form.Label>
+                              <Form.Label className="label">
+                                Cause d'indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityBcd}
@@ -275,7 +294,7 @@ const AddBcd = () => {
                         </Col>
                       </Row>
                       <Button
-                        className="btn btnBlue2 btn-sm me-2 mt-2 "
+                        className="btn btnBlue2 btn-sm me-2 mt-3 "
                         onClick={() => navigate(-1)}
                       >
                         <svg
@@ -294,7 +313,7 @@ const AddBcd = () => {
                         <span className="menu">Retour</span>
                       </Button>
                       <Button
-                        className="btnGreen mt-2 btn-sm"
+                        className="btnGreen mt-3 btn-sm"
                         size="lg"
                         block="block"
                         type="submit"
