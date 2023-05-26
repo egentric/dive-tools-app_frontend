@@ -132,12 +132,23 @@ const ShowUser = () => {
                   <Table striped bordered hover>
                     <tbody>
                       <tr>
+                        <th>Image</th>
+                        <td>
+                          {showUser.picture === null ? (
+                            "Aucune"
+                          ) : (
+                            <img
+                              src={`http://localhost:8000/storage/uploads/users/${image}`}
+                              alt={showUser.picture}
+                              width="100px"
+                            />
+                          )}
+                        </td>
+                      </tr>
+
+                      <tr>
                         <th>Pseudo</th>
                         <td>{showUser.pseudo}</td>
-                      </tr>
-                      <tr>
-                        <th>Prénom</th>
-                        <td>{showUser.firstname}</td>
                       </tr>
                       <tr>
                         <th>Civilité</th>
@@ -146,6 +157,10 @@ const ShowUser = () => {
                       <tr>
                         <th>Nom</th>
                         <td>{showUser.lastname}</td>
+                      </tr>
+                      <tr>
+                        <th>Prénom</th>
+                        <td>{showUser.firstname}</td>
                       </tr>
                       <tr>
                         <th>Email</th>
@@ -177,20 +192,6 @@ const ShowUser = () => {
                           {showUser.picture === null
                             ? "Aucun"
                             : showUser.picture}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Image</th>
-                        <td>
-                          {showUser.picture === null ? (
-                            "Aucune"
-                          ) : (
-                            <img
-                              src={`http://localhost:8000/storage/uploads/users/${image}`}
-                              alt={showUser.picture}
-                              width="100px"
-                            />
-                          )}
                         </td>
                       </tr>
                       <tr>

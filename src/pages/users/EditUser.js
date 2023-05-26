@@ -27,7 +27,7 @@ const EditUser = () => {
   const [licensee, setLicensee] = useState("");
   const [certificateDate, setCertificateDate] = useState("");
 
-  const [role_id, setRole] = useState("");
+  const [role_id, setRoleId] = useState("");
   const [validationError, setValidationError] = useState({});
 
   // On récupère l'id du user
@@ -38,6 +38,19 @@ const EditUser = () => {
     setPicture(event.target.files[0]);
   };
 
+  const [labelValue, setLabelValue] = useState("");
+
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    const valueToSend = isChecked ? 1 : labelValue;
+
+    setLicensee(valueToSend);
+    setLabelValue(isChecked ? licensee.toString() : "");
+
+    if (!isChecked) {
+      window.alert("La licence sera désactivée !");
+    }
+  };
   const displayUser = async () => {
     await axios
       .get(`http://127.0.0.1:8000/api/current-user`, {
@@ -82,6 +95,7 @@ const EditUser = () => {
         setLicenseDate(res.data.data.license_date);
         setLicensee(res.data.data.licensee);
         setCertificateDate(res.data.data.medical_certificate_date);
+        setRoleId(res.data.data.role_id);
       })
       .catch((error) => {
         console.log(error);
@@ -148,7 +162,17 @@ const EditUser = () => {
                         d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                       />
                     </svg>{" "}
-                    <span className="menu">Modifier {pseudo}</span>
+                    <span className="menu">
+                      Modifier{" "}
+                      {picture != null ? (
+                        <img
+                          src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                          alt={picture}
+                          width="35px"
+                        />
+                      ) : null}{" "}
+                      {pseudo}
+                    </span>
                   </h3>
                 </div>
 
@@ -342,18 +366,17 @@ const EditUser = () => {
                             )}
                           </p>
                         </Col>
-                        {roleCo === 1 && (
-                          <Col md={4}>
-                            {" "}
+                        {role_id === 1 && (
+                          <Col md={8}>
                             <Form.Group controlId="licensee">
                               <Form.Label className="label">
-                                Compteur : {counterLoanTank}
+                                Activation/désactivation de la licence
                               </Form.Label>
                               <Form.Check
                                 type="checkbox"
-                                id="custom-checkbox-counter"
-                                label="Remise à zéro du compteur"
-                                checked={counterLoanTank === 0}
+                                id="custom-checkbox-licensee"
+                                label="Licence activé"
+                                checked={licensee === 1}
                                 onChange={handleCheckboxChange}
                               />
                             </Form.Group>
@@ -406,19 +429,19 @@ const EditUser = () => {
                       </Row>
 
                       <Row className="mt-3">
-                        {roleCo === 1 && (
+                        {role_id === 1 && (
                           <Col>
                             <Form.Group controlId="Role">
                               <Form.Label className="label">Role</Form.Label>
                               <Form.Check
                                 type="switch"
                                 id="custom-switch-user"
-                                label="Utilisteur"
+                                label="Utilisateur"
                                 value="3"
-                                checked={role_id === 3}
+                                checked={roleCo === 3}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRole(3);
+                                    setRoleCo(3);
                                   }
                                 }}
                               />
@@ -427,10 +450,10 @@ const EditUser = () => {
                                 id="custom-switch-editorM"
                                 label="Editeur Matériel"
                                 value="2"
-                                checked={role_id === 2}
+                                checked={roleCo === 2}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRole(2);
+                                    setRoleCo(2);
                                   }
                                 }}
                               />
@@ -439,10 +462,10 @@ const EditUser = () => {
                                 id="custom-switch-admin"
                                 label="Administrateur"
                                 value="1"
-                                checked={role_id === 1}
+                                checked={roleCo === 1}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRole(1);
+                                    setRoleCo(1);
                                   }
                                 }}
                               />
