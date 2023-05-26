@@ -171,7 +171,6 @@ const ShowBcd = () => {
                       <tr>
                         <th>image QrCode</th>
                         <td>
-                          {" "}
                           {showBcd.qrcode_BCD === null ? (
                             "Aucune"
                           ) : (

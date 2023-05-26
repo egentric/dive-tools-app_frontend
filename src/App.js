@@ -17,6 +17,9 @@ import Tanks from "./pages/tanks/Tanks";
 import AddTank from "./pages/tanks/AddTank";
 import EditTank from "./pages/tanks/EditTank";
 import ShowTank from "./pages/tanks/ShowTank";
+import Users from "./pages/users/Users";
+import EditUser from "./pages/users/EditUser";
+import ShowUser from "./pages/users/ShowUser";
 
 function App() {
   return (
@@ -46,6 +49,31 @@ function App() {
         <Route path="/tanks/add" element={<AddTank />} />
         <Route path="/tanks/edit/:tank" element={<EditTank />} />
         <Route path="/tanks/show/:tank" element={<ShowTank />} />
+
+        <Route
+          path="/users"
+          element={
+            // role == 1 ?
+            <Users />
+            //  : <Noaccess />
+          }
+        />
+        <Route
+          path="/users/edit/:user"
+          element={
+            // role == 1 || role == 2 ?
+            <EditUser />
+            //  : <Noaccess />
+          }
+        />
+        <Route
+          path="/users/show/:user"
+          element={
+            // role == 1 || role == 2 ?
+            <ShowUser />
+            //  : <Noaccess />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

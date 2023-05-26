@@ -55,6 +55,8 @@ const AddTank = () => {
     setOutletTank(event.target.value);
   };
 
+  // // ------------Select propriétaire----------------------------------------//
+
   const handleNameChange = (selectedOption) => {
     setSelectedUser(selectedOption);
   };
@@ -226,14 +228,14 @@ const AddTank = () => {
                               <option value="">
                                 Sélectionnez une capacitée
                               </option>
-                              <option value="4">4L</option>
-                              <option value="6">6L</option>
-                              <option value="7">7L</option>
-                              <option value="10">10L</option>
-                              <option value="12">12L</option>
-                              <option value="15">15L</option>
-                              <option value="18">18L</option>
-                              <option value="20">20L</option>
+                              <option value="4">4 Litres</option>
+                              <option value="6">6 Litres</option>
+                              <option value="7">7 Litres</option>
+                              <option value="10">10 Litres</option>
+                              <option value="12">12 Litres</option>
+                              <option value="15">15 LitresL</option>
+                              <option value="18">18 Litres</option>
+                              <option value="20">20 Litres</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -249,8 +251,8 @@ const AddTank = () => {
                               <option value="">
                                 Sélectionnez le nombre de sortie
                               </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
+                              <option value="1">1 sortie</option>
+                              <option value="2">2 sorties</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>

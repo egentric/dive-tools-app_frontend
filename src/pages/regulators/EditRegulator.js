@@ -5,8 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
-import Navigation from "../../components/Navigation";
+// import Sidebar from "../../components/Sidebar";
+// import Navigation from "../../components/Navigation";
 
 const EditRegulator = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const EditRegulator = () => {
   const [availabilityRegulator, setAvailabilityRegulator] = useState("");
   const [causeUnavailabilityRegulator, setCauseUnavailabilityRegulator] =
     useState("");
-  // const [CounterRegulator, setCounterRegulator] = useState("");
+  const [CounterRegulator, setCounterRegulator] = useState(0);
 
   const [validationError, setValidationError] = useState({});
 
