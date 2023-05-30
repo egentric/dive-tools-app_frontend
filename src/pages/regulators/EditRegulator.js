@@ -67,7 +67,7 @@ const EditRegulator = () => {
         setCauseUnavailabilityRegulator(
           res.data.data.cause_unavailability_regulator
         );
-        // setCounterRegulator(res.data.data.counter_loan_regulator);
+        setCounterLoanRegulator(res.data.data.counter_loan_regulator);
         console.log(res.data);
         // console.log(res.data.data.code_regulator);
       })
@@ -97,6 +97,7 @@ const EditRegulator = () => {
     if (qrcodeRegulator !== null) {
       formData.append("qrcode_regulator", qrcodeRegulator);
     }
+    formData.append("counter_loan_regulator", counterLoanRegulator);
 
     // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
     for (var pair of formData.entries()) {
