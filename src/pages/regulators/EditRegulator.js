@@ -21,15 +21,29 @@ const EditRegulator = () => {
   const [availabilityRegulator, setAvailabilityRegulator] = useState("");
   const [causeUnavailabilityRegulator, setCauseUnavailabilityRegulator] =
     useState("");
-  const [CounterRegulator, setCounterRegulator] = useState(0);
+  const [counterLoanRegulator, setCounterLoanRegulator] = useState(0);
+  const [labelValue, setLabelValue] = useState("");
+
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    const valueToSend = isChecked ? 0 : labelValue;
+
+    setCounterLoanRegulator(valueToSend);
+    setLabelValue(isChecked ? counterLoanRegulator.toString() : "");
+
+    if (isChecked) {
+      window.alert("Le compteur va être remit à zéro !");
+    }
+  };
 
   const [validationError, setValidationError] = useState({});
 
-  // const resetCounter = () => {
-  //   setCounterRegulator(0);
-  // };
-
   useEffect(() => {
+    const fetchData = async () => {
+      await getRegulator();
+      setLabelValue(counterLoanRegulator.toString());
+    };
+    fetchData();
     getRegulator();
   }, []); // Sans les crochets ça tourne en boucle
 
@@ -48,7 +62,7 @@ const EditRegulator = () => {
         setYearRegulator(res.data.data.year_regulator);
         setRevisionRegulatorDate(res.data.data.revision_regulator_date);
         setModelRegulator(res.data.data.model_regulator);
-        setQrcodeRegulator(res.data.data.qrcode_regulator);
+        // setQrcodeRegulator(res.data.data.qrcode_regulator);
         setAvailabilityRegulator(res.data.data.availability_regulator);
         setCauseUnavailabilityRegulator(
           res.data.data.cause_unavailability_regulator
@@ -62,8 +76,7 @@ const EditRegulator = () => {
       });
   };
   const changeHandler = (event) => {
-    const file = event.target.files[0];
-    setQrcodeRegulator(file.name);
+    setQrcodeRegulator(event.target.files[0]);
   };
 
   //Fonction de modification du détendeur
@@ -240,12 +253,6 @@ const EditRegulator = () => {
                               onChange={changeHandler}
                             />
                           </Form.Group>
-                          {qrcodeRegulator && (
-                            <p>
-                              Nom de l'image déjà enregistrer :{" "}
-                              {qrcodeRegulator}
-                            </p>
-                          )}
                         </Col>
                       </Row>
                       <Row>
@@ -295,30 +302,22 @@ const EditRegulator = () => {
                           ) : null}
                         </Col>
                       </Row>
-                      {/* <Row>
-                        <p>
-                          Compteur d'emprunt : {CounterRegulator}{" "}
-                          <Button
-                            className="btn btnRed btn-sm me-2 mt-2 "
-                            onClick={resetCounter}
-                          ><svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-arrow-clockwise"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-                          />
-                          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                        </svg>{" "}
-                            Réinitialiser le compteur
-                          </Button>
-                        </p>
-                      </Row> */}
+                      <Row className="mt-3">
+                        <Col>
+                          <Form.Group controlId="counterLoanRegulator">
+                            <Form.Label className="label">
+                              Compteur : {counterLoanRegulator}
+                            </Form.Label>
+                            <Form.Check
+                              type="checkbox"
+                              id="custom-checkbox-counter"
+                              label="Remise à zéro du compteur"
+                              checked={counterLoanRegulator === 0}
+                              onChange={handleCheckboxChange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
                       <Button
                         className="btn btnBlue2 btn-sm me-2 mt-2 "
                         onClick={() => navigate(-1)}

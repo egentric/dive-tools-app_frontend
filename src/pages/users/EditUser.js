@@ -11,6 +11,7 @@ import Navigation from "../../components/Navigation";
 const EditUser = () => {
   const { user } = useParams();
   const navigate = useNavigate();
+
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -42,13 +43,16 @@ const EditUser = () => {
 
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;
-    const valueToSend = isChecked ? 1 : labelValue;
+    const valueToSend = isChecked ? 1 : 0;
 
     setLicensee(valueToSend);
     setLabelValue(isChecked ? licensee.toString() : "");
 
     if (!isChecked) {
       window.alert("La licence sera désactivée !");
+    }
+    if (isChecked) {
+      window.alert("La licence sera activée !");
     }
   };
   const displayUser = async () => {
@@ -106,22 +110,42 @@ const EditUser = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("_method", "POST");
+    formData.append("pseudo", pseudo);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
-    formData.append("civility", civility);
+    // formData.append("civility", civility);
     formData.append("email_user", email);
-    formData.append("phone", phone);
+    // formData.append("phone", phone);
     formData.append("cellphone", cellphone);
     formData.append("address", address);
     formData.append("zip", zip);
     formData.append("city", city);
-    formData.append("picture", picture);
     formData.append("license_number", LicenseNumber);
-    formData.append("license_date", licenseDate);
+    // formData.append("license_date", licenseDate);
     formData.append("licensee", licensee);
-    formData.append("medical_certificate_date", certificateDate);
+    // formData.append("medical_certificate_date", certificateDate);
     formData.append("role_id", role_id);
 
+    if (picture !== null) {
+      formData.append("picture", picture);
+    }
+    if (civility !== null) {
+      formData.append("civility", civility);
+    }
+    if (phone !== null) {
+      formData.append("phone", phone);
+    }
+    if (licenseDate !== null) {
+      formData.append("licensee", licensee);
+    }
+    if (certificateDate !== null) {
+      formData.append("medical_certificate_date", certificateDate);
+    }
+
+    // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
     await axios
       .post(`http://localhost:8000/api/users/${user}`, formData, {
         headers: {
@@ -153,26 +177,16 @@ const EditUser = () => {
                       width="35"
                       height="35"
                       fill="currentColor"
-                      class="bi bi-pencil-square"
+                      className="bi bi-pencil-square"
                       viewBox="0 0 16 16"
                     >
                       <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
                       />
                     </svg>{" "}
-                    <span className="menu">
-                      Modifier{" "}
-                      {picture != null ? (
-                        <img
-                          src={`http://localhost:8000/storage/uploads/users/${picture}`}
-                          alt={picture}
-                          width="35px"
-                        />
-                      ) : null}{" "}
-                      {pseudo}
-                    </span>
+                    <span className="menu">Modifier {pseudo}</span>
                   </h3>
                 </div>
 
@@ -346,7 +360,7 @@ const EditUser = () => {
                                 width="25"
                                 height="25"
                                 fill="rgb(149, 176, 51)"
-                                class="bi bi-check-lg"
+                                className="bi bi-check-lg"
                                 viewBox="0 0 16 16"
                               >
                                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
@@ -357,7 +371,7 @@ const EditUser = () => {
                                 width="25"
                                 height="25"
                                 fill="rgb(176, 96, 86)"
-                                class="bi bi-x-octagon"
+                                className="bi bi-x-octagon"
                                 viewBox="0 0 16 16"
                               >
                                 <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
@@ -366,7 +380,7 @@ const EditUser = () => {
                             )}
                           </p>
                         </Col>
-                        {role_id === 1 && (
+                        {roleCo === 1 && (
                           <Col md={8}>
                             <Form.Group controlId="licensee">
                               <Form.Label className="label">
@@ -429,7 +443,7 @@ const EditUser = () => {
                       </Row>
 
                       <Row className="mt-3">
-                        {role_id === 1 && (
+                        {roleCo === 1 && (
                           <Col>
                             <Form.Group controlId="Role">
                               <Form.Label className="label">Role</Form.Label>
@@ -438,10 +452,10 @@ const EditUser = () => {
                                 id="custom-switch-user"
                                 label="Utilisateur"
                                 value="3"
-                                checked={roleCo === 3}
+                                checked={role_id === 3}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRoleCo(3);
+                                    setRoleId(3);
                                   }
                                 }}
                               />
@@ -450,10 +464,10 @@ const EditUser = () => {
                                 id="custom-switch-editorM"
                                 label="Editeur Matériel"
                                 value="2"
-                                checked={roleCo === 2}
+                                checked={role_id === 2}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRoleCo(2);
+                                    setRoleId(2);
                                   }
                                 }}
                               />
@@ -462,10 +476,10 @@ const EditUser = () => {
                                 id="custom-switch-admin"
                                 label="Administrateur"
                                 value="1"
-                                checked={roleCo === 1}
+                                checked={role_id === 1}
                                 onChange={(event) => {
                                   if (event.target.checked) {
-                                    setRoleCo(1);
+                                    setRoleId(1);
                                   }
                                 }}
                               />

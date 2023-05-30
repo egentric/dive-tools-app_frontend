@@ -7,10 +7,14 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Modal from "react-bootstrap/Modal";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [image, setImage] = useState("");
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     displayUsers();
@@ -26,7 +30,8 @@ const Users = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
-        setImage(res.data.data.picture);
+        // setImage(res.data.data.picture);
+        // console.log(setImage);
       });
   };
   const deleteUser = (id) => {
@@ -37,6 +42,28 @@ const Users = () => {
         },
       })
       .then(displayUsers);
+  };
+
+  const handleConfirm = () => {
+    axios
+      .put(
+        `http://localhost:8000/api/users/update-licensee`,
+        { licensee: 0 }, // Inclure la valeur 0 dans le corps de la requête
+        {
+          headers: {
+            Authorization: "Bearer" + localStorage.getItem("access_token"),
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        handleClose(); // Appeler la fonction handleClose pour fermer la modal
+        displayUsers(); // Appeler displayUsers pour récupérer les données les plus récentes
+      })
+
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -67,6 +94,57 @@ const Users = () => {
                 </div>
 
                 <div className="card-body">
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      className="btn btnRed btn-sm me-2 mb-2 mt-2"
+                      onClick={handleShow}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-arrow-clockwise"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+                        />
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                      </svg>{" "}
+                      <span className="menu">Reset Licence</span>
+                    </Button>
+                  </div>
+                  <Modal
+                    show={show}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p>
+                        Êtes-vous sûr de vouloir réinitialiser les licences ?
+                      </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        onClick={handleConfirm}
+                        className="btn btnRed btn-sm me-2 mb-2 mt-2"
+                      >
+                        Confirmer
+                      </Button>
+                      <Button
+                        onClick={handleClose}
+                        className="btn btnBlue btn-sm me-2 mb-2 mt-2"
+                      >
+                        Annuler
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
@@ -86,7 +164,7 @@ const Users = () => {
                               "Aucune"
                             ) : (
                               <img
-                                src={`http://localhost:8000/storage/uploads/users/${image}`}
+                                src={`http://localhost:8000/storage/uploads/users/${user.picture}`}
                                 alt={user.picture}
                                 width="30px"
                               />
