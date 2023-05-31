@@ -20,6 +20,10 @@ import ShowTank from "./pages/tanks/ShowTank";
 import Users from "./pages/users/Users";
 import EditUser from "./pages/users/EditUser";
 import ShowUser from "./pages/users/ShowUser";
+import Reservations from "./pages/reservations/Reservations";
+import AddReservation from "./pages/reservations/AddReservation";
+import EditReservation from "./pages/reservations/EditReservation";
+import ShowReservation from "./pages/reservations/ShowReservation";
 
 function App() {
   return (
@@ -49,6 +53,17 @@ function App() {
         <Route path="/tanks/add" element={<AddTank />} />
         <Route path="/tanks/edit/:tank" element={<EditTank />} />
         <Route path="/tanks/show/:tank" element={<ShowTank />} />
+
+        <Route path="/reservations" element={<Reservations />} />
+        <Route path="/reservations/add" element={<AddReservation />} />
+        <Route
+          path="/reservations/edit/:reservation"
+          element={<EditReservation />}
+        />
+        <Route
+          path="/reservations/show/:reservation"
+          element={<ShowReservation />}
+        />
 
         <Route
           path="/users"

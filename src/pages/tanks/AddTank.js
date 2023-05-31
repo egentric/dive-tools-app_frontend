@@ -123,8 +123,6 @@ const AddTank = () => {
       console.log(pair[0] + ", " + pair[1]);
     }
 
-    // formData.append("counter_loan_regulator", counterLoanRegulator);
-
     await axios
       .post(`http://127.0.0.1:8000/api/tanks`, formData, {
         headers: {
