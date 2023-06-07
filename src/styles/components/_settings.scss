@@ -107,3 +107,14 @@
       font-family: $font-1;
       color: $blue1;
   }
+
+  .circle {
+      border-radius: 50%;
+      width: 5px;
+      height: 5px;
+      border: 1px solid $blue1;
+      background-color: transparent;
+      display: inline-block;
+      margin-left: 10px;
+      margin-right: 10px;
+  }

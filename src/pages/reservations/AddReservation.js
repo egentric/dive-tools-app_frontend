@@ -6,13 +6,11 @@ import Col from "react-bootstrap/Col";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddReservation = () => {
   const navigate = useNavigate();
   const [validationError, setValidationError] = useState({});
-  const [regulators, setRegulators] = useState([]);
-  const [bcds, setBcds] = useState([]);
-  const [tanks, setTanks] = useState([]);
 
   const [reservationDate, setReservationDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
@@ -37,12 +35,16 @@ const AddReservation = () => {
 
   const [selectedTanks, setSelectedTanks] = useState([]);
 
+  // // ------------Recupération des Gets pour afficher mes selects----------------------------------------//
+  const tanks = useSelector((state) => state.tankReducer);
+  const bcds = useSelector((state) => state.bcdReducer);
+  const regulators = useSelector((state) => state.regulatorReducer);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     displayUserCo();
     displayUsers();
-    displayRegulators();
-    displayBcds();
-    displayTanks();
   }, []);
   // // ------------Select users----------------------------------------//
 
@@ -91,22 +93,6 @@ const AddReservation = () => {
       });
   };
 
-  // // ------------Affichage regulators----------------------------------------//
-
-  const displayRegulators = async () => {
-    await axios
-      .get("http://localhost:8000/api/regulators", {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        // console.log(res);
-
-        setRegulators(res.data.data);
-      });
-  };
-
   // // ------------Select regulators----------------------------------------//
 
   const handleNameChangeR = (selectedOptionR) => {
@@ -126,22 +112,6 @@ const AddReservation = () => {
   } else {
     sortedOptionsR = [];
   }
-  // // ------------Affichage BCDS----------------------------------------//
-
-  const displayBcds = async () => {
-    await axios
-      .get("http://localhost:8000/api/bcds", {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        // console.log(res);
-
-        setBcds(res.data.data);
-      });
-    console.log(bcds);
-  };
 
   // // ------------Select bcds----------------------------------------//
 
@@ -172,19 +142,6 @@ const AddReservation = () => {
 
   // // ------------Affichage tanks----------------------------------------//
 
-  const displayTanks = async () => {
-    await axios
-      .get("http://localhost:8000/api/tanks", {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        // console.log(res);
-
-        setTanks(res.data.data);
-      });
-  };
   // // ------------Multi Select tanks----------------------------------------//
   const handleNameChangeT = (selectedOptionT) => {
     setSelectedTanks(selectedOptionT);
@@ -494,6 +451,25 @@ const AddReservation = () => {
                           />
                         )}
                       </Row>
+                      <Button
+                        className="btn btnBlue mt-3 btn-sm me-2"
+                        onClick={() => navigate(-1)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-arrow-return-left"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
+                          />
+                        </svg>{" "}
+                        <span className="menu">Retour</span>
+                      </Button>
                       <Button
                         className="btnGreen mt-3 btn-sm"
                         size="lg"

@@ -15,6 +15,7 @@ const ShowReservation = () => {
   const { reservation } = useParams();
   const navigate = useNavigate();
   const [showReservation, setShowReservation] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   useEffect(() => {
     displayShowReservation();
@@ -33,10 +34,12 @@ const ShowReservation = () => {
       );
 
       setShowReservation(response.data.data);
+      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
       console.log(response.data);
     } catch (error) {
       console.log(error);
       // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
     }
   };
 
@@ -120,158 +123,140 @@ const ShowReservation = () => {
                 </div>
 
                 <div className="card-body">
-                  <Table striped bordered hover>
-                    <tbody>
-                      <tr>
-                        <th>Référence</th>
-                        <td>{showReservation.id}</td>
-                      </tr>
-                      <tr>
-                        <th>Emprunteur</th>
-                        <td>
-                          {showReservation.lastname} {showReservation.firstname}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Date de l'emprunt</th>
-                        <td>
-                          {formatDateShow(showReservation.reservation_date)}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Date de Retour</th>
-                        <td>{formatDateShow(showReservation.return_date)}</td>
-                      </tr>
-                      <tr>
-                        <th>Détendeur</th>
-                        <td>{showReservation.code_regulator}</td>
-                      </tr>
-                      <tr>
-                        <th>Stab</th>
-                        <td>{showReservation.code_BCD}</td>
-                      </tr>
-
-                      <tr>
-                        <th>Taille Stab</th>
-                        <td>{showReservation.size_BCD}</td>
-                      </tr>
-
-                      <tr>
-                        <th>Bloc</th>
-                        <td>
-                          <ul>
-                            {showReservation.tankss.map((tank) => (
-                              <li key={tank.id}>{tank.code_tank}</li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Capacité bloc</th>
-                        <td>
-                          <ul>
-                            {showReservation.tankss.map((tank) => (
-                              <li key={tank.id}>{tank.capacity_tank} litres</li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>gaz bloc</th>
-                        <td>
-                          <ul>
-                            {showReservation.tankss.map((tank) => (
-                              <li key={tank.id}>{tank.gas_tank}</li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Sorties bloc</th>
-                        <td>
-                          <ul>
-                            {showReservation.tankss.map((tank) => (
-                              <li key={tank.id}>
-                                {tank.outlet_tank} sortie(s)
-                              </li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <th>Date de création</th>
-                        <td>{formatDateShow2(showReservation.created_at)}</td>
-                      </tr>
-                      <tr>
-                        <th>Date de modification</th>
-                        <td>{formatDateShow2(showReservation.updated_at)}</td>
-                      </tr>
-                      <tr>
-                        <th>Actions</th>
-                        <td>
-                          <Button
-                            className="btn btnBlue btn-sm me-2"
-                            onClick={() => navigate(-1)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-arrow-return-left"
-                              viewBox="0 0 16 16"
+                  {isLoading ? (
+                    // Afficher un message de chargement pendant le chargement des données
+                    <p>Loading...</p>
+                  ) : (
+                    // Afficher les données une fois qu'elles sont récupérées
+                    <Table striped bordered hover>
+                      <tbody>
+                        <tr>
+                          <th>Référence</th>
+                          <td>{showReservation.id}</td>
+                        </tr>
+                        <tr>
+                          <th>Emprunteur</th>
+                          <td>
+                            {showReservation.lastname}{" "}
+                            {showReservation.firstname}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Date de l'emprunt</th>
+                          <td>
+                            {formatDateShow(showReservation.reservation_date)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Date de Retour</th>
+                          <td>{formatDateShow(showReservation.return_date)}</td>
+                        </tr>
+                        <tr>
+                          <th>Détendeur</th>
+                          <td>{showReservation.code_regulator}</td>
+                        </tr>
+                        <tr>
+                          <th>Stab</th>
+                          <td>
+                            {showReservation.code_BCD}
+                            <span className="circle"></span>Taille{" "}
+                            {showReservation.size_BCD}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Bloc</th>
+                          <td>
+                            <ul>
+                              {showReservation.tankss.map((tank) => (
+                                <li key={tank.id}>
+                                  {tank.code_tank}
+                                  <span className="circle"></span>
+                                  {tank.capacity_tank} litres
+                                  <span className="circle"></span>
+                                  {tank.outlet_tank === 1
+                                    ? "1 sortie"
+                                    : `${tank.outlet_tank} sorties`}
+                                  <span className="circle"></span>
+                                  {tank.gas_tank}
+                                </li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Date de création</th>
+                          <td>{formatDateShow2(showReservation.created_at)}</td>
+                        </tr>
+                        <tr>
+                          <th>Date de modification</th>
+                          <td>{formatDateShow2(showReservation.updated_at)}</td>
+                        </tr>
+                        <tr>
+                          <th>Actions</th>
+                          <td>
+                            <Button
+                              className="btn btnBlue btn-sm me-2"
+                              onClick={() => navigate(-1)}
                             >
-                              <path
-                                fillRule="evenodd"
-                                d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
-                              />
-                            </svg>{" "}
-                            <span className="menu">Retour</span>
-                          </Button>
-                          <Link
-                            to={`/bcds/edit/${showReservation.id}`}
-                            className="btn btnGreen btn-1 btn-sm me-2"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-pencil-square"
-                              viewBox="0 0 16 16"
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-arrow-return-left"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
+                                />
+                              </svg>{" "}
+                              <span className="menu">Retour</span>
+                            </Button>
+                            <Link
+                              to={`/reservations/edit/${showReservation.id}`}
+                              className="btn btnGreen btn-1 btn-sm me-2"
                             >
-                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                              <path
-                                fillRule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                              />
-                            </svg>{" "}
-                            <span className="menu">Modifier</span>
-                          </Link>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                />
+                              </svg>{" "}
+                              <span className="menu">Modifier</span>
+                            </Link>
 
-                          <Button
-                            className="btn btnRed btn-sm"
-                            onClick={() => {
-                              deleteShowReservation(showReservation.id);
-                            }}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-trash3"
-                              viewBox="0 0 16 16"
+                            <Button
+                              className="btn btnRed btn-sm"
+                              onClick={() => {
+                                deleteShowReservation(showReservation.id);
+                              }}
                             >
-                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                            </svg>{" "}
-                            <span className="menu">Supprimer</span>
-                          </Button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-trash3"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                              </svg>{" "}
+                              <span className="menu">Supprimer</span>
+                            </Button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  )}
                 </div>
               </div>
             </div>
@@ -281,4 +266,5 @@ const ShowReservation = () => {
     </div>
   );
 };
+
 export default ShowReservation;

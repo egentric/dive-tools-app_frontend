@@ -56,6 +56,17 @@ h5 {
   color: rgb(68, 112, 175);
 }
 
+.circle {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid rgb(68, 112, 175);
+  background-color: transparent;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .register {
   padding-top: 10px;
   text-decoration: none !important;
