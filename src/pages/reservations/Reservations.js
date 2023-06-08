@@ -140,7 +140,7 @@ const Reservations = () => {
                           <td>{reservation.code_BCD}</td>
                           <td>
                             <ul>
-                              {reservation.tankss.map((tank) => (
+                              {reservation.tanks.map((tank) => (
                                 <li key={tank.code_tank}>{tank.code_tank}</li>
                               ))}
                             </ul>

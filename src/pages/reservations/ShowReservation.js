@@ -167,7 +167,7 @@ const ShowReservation = () => {
                           <th>Bloc</th>
                           <td>
                             <ul>
-                              {showReservation.tankss.map((tank) => (
+                              {showReservation.tanks.map((tank) => (
                                 <li key={tank.id}>
                                   {tank.code_tank}
                                   <span className="circle"></span>
