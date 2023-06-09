@@ -1,0 +1,47 @@
+  // NAVIGATION HAUT============================
+
+  nav {
+      background-color: $blue2 !important;
+      font-family: $font-1 !important;
+  }
+
+  .navLink {
+      color: $Gray3 !important;
+      border-bottom: 3px solid $blue2;
+      padding-top: 0px;
+      margin-right: 10px;
+  }
+
+  .navLink:hover {
+      color: $blue3 !important;
+      transition: 0.5s;
+      border-bottom: 3px solid $blue3;
+      transform: scale(1);
+  }
+
+  //   .navLink:active {
+  //       color: $blue3 !important;
+  //       border-bottom: 3px solid $blue2;
+
+  //   }
+
+  .menu {
+      margin-left: 5px !important;
+  }
+
+  .navbar-extended {
+      position: relative;
+  }
+
+  .navbar-extended .logo {
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      //   transform: translate(-50%, -50%);
+  }
+
+  .rounded-image {
+      border-radius: 50%;
+      margin-bottom: -9px;
+      margin-right: 10px;
+  }

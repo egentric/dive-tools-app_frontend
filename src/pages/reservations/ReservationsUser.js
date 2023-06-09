@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Reservations = () => {
   const [reservations, setReservations] = useState([]);
+  const [userId, setUserId] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   const formatDate = (date) => {
     const dateParts = date.split("-");
@@ -21,25 +23,41 @@ const Reservations = () => {
     return formattedDate;
   };
 
-  useEffect(() => {
-    displayReservations();
-  }, []); // Sans les crochets ça tourne en boucle
+  const displayUsers = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/current-user`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
+      setUserId(response.data.id);
+      console.log(response.data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // // ------------Affichage reservation----------------------------------------//
 
   const displayReservations = async () => {
-    await axios
-      .get("http://localhost:8000/api/reservations", {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        // console.log(res);
-
-        setReservations(res.data.data);
-        console.log(res.data.data);
-      });
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/reservations/user/${userId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
+      setReservations(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
   // ============= fonction delete =====================
 
@@ -52,6 +70,15 @@ const Reservations = () => {
       })
       .then(displayReservations);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await displayUsers();
+      await displayReservations();
+    };
+
+    fetchData();
+  }, []); // Sans les crochets ça tourne en boucle
 
   return (
     <div>
@@ -94,7 +121,7 @@ const Reservations = () => {
                       <path d="m6.16,45.46s.04.09.07.14c.03.04.06.08.09.12.15.15.35.23.56.23s.41-.08.55-.23c.15-.14.23-.34.23-.55s-.08-.41-.23-.55c-.04-.04-.07-.07-.12-.1-.04-.03-.09-.05-.13-.07-.05-.02-.1-.04-.15-.04-.1-.02-.2-.02-.31,0-.05,0-.1.02-.15.04-.05.02-.09.04-.13.07-.04.03-.08.06-.12.1-.14.14-.23.34-.23.55,0,.05,0,.1.02.15,0,.05.02.1.04.14Z" />
                       <path d="m11.07,13.54h10.6c2.13,0,3.85-1.72,3.85-3.85,0-.93-.75-1.68-1.68-1.68h-2.99c0-2.42-1.96-4.38-4.38-4.38s-4.38,1.96-4.38,4.38h-2.81c-.93,0-1.68.75-1.68,1.68v.38c0,1.91,1.55,3.47,3.47,3.47Zm5.4-7.3c.98,0,1.77.79,1.77,1.77s-.79,1.77-1.77,1.77-1.77-.79-1.77-1.77.79-1.77,1.77-1.77Z" />
                     </svg>{" "}
-                    <span className="menu">Liste des réservations</span>
+                    <span className="menu">Liste de mes réservations</span>
                   </h3>
                 </div>
 
@@ -115,99 +142,100 @@ const Reservations = () => {
                       <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
                     </svg>{" "}
                     <span className="menu">Réservation</span>
-                  </Link>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Réf</th>
-                        <th>Emprunteur</th>
-                        <th>Date emprunt</th>
-                        <th>Détendeur</th>
-                        <th>Stab</th>
-                        <th>Bloc</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {reservations.map((reservation) => (
-                        <tr key={reservation.id}>
-                          <td>{reservation.id}</td>
-                          <td>
-                            {reservation.lastname} {reservation.firstname}
-                          </td>
-                          <td>{formatDate(reservation.reservation_date)}</td>
-                          <td>{reservation.code_regulator}</td>
-                          <td>{reservation.code_BCD}</td>
-                          <td>
-                            <ul>
-                              {reservation.tanks.map((tank) => (
-                                <li key={tank.code_tank}>{tank.code_tank}</li>
-                              ))}
-                            </ul>
-                          </td>
-
-                          <td>
-                            <Link
-                              to={`/reservations/show/${reservation.id}`}
-                              className="btn btnBlue2 btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-eye"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                              </svg>{" "}
-                              <span className="menu">Voir</span>
-                            </Link>
-                            <Link
-                              to={`/reservations/edit/${reservation.id}`}
-                              className="btn btnGreen btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-pencil-square"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path
-                                  fillRule="evenodd"
-                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                                />
-                              </svg>{" "}
-                              <span className="menu">Modifier</span>
-                            </Link>
-                            <Button
-                              className="btn btnRed btn-sm"
-                              onClick={() => {
-                                deleteReservation(reservation.id);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-trash3"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                              </svg>{" "}
-                              <span className="menu">Supprimer</span>
-                            </Button>
-                          </td>
+                  </Link>{" "}
+                  {isLoading ? (
+                    // Afficher un message de chargement pendant le chargement des données
+                    <p>Loading...</p>
+                  ) : (
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Réf</th>
+                          <th>Date emprunt</th>
+                          <th>Détendeur</th>
+                          <th>Stab</th>
+                          <th>Bloc</th>
+                          <th>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                      </thead>
+
+                      <tbody>
+                        {reservations.map((reservation) => (
+                          <tr key={reservation.id}>
+                            <td>{reservation.id}</td>
+                            <td>{formatDate(reservation.reservation_date)}</td>
+                            <td>{reservation.code_regulator}</td>
+                            <td>{reservation.code_BCD}</td>
+                            <td>
+                              <ul>
+                                {reservation.tanks.map((tank) => (
+                                  <li key={tank.code_tank}>{tank.code_tank}</li>
+                                ))}
+                              </ul>
+                            </td>
+
+                            <td>
+                              <Link
+                                to={`/reservations/show/${reservation.id}`}
+                                className="btn btnBlue2 btn-sm me-2"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-eye"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                </svg>{" "}
+                                <span className="menu">Voir</span>
+                              </Link>
+                              <Link
+                                to={`/reservations/edit/${reservation.id}`}
+                                className="btn btnGreen btn-sm me-2"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-pencil-square"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                  />
+                                </svg>{" "}
+                                <span className="menu">Modifier</span>
+                              </Link>
+                              <Button
+                                className="btn btnRed btn-sm"
+                                onClick={() => {
+                                  deleteReservation(reservation.id);
+                                }}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-trash3"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                </svg>{" "}
+                                <span className="menu">Supprimer</span>
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  )}
                 </div>
               </div>
             </div>

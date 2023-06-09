@@ -16,6 +16,7 @@ const EditReservation = () => {
 
   const [reservationDate, setReservationDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
+  const [reservationId, setReservationId] = useState("");
 
   const [validationError, setValidationError] = useState({});
 
@@ -61,6 +62,7 @@ const EditReservation = () => {
           //   console.log(res.data.data);
           setReservationDate(res.data.data.reservation_date);
           setReturnDate(res.data.data.return_date);
+          setReservationId(res.data.data.id);
           setSelectedBcd({
             value: res.data.data.BCD_id,
             label: `${res.data.data.code_BCD} - ${res.data.data.size_BCD}`,
@@ -274,29 +276,49 @@ const EditReservation = () => {
       setSelectedBcdId(selectedOptionB ? selectedOptionB.value : null);
     }
   };
-  let defaultOptionB = { value: "none", label: "Aucune Stab" };
+
+  let defaultOptionB = { value: "null", label: "Aucune Stab" };
   let sortedOptionsB = [];
 
   if (reservationsDateBcd.length > 0) {
-    sortedOptionsB = [
-      { value: "none", label: "Aucune stab" },
-      ...reservationsDateBcd.map((bcd) => ({
+    sortedOptionsB = reservationsDateBcd
+      .map((bcd) => ({
         value: bcd.id,
         label: `${bcd.code_BCD} - ${bcd.size_BCD}`,
-      })),
-    ].sort((a, b) => a.label.localeCompare(b.label));
-  } else {
-    sortedOptionsB = [defaultOptionB];
-  }
-  // Ajoutez l'option "Aucune stab" si aucun régulateur sélectionné
-  if (!selectedBcdId) {
-    sortedOptionsB = [defaultOptionB, ...sortedOptionsB];
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }
 
+  // Vérifiez si "Aucune Stab" est déjà sélectionné
+  const isDefaultSelected = selectedBcdId === "null";
+
+  // Vérifiez si "Aucune Stab" est déjà dans les options
+  const hasDefaultOptionB = sortedOptionsB.some(
+    (option) => option.value === "null"
+  );
+
+  // Remplacez la valeur "null - null" par "Aucune Stab" dans les options
+  const updatedOptionsB = sortedOptionsB.map((option) => {
+    if (option.value === null) {
+      return defaultOptionB;
+    }
+    return option;
+  });
+
   // Utilisez l'expression ternaire pour définir la valeur par défaut directement dans le Select
-  const defaultSelectedOptionB = selectedBcd
+  const defaultSelectedOptionB = isDefaultSelected
+    ? defaultOptionB
+    : selectedBcd
     ? { value: selectedBcd.value, label: selectedBcd.label }
-    : defaultOptionB;
+    : null;
+
+  // Ajoutez l'option "Aucune Stab" si elle n'est pas déjà présente
+  if (!hasDefaultOptionB) {
+    updatedOptionsB.unshift(defaultOptionB);
+  }
+
+  // Utilisez les options mises à jour
+  sortedOptionsB = updatedOptionsB;
 
   // // ------------Multi Select tanks----------------------------------------//
   const handleNameChangeT = (selectedOptionT) => {
@@ -362,7 +384,6 @@ const EditReservation = () => {
         }
       });
   };
-
   return (
     <div>
       {/* <Navigation /> */}
@@ -387,7 +408,9 @@ const EditReservation = () => {
                       <path d="m5.17,34.55h48.35c.55,0,1-.45,1-1,0-12.83-9.89-23.74-22.6-25.04V3.91h2.82V0h-10.78v3.91h2.82v4.61c-12.71,1.3-22.6,12.21-22.6,25.04,0,.55.45,1,1,1ZM29.07,10.39h.28c12.34,0,22.62,9.89,23.15,22.17H17.51c.43-11.06,7.73-20.68,11.56-22.17Zm-7.38,1.3c-3.69,2.93-9.13,9.21-9.43,20.87h-6.06c.41-9.45,6.7-17.76,15.5-20.87Z" />
                       <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
                     </svg>{" "}
-                    <span className="menu">Modification de la réservation</span>
+                    <span className="menu">
+                      Modification de la réservation N° {reservationId}
+                    </span>
                   </h3>
                 </div>
 

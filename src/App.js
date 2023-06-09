@@ -24,6 +24,7 @@ import Reservations from "./pages/reservations/Reservations";
 import AddReservation from "./pages/reservations/AddReservation";
 import EditReservation from "./pages/reservations/EditReservation";
 import ShowReservation from "./pages/reservations/ShowReservation";
+import ReservationUser from "./pages/reservations/ReservationsUser";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           path="/reservations/show/:reservation"
           element={<ShowReservation />}
         />
+        <Route path="/reservations/user/:user" element={<ReservationUser />} />
 
         <Route
           path="/users"
