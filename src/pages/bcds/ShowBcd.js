@@ -17,6 +17,7 @@ const ShowBcd = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState("");
   const [showBcd, setShowBcd] = useState("");
+  console.log(useParams());
 
   useEffect(() => {
     displayShowBcd();

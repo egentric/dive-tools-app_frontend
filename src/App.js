@@ -49,7 +49,7 @@ function App() {
 
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/contacts/add" element={<AddContact />} />
-        <Route path="/contacts/show/:regulator" element={<ShowContact />} />
+        <Route path="/contacts/show/:contact" element={<ShowContact />} />
 
         <Route path="/bcds" element={<Bcds />} />
         <Route path="/bcds/add" element={<AddBcd />} />
