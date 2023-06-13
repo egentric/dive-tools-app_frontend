@@ -13,7 +13,6 @@ const ShowContact = () => {
   const { contact } = useParams();
   const navigate = useNavigate();
   const [showContact, setShowContact] = useState("");
-  console.log(contact);
 
   useEffect(() => {
     displayShowContact();
@@ -45,8 +44,8 @@ const ShowContact = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
-        setShowContact(res.data.data);
+        console.log(res.data.data[0]);
+        setShowContact(res.data.data[0]);
       })
       .catch((error) => {
         console.log(error);
