@@ -1,35 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   // On récupère l'id du user
-  const [userId, setUserId] = useState("");
-  const [role, setRole] = useState([]);
+  const user = useSelector((state) => state.userReducer);
 
-  const displayUsers = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserId(res.data.id);
-        setRole(res.data.role);
-      });
-  };
-  // console.log(role);
-  useEffect(() => {
-    displayUsers();
-  }, []); // Sans les crochets ça tourne en boucle
+  const userId = user.id;
+  const role = user.role;
 
   return (
     <div
@@ -40,7 +20,7 @@ const Sidebar = () => {
         // overflow: "scroll initial",
       }}
     >
-      <Navbar expand="lg" className="bg-light flex-column">
+      <Navbar expand="lg" className="menuGauche flex-column">
         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" className="toggle" /> */}
         {/* <Navbar.Collapse id="basic-navbar-nav"> */}
         <Nav className="menuGauche flex-column">
@@ -124,7 +104,7 @@ const Sidebar = () => {
                     <path d="m11.07,13.54h10.6c2.13,0,3.85-1.72,3.85-3.85,0-.93-.75-1.68-1.68-1.68h-2.99c0-2.42-1.96-4.38-4.38-4.38s-4.38,1.96-4.38,4.38h-2.81c-.93,0-1.68.75-1.68,1.68v.38c0,1.91,1.55,3.47,3.47,3.47Zm5.4-7.3c.98,0,1.77.79,1.77,1.77s-.79,1.77-1.77,1.77-1.77-.79-1.77-1.77.79-1.77,1.77-1.77Z" />
                   </svg>{" "}
                   <span className="menu d-none d-md-inline">
-                    Liste réservations
+                    Listes réservations
                   </span>
                 </Nav.Link>
               </li>

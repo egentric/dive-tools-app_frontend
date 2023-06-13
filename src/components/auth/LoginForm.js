@@ -33,7 +33,7 @@ const Login = () => {
             response.data.authorisation.token
           );
 
-          navigate("/");
+          navigate("/home");
         } else {
           console.error("Login failed");
         }

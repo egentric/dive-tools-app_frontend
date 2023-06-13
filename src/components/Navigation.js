@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Logo from "./LogoRVB";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { getUser } from "../actions/user.action";
@@ -15,34 +13,16 @@ const Navigation = ({ onSelect }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [types, setTypes] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // initialiser isConnected à false
-  // On récupère l'id du user
-  // const [pseudo, setPseudo] = useState("");
-  // const [picture, setPicture] = useState("");
 
   const user = useSelector((state) => state.userReducer);
-  // console.log(user);
 
-  // const displayUsers = async () => {
-  //   await axios
-  //     .get(`http://127.0.0.1:8000/api/current-user`, {
-  //       headers: {
-  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setPseudo(res.data.pseudo);
-  //       setPicture(res.data.picture);
-
-  //       console.log(res.data);
-  //     });
-  // };
-
-  // // console.log(isConnected);
   useEffect(() => {
-    // displayUsers();
     dispatch(getUser());
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken) {
+      setIsConnected(true);
+    }
   }, []);
   // Sans les crochets ça tourne en boucle
 
@@ -52,16 +32,8 @@ const Navigation = ({ onSelect }) => {
     setIsConnected(false);
     navigate("/login");
   };
-  // Vérifier si le token est présent dans localStorage et mettre à jour l'état isConnected en conséquence
-  useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-      setIsConnected(true);
-    }
-  }, []);
 
   return (
-    // <Provider store={store}>
     <Navbar expand="lg" className=" nav navOmbre fixed-top navbar-extended">
       <Container fluid>
         <Navbar.Brand href="/home" className="logo">
@@ -130,7 +102,6 @@ const Navigation = ({ onSelect }) => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    // </Provider>
   );
 };
 

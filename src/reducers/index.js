@@ -6,9 +6,9 @@ import regulatorReducer from "./regulator.reducer";
 import userReducer from "./user.reducer";
 
 export default combineReducers({
-  tankReducer,
-  bcdReducer,
-  regulatorReducer,
-  reservationReducer,
+  // tankReducer,
+  // bcdReducer,
+  // regulatorReducer,
+  // reservationReducer,
   userReducer,
 });

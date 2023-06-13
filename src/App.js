@@ -1,5 +1,7 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/layouts/Home";
 
 import Login from "./pages/layouts/Login";
@@ -30,72 +32,284 @@ import AddContact from "./pages/contacts/AddContact";
 import ShowContact from "./pages/contacts/ShowContact";
 
 function App() {
+  // On récupère role_id
+  const [role, setRole] = useState([]);
+
+  const displayUsers = async () => {
+    await axios
+      .get(`http://127.0.0.1:8000/api/current-user`, {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("access_token"),
+        },
+      })
+      .then((res) => {
+        setRole(res.data.role);
+        // console.log(res.data.role);
+      });
+  };
+  useEffect(() => {
+    displayUsers();
+  }, []); // Sans les crochets ça tourne en boucle
+
+  const token = localStorage.getItem("access_token");
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-
+        <Route path="/" element={<Login />} />
+        <Route path="*" element={<Login />} />
+        <Route path="/home" element={token ? <Home /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Noaccess" element={<Noaccess />} />
-
-        {/* <Route path="/regulators" element={<loggedIn ? (<Start />) : ( navigate replace to ={"/login"}) /> */}
-        <Route path="/regulators" element={<Regulators />} />
-        <Route path="/regulators/add" element={<AddRegulator />} />
-        <Route path="/regulators/edit/:regulator" element={<EditRegulator />} />
-        <Route path="/regulators/show/:regulator" element={<ShowRegulator />} />
-
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/contacts/add" element={<AddContact />} />
-        <Route path="/contacts/show/:contact" element={<ShowContact />} />
-
-        <Route path="/bcds" element={<Bcds />} />
-        <Route path="/bcds/add" element={<AddBcd />} />
-        <Route path="/bcds/edit/:bcd" element={<EditBcd />} />
-        <Route path="/bcds/show/:bcd" element={<ShowBcd />} />
-
-        <Route path="/tanks" element={<Tanks />} />
-        <Route path="/tanks/add" element={<AddTank />} />
-        <Route path="/tanks/edit/:tank" element={<EditTank />} />
-        <Route path="/tanks/show/:tank" element={<ShowTank />} />
-
-        <Route path="/reservations" element={<Reservations />} />
-        <Route path="/reservations/add" element={<AddReservation />} />
+        <Route
+          path="/regulators"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <Regulators />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/regulators/add"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <AddRegulator />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/regulators/edit/:regulator"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <EditRegulator />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/regulators/show/:regulator"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <ShowRegulator />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            token ? (
+              role === 1 ? (
+                <Contacts />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/contacts/add"
+          element={token ? <AddContact /> : <Login />}
+        />
+        <Route
+          path="/contacts/show/:contact"
+          element={
+            token ? (
+              role === 1 ? (
+                <ShowContact />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/bcds"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <Bcds />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/bcds/add"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <AddBcd />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/bcds/edit/:bcd"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <EditBcd />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/bcds/show/:bcd"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <ShowBcd />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/tanks"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <Tanks />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route path="/tanks/add" element={token ? <AddTank /> : <Login />} />
+        <Route
+          path="/tanks/edit/:tank"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <EditTank />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/tanks/show/:tank"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <ShowTank />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/reservations"
+          element={
+            token ? (
+              role === 1 || role === 2 ? (
+                <Reservations />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
+          }
+        />
+        <Route
+          path="/reservations/add"
+          element={token ? <AddReservation /> : <Login />}
+        />
         <Route
           path="/reservations/edit/:reservation"
-          element={<EditReservation />}
+          element={token ? <EditReservation /> : <Login />}
         />
         <Route
           path="/reservations/show/:reservation"
-          element={<ShowReservation />}
+          element={token ? <ShowReservation /> : <Login />}
         />
-        <Route path="/reservations/user/:user" element={<ReservationUser />} />
-
+        <Route
+          path="/reservations/user/:user"
+          element={token ? <ReservationUser /> : <Login />}
+        />
         <Route
           path="/users"
           element={
-            // role == 1 ?
-            <Users />
-            //  : <Noaccess />
+            token ? (
+              role === 1 ? (
+                <Users />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
           }
         />
         <Route
           path="/users/edit/:user"
           element={
-            // role == 1 || role == 2 ?
-            <EditUser />
-            //  : <Noaccess />
+            token ? (
+              role === 1 || role === 2 ? (
+                <EditUser />
+              ) : (
+                <Noaccess />
+              )
+            ) : (
+              <Navigate to="/login" replace={true} />
+            )
           }
         />
         <Route
           path="/users/show/:user"
-          element={
-            // role == 1 || role == 2 ?
-            <ShowUser />
-            //  : <Noaccess />
-          }
+          element={token ? <ShowUser /> : <Login />}
         />
       </Routes>
     </BrowserRouter>

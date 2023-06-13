@@ -135,6 +135,9 @@ nav {
 .menuGauche ul {
   margin-left: -25px;
 }
+.menuGauche ul li {
+  list-style: none;
+}
 
 .toggle {
   padding-top: 20px;
@@ -276,4 +279,15 @@ select option {
   color: rgb(130, 155, 189);
   font-size: 0.6rem;
   text-align: center;
+}
+
+.bloc {
+  text-decoration: none;
+}
+.bloc p {
+  color: rgb(29, 58, 99) !important;
+}
+
+.card {
+  box-shadow: 2px 2px 5px rgb(29, 58, 99);
 }/*# sourceMappingURL=index.css.map */

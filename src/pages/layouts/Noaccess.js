@@ -6,16 +6,13 @@ const Noaccess = () => {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-12 col-sm-12 col-md-6 mt-5">
-          <Row>
-            <h2 className="mb-4 mt-5">Accès refusé</h2>
-          </Row>
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Page non accessible</h4>
+              <h2 className="card-title">Accès refusé</h2>
               <hr />
               <div className="noaccess">
                 <Row>
-                  <p>Cette page n'est pas accessible </p>
+                  <h4 className="card-title">Page non accessible</h4>
                 </Row>
                 <Row>
                   <p>
@@ -34,7 +31,7 @@ const Noaccess = () => {
                 <Row>
                   <p>
                     sinon retourner à la
-                    <a href="/" className="access">
+                    <a href="/home" className="access">
                       {" "}
                       visite du site
                     </a>
