@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import Home from "./pages/layouts/Home";
 
 import Login from "./pages/layouts/Login";
@@ -25,25 +25,31 @@ import AddReservation from "./pages/reservations/AddReservation";
 import EditReservation from "./pages/reservations/EditReservation";
 import ShowReservation from "./pages/reservations/ShowReservation";
 import ReservationUser from "./pages/reservations/ReservationsUser";
+import Contacts from "./pages/contacts/Contacts";
+import AddContact from "./pages/contacts/AddContact";
+import ShowContact from "./pages/contacts/ShowContact";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="*" element={<Home />} />
+        <Route path="*" element={<Home />} />
         <Route path="/home" element={<Home />} />
-
-        <Route path="/dashboard" element={<DashboardAppmail />} /> */}
 
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Noaccess" element={<Noaccess />} />
 
+        {/* <Route path="/regulators" element={<loggedIn ? (<Start />) : ( navigate replace to ={"/login"}) /> */}
         <Route path="/regulators" element={<Regulators />} />
         <Route path="/regulators/add" element={<AddRegulator />} />
         <Route path="/regulators/edit/:regulator" element={<EditRegulator />} />
         <Route path="/regulators/show/:regulator" element={<ShowRegulator />} />
+
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/contacts/add" element={<AddContact />} />
+        <Route path="/contacts/show/:regulator" element={<ShowContact />} />
 
         <Route path="/bcds" element={<Bcds />} />
         <Route path="/bcds/add" element={<AddBcd />} />

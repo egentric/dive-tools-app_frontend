@@ -1,4 +1,4 @@
-import { GET_TANKS } from "../actions/tank.action";
+import { ADD_TANKS, GET_TANKS } from "../actions/tank.action";
 
 const initialState = {};
 

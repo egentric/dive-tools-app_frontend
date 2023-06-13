@@ -12,9 +12,14 @@ import Navigation from "../../components/Navigation";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+// import { isEmpty } from "../../components/Utils";
+
 const Reservations = () => {
+  const user = useSelector((state) => state.userReducer);
+  // console.log(user);
   const [reservations, setReservations] = useState([]);
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   const formatDate = (date) => {
@@ -23,29 +28,29 @@ const Reservations = () => {
     return formattedDate;
   };
 
-  const displayUsers = async () => {
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/current-user`,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      );
-      setUserId(response.data.id);
-      console.log(response.data.id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const displayUsers = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://127.0.0.1:8000/api/current-user`,
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + localStorage.getItem("access_token"),
+  //         },
+  //       }
+  //     );
+  //     setUserId(response.data.id);
+  //     console.log(response.data.id);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // // ------------Affichage reservation----------------------------------------//
 
   const displayReservations = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/reservations/user/${userId}`,
+        `http://127.0.0.1:8000/api/reservations/user/${user.id}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -72,13 +77,12 @@ const Reservations = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await displayUsers();
-      await displayReservations();
-    };
-
-    fetchData();
-  }, []); // Sans les crochets ça tourne en boucle
+    // await displayUsers();
+    console.log(user);
+    if (user) {
+      displayReservations();
+    }
+  }, [user]); // Sans les crochets ça tourne en boucle
 
   return (
     <div>

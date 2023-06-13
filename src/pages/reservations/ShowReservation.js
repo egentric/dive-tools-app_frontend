@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 
 import Sidebar from "../../components/Sidebar";
 import Navigation from "../../components/Navigation";
+import Footer from "../../components/Footer";
 
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -86,13 +87,13 @@ const ShowReservation = () => {
 
   return (
     <div>
-      {/* <Navigation /> */}
+      <Navigation />
       <Row>
         <Col xs="auto" md={2} lg={1}>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </Col>
         <Col>
-          <div className="row justify-content-center mt-5">
+          <div className="row justify-content-center  mt-4 mb-5">
             <div className="col-8 col-sm-8 col-md-8">
               <div className="card mt-5">
                 <div className="card-header">
@@ -263,6 +264,7 @@ const ShowReservation = () => {
           </div>
         </Col>
       </Row>
+      <Footer />
     </div>
   );
 };

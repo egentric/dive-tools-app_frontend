@@ -7,32 +7,42 @@ import Logo from "./LogoRVB";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import { getUser } from "../actions/user.action";
+import { useDispatch, useSelector } from "react-redux";
+import { isEmpty } from "./Utils";
+
 const Navigation = ({ onSelect }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [types, setTypes] = useState([]);
   const [isConnected, setIsConnected] = useState(false); // initialiser isConnected à false
   // On récupère l'id du user
-  const [pseudo, setPseudo] = useState("");
-  const [picture, setPicture] = useState("");
+  // const [pseudo, setPseudo] = useState("");
+  // const [picture, setPicture] = useState("");
 
-  const displayUsers = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setPseudo(res.data.pseudo);
-        setPicture(res.data.picture);
+  const user = useSelector((state) => state.userReducer);
+  // console.log(user);
 
-        console.log(res.data);
-      });
-  };
+  // const displayUsers = async () => {
+  //   await axios
+  //     .get(`http://127.0.0.1:8000/api/current-user`, {
+  //       headers: {
+  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setPseudo(res.data.pseudo);
+  //       setPicture(res.data.picture);
 
-  // console.log(isConnected);
+  //       console.log(res.data);
+  //     });
+  // };
+
+  // // console.log(isConnected);
   useEffect(() => {
-    displayUsers();
+    // displayUsers();
+    dispatch(getUser());
   }, []);
   // Sans les crochets ça tourne en boucle
 
@@ -51,6 +61,7 @@ const Navigation = ({ onSelect }) => {
   }, []);
 
   return (
+    // <Provider store={store}>
     <Navbar expand="lg" className=" nav navOmbre fixed-top navbar-extended">
       <Container fluid>
         <Navbar.Brand href="/home" className="logo">
@@ -60,17 +71,35 @@ const Navigation = ({ onSelect }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {isConnected && (
-              <Nav.Link href="#" className="navLink">
+              <Nav.Link href={`/users/show/${user.id}`} className="navLink">
                 <img
-                  src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                  src={`http://localhost:8000/storage/uploads/users/${
+                    !isEmpty(user) && user.picture
+                  }`}
                   alt="photo adhérent"
                   width="40px"
                   className="rounded-image"
                 />
-                {pseudo}
+                {!isEmpty(user) && user.pseudo}
               </Nav.Link>
             )}
 
+            {isConnected && (
+              <Nav.Link href={`/contacts/add`} className="navLink">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-envelope-plus"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
+                  <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z" />
+                </svg>{" "}
+                Contact
+              </Nav.Link>
+            )}
             {isConnected ? (
               <Nav.Link className="navLink" onClick={removeToken}>
                 <svg
@@ -78,15 +107,15 @@ const Navigation = ({ onSelect }) => {
                   width="16"
                   height="16"
                   fill="currentColor"
-                  class="bi bi-box-arrow-right"
+                  className="bi bi-box-arrow-right"
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
                   />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
                   />
                 </svg>
@@ -101,6 +130,7 @@ const Navigation = ({ onSelect }) => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    // </Provider>
   );
 };
 

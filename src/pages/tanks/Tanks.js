@@ -8,6 +8,8 @@ import Modal from "react-bootstrap/Modal";
 
 import Sidebar from "../../components/Sidebar";
 import Navigation from "../../components/Navigation";
+import Footer from "../../components/Footer";
+
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -52,13 +54,13 @@ const Tanks = () => {
 
   return (
     <div>
-      {/* <Navigation /> */}
+      <Navigation />
       <Row>
         <Col xs="auto" md={2} lg={1}>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </Col>
         <Col>
-          <div className="row justify-content-center mt-5">
+          <div className="row justify-content-center  mt-4 mb-5">
             <div className="col-11 col-sm-11 col-md-11">
               <div className="card mt-5">
                 <div className="card-header">
@@ -192,6 +194,7 @@ const Tanks = () => {
           </div>
         </Col>
       </Row>
+      <Footer />
     </div>
   );
 };

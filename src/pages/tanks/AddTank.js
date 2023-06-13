@@ -6,6 +6,9 @@ import Col from "react-bootstrap/Col";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
+import Navigation from "../../components/Navigation";
 
 const AddTank = () => {
   const navigate = useNavigate();
@@ -139,13 +142,13 @@ const AddTank = () => {
 
   return (
     <div>
-      {/* <Navigation /> */}
+      <Navigation />
       <Row>
         <Col xs="auto" md={2} lg={1}>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </Col>
         <Col>
-          <div className="row justify-content-center mt-5">
+          <div className="row justify-content-center  mt-4 mb-5">
             <div className="col-8 col-sm-8 col-md-8">
               <div className="card mt-5">
                 <div className="card-header">
@@ -505,6 +508,7 @@ const AddTank = () => {
           </div>
         </Col>
       </Row>
+      <Footer />
     </div>
   );
 };

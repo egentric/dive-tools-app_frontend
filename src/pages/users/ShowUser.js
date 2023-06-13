@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 
 import Button from "react-bootstrap/Button";
 import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 
 import axios from "axios";
@@ -103,13 +104,13 @@ const ShowUser = () => {
 
   return (
     <div>
-      {/* <Navigation /> */}
+      <Navigation />
       <Row>
         <Col xs="auto" md={2} lg={1}>
-          {/* <Sidebar /> */}
+          <Sidebar />
         </Col>
         <Col>
-          <div className="row justify-content-center mt-5">
+          <div className="row justify-content-center  mt-4 mb-5">
             <div className="col-8 col-sm-8 col-md-8">
               <div className="card mt-5">
                 <div className="card-header">
@@ -119,7 +120,7 @@ const ShowUser = () => {
                       width="35"
                       height="35"
                       fill="currentColor"
-                      class="bi bi-person"
+                      className="bi bi-person"
                       viewBox="0 0 16 16"
                     >
                       <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
@@ -211,7 +212,7 @@ const ShowUser = () => {
                               width="30"
                               height="30"
                               fill="rgb(149, 176, 51)"
-                              class="bi bi-check-lg"
+                              className="bi bi-check-lg"
                               viewBox="0 0 16 16"
                             >
                               <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
@@ -222,7 +223,7 @@ const ShowUser = () => {
                               width="30"
                               height="30"
                               fill="rgb(176, 96, 86)"
-                              class="bi bi-x-octagon"
+                              className="bi bi-x-octagon"
                               viewBox="0 0 16 16"
                             >
                               <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
@@ -323,6 +324,7 @@ const ShowUser = () => {
           </div>
         </Col>
       </Row>
+      <Footer />
     </div>
   );
 };
