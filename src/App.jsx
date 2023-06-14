@@ -30,6 +30,8 @@ import ReservationUser from "./pages/reservations/ReservationsUser";
 import Contacts from "./pages/contacts/Contacts";
 import AddContact from "./pages/contacts/AddContact";
 import ShowContact from "./pages/contacts/ShowContact";
+import jwtDecode from "jwt-decode";
+import auth from "./services/auth/token"
 
 function App() {
   // On récupère role_id
@@ -49,10 +51,23 @@ function App() {
   //     });
   // };
   // useEffect(() => {
-  //   if (token) {
-  //     displayUser();
-  //   }
+  // //   if (token) {
+  // //     displayUser();
+  // //   }
+  // getDecodedToken();
   // }, []);
+
+  // let getToken = () => {
+  //   return localStorage.getItem("access_token");
+  // };
+  
+  // let getDecodedToken = () => {
+  //   if (getToken()) {
+  //     return jwtDecode(localStorage.getItem("access_token"));
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   return (
     <BrowserRouter>

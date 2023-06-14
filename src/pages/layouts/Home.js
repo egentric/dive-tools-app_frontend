@@ -18,8 +18,29 @@ import rootReducer from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import { isEmpty } from "../../components/Utils";
+import token from "../../services/auth/token.js";
 
 const Home = () => {
+  const truc = token.getRoles();
+  console.log(truc);
+
+  let decodedToken = token.getDecodedToken();
+  let userId = decodedToken.id;
+  let firstname = decodedToken.firstname;
+  let lastname = decodedToken.lastname;
+  let pseudo = decodedToken.pseudo;
+  let picture = decodedToken.picture;
+  let role = decodedToken.role;
+
+  // console.log("User ID:", userId);
+  // console.log("First Name:", firstname);
+  // console.log("Last Name:", lastname);
+  // console.log("Pseudo:", pseudo);
+  // console.log("Picture:", picture);
+  // console.log("Role:", role);
+
+  console.log(decodedToken);
+
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
 
@@ -38,8 +59,8 @@ const Home = () => {
   // const [role, setRole] = useState("");
   // const [user, setUser] = useState("");
 
-  const userId = user.id;
-  const role = user.role;
+  // const userId = user.id;
+  // const role = user.role;
 
   // const displayCurrentUser = async () => {
   //   await axios
@@ -118,11 +139,10 @@ const Home = () => {
           <Sidebar />
         </Col>
         <Col>
-          <Row className=" mb-5">
+          <Row className="mt-5 mb-5">
             {/* ===================================================================== RESERVATION =============================================== */}
             <Col sm={11} md={6} lg={4}>
-              <Row className="justify-content-center mt-5 ms-3">
-                {/* <Col sm={11} md={11}> */}
+              <Row className="justify-content-center p-4">
                 <Link to="/reservations/add" className="bloc">
                   <div className="card">
                     <div className="card-header">
@@ -169,14 +189,12 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                {/* </Col> */}
               </Row>
             </Col>
             {/* ===================================================================== LISTE RESERVATION =============================================== */}
             <Col sm={11} md={6} lg={4}>
-              <Row className=" justify-content-center mt-5 ms-2">
-                <Col sm={11} md={11}>
-                  {/* <Link to="/dashboardAppmai" className="bloc"> */}
+              <Row className=" justify-content-center p-4">
+                <div className="bloc">
                   <div className="card">
                     <div className="card-header">
                       <h3 className="card-title">
@@ -280,16 +298,15 @@ const Home = () => {
                       </p>
                     </div>
                   </div>
-                  {/* </Link> */}
-                </Col>
+                </div>
+                {/* </Col> */}
               </Row>
             </Col>
             {/* ===================================================================== MATERIEL =============================================== */}
             {role === 1 || role === 2 ? (
               <Col sm={11} md={6} lg={4}>
-                <Row className="justify-content-center mt-5 ms-2">
-                  <Col sm={11} md={11}>
-                    {/* <Link to="/dashboardAppmai" className="bloc"> */}
+                <Row className="justify-content-center p-4">
+                  <div className="bloc">
                     <div className="card">
                       <div className="card-header">
                         <h3 className="card-title">
@@ -393,63 +410,15 @@ const Home = () => {
                         </p>
                       </div>
                     </div>
-                    {/* </Link> */}
-                  </Col>
+                  </div>
                 </Row>
               </Col>
             ) : null}
             {/* ===================================================================== UTILISATEURS =============================================== */}
             {role === 1 && (
               <Col sm={11} md={6} lg={4}>
-                <Row className="justify-content-center mt-5 ms-2">
-                  <Col sm={11} md={11}>
-                    <Link to="/users" className="bloc">
-                      <div className="card">
-                        <div className="card-header">
-                          <h3 className="card-title">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="25"
-                              height="25"
-                              fill="currentColor"
-                              className="bi bi-people"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
-                            </svg>
-                            <span className="menu">Utilisateurs</span>
-                          </h3>
-                        </div>
-
-                        <div className="card-body">
-                          <Table striped bordered hover>
-                            <thead>
-                              <tr>
-                                <th>Noms</th>
-                                <th>Prénoms</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {users.map((user) => (
-                                <tr key={user.id}>
-                                  <td>{user.lastname}</td>
-                                  <td>{user.firstname}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                        </div>
-                      </div>
-                    </Link>
-                  </Col>
-                </Row>
-              </Col>
-            )}
-            {/* ===================================================================== MON COMPTE =============================================== */}
-            <Col sm={11} md={6} lg={4}>
-              <Row className="justify-content-center mt-5 ms-2">
-                <Col sm={11} md={11}>
-                  <Link to={`/users/show/${userId}`} className="bloc">
+                <Row className="justify-content-center p-4">
+                  <Link to="/users" className="bloc">
                     <div className="card">
                       <div className="card-header">
                         <h3 className="card-title">
@@ -458,89 +427,129 @@ const Home = () => {
                             width="25"
                             height="25"
                             fill="currentColor"
-                            className="bi bi-person"
+                            className="bi bi-people"
                             viewBox="0 0 16 16"
                           >
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
                           </svg>
-                          <span className="menu d-none d-md-inline">
-                            Mon Compte
-                          </span>
+                          <span className="menu">Utilisateurs</span>
                         </h3>
                       </div>
 
                       <div className="card-body">
-                        <Row className="justify-content-center">
-                          <div className="text-center">
-                            <img
-                              src={`http://localhost:8000/storage/uploads/users/${
-                                !isEmpty(user) && user.picture
-                              }`}
-                              alt="photo adhérent"
-                              width="130px"
-                              className="rounded-image"
-                            />
-                          </div>
-                        </Row>
-                        <Row className="justify-content-center mt-3">
-                          <p className="text-center">
-                            Gestion du compte de {user.lastname}{" "}
-                            {user.firstname}
-                          </p>
-                        </Row>
+                        <Table striped bordered hover>
+                          <thead>
+                            <tr>
+                              <th>Noms</th>
+                              <th>Prénoms</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {users.map((user) => (
+                              <tr key={user.id}>
+                                <td>{user.lastname}</td>
+                                <td>{user.firstname}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
                       </div>
                     </div>
                   </Link>
-                </Col>
+                </Row>
+              </Col>
+            )}
+            {/* ===================================================================== MON COMPTE =============================================== */}
+            <Col sm={11} md={6} lg={4}>
+              <Row className="justify-content-center p-4">
+                <Link to={`/users/show/${userId}`} className="bloc">
+                  <div className="card">
+                    <div className="card-header">
+                      <h3 className="card-title">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          fill="currentColor"
+                          className="bi bi-person"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                        </svg>
+                        <span className="menu d-none d-md-inline">
+                          Mon Compte
+                        </span>
+                      </h3>
+                    </div>
+
+                    <div className="card-body">
+                      <Row className="justify-content-center">
+                        <div className="text-center">
+                          <img
+                            src={`http://localhost:8000/storage/uploads/users/${
+                              !isEmpty(user) && user.picture
+                            }`}
+                            alt="photo adhérent"
+                            width="130px"
+                            className="rounded-image"
+                          />
+                        </div>
+                      </Row>
+                      <Row className="justify-content-center mt-3">
+                        <p className="text-center">
+                          Gestion du compte de {user.lastname} {user.firstname}
+                        </p>
+                      </Row>
+                    </div>
+                  </div>
+                </Link>
               </Row>
             </Col>
             {/* ===================================================================== Contacts =============================================== */}
             {role === 1 && (
               <Col sm={11} md={6} lg={4}>
-                <Row className="justify-content-center mt-5 ms-2">
-                  <Col sm={11} md={11}>
-                    <Link to="/contacts" className="bloc">
-                      <div className="card">
-                        <div className="card-header">
-                          <h3 className="card-title">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              className="bi bi-envelope-at"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
-                              <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
-                            </svg>
-                            <span className="menu d-none d-md-inline">
-                              Contacts
-                            </span>
-                          </h3>
-                        </div>
-
-                        <div className="card-body">
-                          <Table striped bordered hover>
-                            <thead>
-                              <tr>
-                                <th>Sujets</th>
-                                <th>Dates</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {contacts.map((contact) => (
-                                <tr key={contact.id}>
-                                  <td>{contact.topic_contact}</td>
-                                  <td>{formatDate(contact.created_at)}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                        </div>
+                <Row className="justify-content-center p-4">
+                  <Link to="/contacts" className="bloc">
+                    <div className="card">
+                      <div className="card-header">
+                        <h3 className="card-title">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            className="bi bi-envelope-at"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
+                            <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
+                          </svg>
+                          <span className="menu d-none d-md-inline">
+                            Contacts
+                          </span>
+                        </h3>
                       </div>
-                    </Link>
-                  </Col>
+
+                      <div className="card-body">
+                        <Table striped bordered hover>
+                          <thead>
+                            <tr>
+                              <th>Sujets</th>
+                              <th>Dates</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {contacts.map((contact) => (
+                              <tr key={contact.id}>
+                                <td>{contact.topic_contact}</td>
+                                <td>{formatDate(contact.created_at)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
+                  </Link>
                 </Row>
               </Col>
             )}
