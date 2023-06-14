@@ -34,24 +34,19 @@ import ShowContact from "./pages/contacts/ShowContact";
 function App() {
   // On récupère role_id
   const [role, setRole] = useState([]);
+  const token = localStorage.getItem("access_token");
 
   const displayUsers = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setRole(res.data.role);
-        // console.log(res.data.role);
-      });
+    await axios.get(`http://127.0.0.1:8000/api/current-user`).then((res) => {
+      setRole(res.data.role);
+      // console.log(res.data.role);
+    });
   };
   useEffect(() => {
-    displayUsers();
-  }, []); // Sans les crochets ça tourne en boucle
-
-  const token = localStorage.getItem("access_token");
+    if (token) {
+      displayUsers();
+    }
+  }, []);
 
   return (
     <BrowserRouter>
