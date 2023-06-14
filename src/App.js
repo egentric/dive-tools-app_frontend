@@ -36,15 +36,21 @@ function App() {
   const [role, setRole] = useState([]);
   const token = localStorage.getItem("access_token");
 
-  const displayUsers = async () => {
-    await axios.get(`http://127.0.0.1:8000/api/current-user`).then((res) => {
-      setRole(res.data.role);
-      // console.log(res.data.role);
-    });
+  const displayUser = async () => {
+    await axios
+      .get(`http://127.0.0.1:8000/api/current-user`, {
+        headers: {
+          Authorization: "Bearer" + localStorage.getItem("access_token"),
+        },
+      })
+      .then((res) => {
+        setRole(res.data.role);
+        // console.log(res.data.role);
+      });
   };
   useEffect(() => {
     if (token) {
-      displayUsers();
+      displayUser();
     }
   }, []);
 
@@ -52,8 +58,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="*" element={<Login />} />
-        <Route path="/home" element={token ? <Home /> : <Login />} />
+        {/* <Route path="*" element={<Login />} /> */}
+
+        <Route
+          path="/home"
+          element={!token ? <Navigate to="/login" replace={true} /> : <Home />}
+        />
+
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Noaccess" element={<Noaccess />} />
@@ -71,6 +82,7 @@ function App() {
             )
           }
         />
+
         <Route
           path="/regulators/add"
           element={
@@ -264,15 +276,33 @@ function App() {
         />
         <Route
           path="/reservations/edit/:reservation"
-          element={token ? <EditReservation /> : <Login />}
+          element={
+            !token ? (
+              <Navigate to="/login" replace={true} />
+            ) : (
+              <EditReservation />
+            )
+          }
         />
         <Route
           path="/reservations/show/:reservation"
-          element={token ? <ShowReservation /> : <Login />}
+          element={
+            !token ? (
+              <Navigate to="/login" replace={true} />
+            ) : (
+              <ShowReservation />
+            )
+          }
         />
         <Route
           path="/reservations/user/:user"
-          element={token ? <ReservationUser /> : <Login />}
+          element={
+            !token ? (
+              <Navigate to="/login" replace={true} />
+            ) : (
+              <ReservationUser />
+            )
+          }
         />
         <Route
           path="/users"
@@ -304,7 +334,9 @@ function App() {
         />
         <Route
           path="/users/show/:user"
-          element={token ? <ShowUser /> : <Login />}
+          element={
+            !token ? <Navigate to="/login" replace={true} /> : <ShowUser />
+          }
         />
       </Routes>
     </BrowserRouter>

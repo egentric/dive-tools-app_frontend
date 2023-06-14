@@ -3,6 +3,7 @@
   nav {
       background-color: $blue2 !important;
       font-family: $font-1 !important;
+      position: relative !important;
   }
 
   .navLink {
@@ -19,25 +20,15 @@
       transform: scale(1);
   }
 
-  //   .navLink:active {
-  //       color: $blue3 !important;
-  //       border-bottom: 3px solid $blue2;
-
-  //   }
-
   .menu {
       margin-left: 5px !important;
   }
 
-  .navbar-extended {
-      position: relative;
-  }
 
-  .navbar-extended .logo {
+  .logo {
       position: absolute;
       top: 4px;
       left: 8px;
-      //   transform: translate(-50%, -50%);
   }
 
   .rounded-image {

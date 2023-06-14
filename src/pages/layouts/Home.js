@@ -9,15 +9,9 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 
-import Button from "react-bootstrap/Button";
-
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
 
-import { getTanks } from "../../actions/tank.action";
-import { getResevations } from "../../actions/reservation.action";
-import { getBcds } from "../../actions/bcd.action";
-import { getRegulators } from "../../actions/regulator.action";
 import { getUser } from "../../actions/user.action";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "../../reducers";
@@ -29,34 +23,39 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
 
-  // const store = configureStore({
-  //   reducer: rootReducer,
-  //   devTools: true,
-  // });
-  // const dispatch = useDispatch();
+  const store = configureStore({
+    reducer: rootReducer,
+    devTools: true,
+  });
+  const dispatch = useDispatch();
 
-  // store.dispatch(getTanks());
-  // store.dispatch(getResevations());
-  // store.dispatch(getBcds());
-  // store.dispatch(getRegulators());
-  // store.dispatch(getUser());
+  store.dispatch(getUser());
 
-  // const user = useSelector((state) => state.userReducer);
+  const user = useSelector((state) => state.userReducer);
 
   // On récupère l'id du user
-  const [userId, setUserId] = useState("");
-  const [role, setRole] = useState("");
-  const [user, setUser] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [role, setRole] = useState("");
+  // const [user, setUser] = useState("");
 
-  const displayCurrentUser = async () => {
-    await axios.get(`http://127.0.0.1:8000/api/current-user`).then((res) => {
-      setUser(res.data);
-      setRole(res.data.role);
-      setUserId(res.data.id);
+  const userId = user.id;
+  const role = user.role;
 
-      console.log(res.data);
-    });
-  };
+  // const displayCurrentUser = async () => {
+  //   await axios
+  //     .get(`http://127.0.0.1:8000/api/current-user`, {
+  //       headers: {
+  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setUser(res.data);
+  //       setRole(res.data.role);
+  //       setUserId(res.data.id);
+
+  //       console.log(res.data);
+  //     });
+  // };
 
   const displayUsers = async () => {
     await axios
@@ -101,7 +100,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    displayCurrentUser();
+    // displayCurrentUser();
     displayUsers();
     displayContacts();
     // setIsLoading(true);
@@ -122,16 +121,41 @@ const Home = () => {
           <Row className=" mb-5">
             {/* ===================================================================== RESERVATION =============================================== */}
             <Col sm={11} md={6} lg={4}>
-              <div className="row justify-content-center mt-5 ms-2">
-                <div className="col-11 col-sm-11 col-md-11">
-                  <Link to="/reservations/add" className="bloc">
-                    <div className="card">
-                      <div className="card-header">
-                        <h3 className="card-title">
+              <Row className="justify-content-center mt-5 ms-3">
+                {/* <Col sm={11} md={11}> */}
+                <Link to="/reservations/add" className="bloc">
+                  <div className="card">
+                    <div className="card-header">
+                      <h3 className="card-title">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="35"
+                          height="35"
+                          fill="currentColor"
+                          className="reservation"
+                          viewBox="0 0 58.69 45.96"
+                        >
+                          <path d="m5.17,34.55h48.35c.55,0,1-.45,1-1,0-12.83-9.89-23.74-22.6-25.04V3.91h2.82V0h-10.78v3.91h2.82v4.61c-12.71,1.3-22.6,12.21-22.6,25.04,0,.55.45,1,1,1ZM29.07,10.39h.28c12.34,0,22.62,9.89,23.15,22.17H17.51c.43-11.06,7.73-20.68,11.56-22.17Zm-7.38,1.3c-3.69,2.93-9.13,9.21-9.43,20.87h-6.06c.41-9.45,6.7-17.76,15.5-20.87Z" />
+                          <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
+                        </svg>{" "}
+                        <span className="menu">Réservation</span>
+                      </h3>
+                    </div>
+
+                    <div className="card-body">
+                      <p>
+                        Rubrique de réservation du matériel de plongée,
+                        Détendeur, Gilet Stabilisateur et bouteille.
+                      </p>
+                      <p>
+                        <Link
+                          to={`/reservations/add`}
+                          className="btn btnWhite btn-sm"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="35"
-                            height="35"
+                            width="20"
+                            height="20"
                             fill="currentColor"
                             className="reservation"
                             viewBox="0 0 58.69 45.96"
@@ -140,43 +164,18 @@ const Home = () => {
                             <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
                           </svg>{" "}
                           <span className="menu">Réservation</span>
-                        </h3>
-                      </div>
-
-                      <div className="card-body">
-                        <p>
-                          Rubrique de réservation du matériel de plongée,
-                          Détendeur, Gilet Stabilisateur et bouteille.
-                        </p>
-                        <p>
-                          <Link
-                            to={`/reservations/add`}
-                            className="btn btnWhite btn-sm"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              className="reservation"
-                              viewBox="0 0 58.69 45.96"
-                            >
-                              <path d="m5.17,34.55h48.35c.55,0,1-.45,1-1,0-12.83-9.89-23.74-22.6-25.04V3.91h2.82V0h-10.78v3.91h2.82v4.61c-12.71,1.3-22.6,12.21-22.6,25.04,0,.55.45,1,1,1ZM29.07,10.39h.28c12.34,0,22.62,9.89,23.15,22.17H17.51c.43-11.06,7.73-20.68,11.56-22.17Zm-7.38,1.3c-3.69,2.93-9.13,9.21-9.43,20.87h-6.06c.41-9.45,6.7-17.76,15.5-20.87Z" />
-                              <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
-                            </svg>{" "}
-                            <span className="menu">Réservation</span>
-                          </Link>
-                        </p>
-                      </div>
+                        </Link>
+                      </p>
                     </div>
-                  </Link>
-                </div>
-              </div>
+                  </div>
+                </Link>
+                {/* </Col> */}
+              </Row>
             </Col>
             {/* ===================================================================== LISTE RESERVATION =============================================== */}
             <Col sm={11} md={6} lg={4}>
-              <div className="row justify-content-center mt-5 ms-2">
-                <div className="col-11 col-sm-11 col-md-11">
+              <Row className=" justify-content-center mt-5 ms-2">
+                <Col sm={11} md={11}>
                   {/* <Link to="/dashboardAppmai" className="bloc"> */}
                   <div className="card">
                     <div className="card-header">
@@ -282,14 +281,14 @@ const Home = () => {
                     </div>
                   </div>
                   {/* </Link> */}
-                </div>
-              </div>
+                </Col>
+              </Row>
             </Col>
             {/* ===================================================================== MATERIEL =============================================== */}
             {role === 1 || role === 2 ? (
               <Col sm={11} md={6} lg={4}>
-                <div className="row justify-content-center mt-5 ms-2">
-                  <div className="col-11 col-sm-11 col-md-11">
+                <Row className="justify-content-center mt-5 ms-2">
+                  <Col sm={11} md={11}>
                     {/* <Link to="/dashboardAppmai" className="bloc"> */}
                     <div className="card">
                       <div className="card-header">
@@ -395,15 +394,15 @@ const Home = () => {
                       </div>
                     </div>
                     {/* </Link> */}
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </Col>
             ) : null}
             {/* ===================================================================== UTILISATEURS =============================================== */}
             {role === 1 && (
               <Col sm={11} md={6} lg={4}>
-                <div className="row justify-content-center mt-5 ms-2">
-                  <div className="col-11 col-sm-11 col-md-11">
+                <Row className="justify-content-center mt-5 ms-2">
+                  <Col sm={11} md={11}>
                     <Link to="/users" className="bloc">
                       <div className="card">
                         <div className="card-header">
@@ -442,14 +441,14 @@ const Home = () => {
                         </div>
                       </div>
                     </Link>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </Col>
             )}
             {/* ===================================================================== MON COMPTE =============================================== */}
             <Col sm={11} md={6} lg={4}>
-              <div className="row justify-content-center mt-5 ms-2">
-                <div className="col-11 col-sm-11 col-md-11">
+              <Row className="justify-content-center mt-5 ms-2">
+                <Col sm={11} md={11}>
                   <Link to={`/users/show/${userId}`} className="bloc">
                     <div className="card">
                       <div className="card-header">
@@ -492,14 +491,14 @@ const Home = () => {
                       </div>
                     </div>
                   </Link>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </Col>
             {/* ===================================================================== Contacts =============================================== */}
             {role === 1 && (
               <Col sm={11} md={6} lg={4}>
-                <div className="row justify-content-center mt-5 ms-2">
-                  <div className="col-11 col-sm-11 col-md-11">
+                <Row className="justify-content-center mt-5 ms-2">
+                  <Col sm={11} md={11}>
                     <Link to="/contacts" className="bloc">
                       <div className="card">
                         <div className="card-header">
@@ -541,8 +540,8 @@ const Home = () => {
                         </div>
                       </div>
                     </Link>
-                  </div>
-                </div>
+                  </Col>
+                </Row>
               </Col>
             )}
           </Row>

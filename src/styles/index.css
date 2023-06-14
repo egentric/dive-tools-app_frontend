@@ -70,6 +70,7 @@ h5 {
 nav {
   background-color: rgb(29, 58, 99) !important;
   font-family: "font-1", sans-serif !important;
+  position: relative !important;
 }
 
 .navLink {
@@ -90,11 +91,7 @@ nav {
   margin-left: 5px !important;
 }
 
-.navbar-extended {
-  position: relative;
-}
-
-.navbar-extended .logo {
+.logo {
   position: absolute;
   top: 4px;
   left: 8px;
