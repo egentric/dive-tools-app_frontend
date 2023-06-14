@@ -29,25 +29,36 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
 
-  const store = configureStore({
-    reducer: rootReducer,
-    devTools: true,
-  });
-  const dispatch = useDispatch();
+  // const store = configureStore({
+  //   reducer: rootReducer,
+  //   devTools: true,
+  // });
+  // const dispatch = useDispatch();
 
   // store.dispatch(getTanks());
   // store.dispatch(getResevations());
   // store.dispatch(getBcds());
   // store.dispatch(getRegulators());
-  store.dispatch(getUser());
+  // store.dispatch(getUser());
 
-  const user = useSelector((state) => state.userReducer);
+  // const user = useSelector((state) => state.userReducer);
 
   // On récupère l'id du user
-  const userId = user.id;
-  const role = user.role;
+  const [userId, setUserId] = useState("");
+  const [role, setRole] = useState("");
+  const [user, setUser] = useState("");
 
-  async function displayUsers() {
+  const displayCurrentUser = async () => {
+    await axios.get(`http://127.0.0.1:8000/api/current-user`).then((res) => {
+      setUser(res.data);
+      setRole(res.data.role);
+      setUserId(res.data.id);
+
+      console.log(res.data);
+    });
+  };
+
+  const displayUsers = async () => {
     await axios
       .get("http://localhost:8000/api/users", {
         headers: {
@@ -59,7 +70,7 @@ const Home = () => {
         const lastThreeUsers = allUsers.slice(-3);
         setUsers(lastThreeUsers);
       });
-  }
+  };
   const displayContacts = async () => {
     await axios
       .get(`http://127.0.0.1:8000/api/contacts`, {
@@ -90,7 +101,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // displayUser();
+    displayCurrentUser();
     displayUsers();
     displayContacts();
     // setIsLoading(true);

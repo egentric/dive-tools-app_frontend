@@ -34,7 +34,7 @@ const Navigation = ({ onSelect }) => {
   };
 
   return (
-    <Navbar expand="lg" className=" nav navOmbre fixed-top navbar-extended">
+    <Navbar expand="lg" className="nav fixed-top navbar-extended">
       <Container fluid>
         <Navbar.Brand href="/home" className="logo">
           <Logo />
