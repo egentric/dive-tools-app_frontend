@@ -36,23 +36,23 @@ function App() {
   const [role, setRole] = useState([]);
   const token = localStorage.getItem("access_token");
 
-  const displayUser = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setRole(res.data.role);
-        // console.log(res.data.role);
-      });
-  };
-  useEffect(() => {
-    if (token) {
-      displayUser();
-    }
-  }, []);
+  // const displayUser = async () => {
+  //   await axios
+  //     .get(`http://127.0.0.1:8000/api/current-user`, {
+  //       headers: {
+  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setRole(res.data.role);
+  //       // console.log(res.data.role);
+  //     });
+  // };
+  // useEffect(() => {
+  //   if (token) {
+  //     displayUser();
+  //   }
+  // }, []);
 
   return (
     <BrowserRouter>
