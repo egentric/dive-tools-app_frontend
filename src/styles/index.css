@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "font-1";
   src: url(../assets/fonts/Quicksand-Medium.ttf);
@@ -103,15 +104,29 @@ nav {
   margin-right: 10px;
 }
 
+.nav-items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+@media (min-width: 992px) {
+  .nav-items {
+    flex-direction: row;
+    align-items: center;
+  }
+  .nav-items .navLink {
+    margin-left: 10px;
+  }
+}
 .menuGauche {
   color: rgb(245, 245, 250) !important;
-  padding-top: 20px;
-  background-color: rgb(130, 155, 189);
+  background-color: rgb(130, 155, 189) !important;
   position: fixed;
   font-family: "font-2", sans-serif !important;
   left: 0;
   top: 0;
-  padding-top: 140px;
+  padding-top: 160px;
   height: 100vh;
   width: 190px;
 }
@@ -120,6 +135,8 @@ nav {
   font-size: 1rem;
   padding-right: 5px;
   color: rgb(245, 245, 250) !important;
+  background-color: rgb(130, 155, 189) !important;
+  border: 0;
 }
 .menuGauche .menuG:hover {
   transition: 1s;
@@ -136,22 +153,22 @@ nav {
   list-style: none;
 }
 
-.toggle {
-  padding-top: 20px;
-  background-color: rgb(29, 58, 99);
-  position: fixed;
-  left: 0;
-  top: 60px;
+.materiel {
+  padding: 5px;
+  /* Valeur par défaut pour les tailles LG et plus grandes */
+}
+@media (max-width: 991.98px) {
+  .materiel {
+    /* Écran de taille MD ou plus petit */
+    padding: 0;
+    /* Valeur spécifique pour les tailles MD et plus petites */
+  }
+}
+
+.style {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-}
-
-.dropdown {
-  background-color: rgb(29, 58, 99) !important;
-  color: rgb(245, 245, 250) !important;
-}
-
-.materiels {
-  margin-top: -10px;
 }
 
 .register {

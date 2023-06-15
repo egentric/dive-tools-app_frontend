@@ -18,6 +18,7 @@ let getExpiryTime = () => {
     return true;
   } else {
     return localStorage.removeItem("access_token");
+    return false;
   }
 };
 
@@ -26,44 +27,86 @@ let getRoles = () => {
   if (getExpiryTime()) {
     // la valeur de base est un tableau dans un string, on le parse pour faire sauter le string et
     // on le tostring pour faire sauter le tableau, comme ça on a seulement la valeur
-    return JSON.parse(getDecodedToken().role_id).toString();
+    // return JSON.parse(getDecodedToken().role_id).toString();
+    return getDecodedToken().role_id;
   } else {
     return false;
   }
 };
 
-let getEmail = () => {
-  // On teste si il y a un token décodé et si il n'a pas expiré
-  if (getExpiryTime()) {
-    return getDecodedToken().email;
-  } else {
-    return false;
-  }
-};
+// let getEmail = () => {
+//   // On teste si il y a un token décodé et si il n'a pas expiré
+//   if (getExpiryTime()) {
+//     return getDecodedToken().email;
+//   } else {
+//     return false;
+//   }
+// };
+
 let getPseudo = () => {
   // On teste si il y a un token décodé et si il n'a pas expiré
   if (getExpiryTime()) {
-    return getDecodedToken().username;
+    return getDecodedToken().pseudo;
   } else {
     return false;
   }
 };
+
+let getId = () => {
+  // On teste si il y a un token décodé et si il n'a pas expiré
+  if (getExpiryTime()) {
+    return getDecodedToken().id;
+  } else {
+    return false;
+  }
+};
+
+let getFirstname = () => {
+  // On teste si il y a un token décodé et si il n'a pas expiré
+  if (getExpiryTime()) {
+    return getDecodedToken().firstname;
+  } else {
+    return false;
+  }
+};
+
+let getLastname = () => {
+  // On teste si il y a un token décodé et si il n'a pas expiré
+  if (getExpiryTime()) {
+    return getDecodedToken().lastname;
+  } else {
+    return false;
+  }
+};
+let getPicture = () => {
+  // On teste si il y a un token décodé et si il n'a pas expiré
+  if (getExpiryTime()) {
+    return getDecodedToken().picture;
+  } else {
+    return false;
+  }
+};
+
 let loggedAndAdmin = () => {
   // Check si il y a un token valide et check si le rôle est celui d'un admin, répond true quand c'est vrai
-  return !!(getExpiryTime() && getRoles() === "1");
+  return !!(getExpiryTime() && getRoles() === 1);
 };
-let loggedAndEditorM = () => {
-  // Check si il y a un token valide et check si le rôle est celui d'un editorM, répond true quand c'est vrai
-  return !!(getExpiryTime() && getRoles() === "2");
+let loggedAndAdminOrEditorM = () => {
+  // Check si il y a un token valide et check si le rôle est celui d'un editorM ou Admin, répond true quand c'est vrai
+  return !!((getExpiryTime() && getRoles() === 2) || getRoles() === 1);
 };
 
 export default {
   getToken,
   getDecodedToken,
   getRoles,
-  getEmail,
+  // getEmail,
   getPseudo,
+  getId,
+  getPicture,
+  getLastname,
+  getFirstname,
   loggedAndAdmin,
-  loggedAndEditorM,
+  loggedAndAdminOrEditorM,
   getExpiryTime,
 };

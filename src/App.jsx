@@ -35,39 +35,18 @@ import auth from "./services/auth/token"
 
 function App() {
   // On récupère role_id
-  const [role, setRole] = useState([]);
-  const token = localStorage.getItem("access_token");
+//   const role = auth.getRoles();
+//  const expToken = auth.getExpiryTime();
+//  const admin = auth.loggedAndAdmin();
+//  const adminEditor = auth.loggedAndAdminOrEditorM();
+  // const firstname = auth.getFirstname();
+  // const pseudo = auth.getPseudo();
 
-  // const displayUser = async () => {
-  //   await axios
-  //     .get(`http://127.0.0.1:8000/api/current-user`, {
-  //       headers: {
-  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setRole(res.data.role);
-  //       // console.log(res.data.role);
-  //     });
-  // };
-  // useEffect(() => {
-  // //   if (token) {
-  // //     displayUser();
-  // //   }
-  // getDecodedToken();
-  // }, []);
+  // console.log(expToken);
+  // console.log(role);
+  // console.log(admin);
+  // console.log(adminEditor);
 
-  // let getToken = () => {
-  //   return localStorage.getItem("access_token");
-  // };
-  
-  // let getDecodedToken = () => {
-  //   if (getToken()) {
-  //     return jwtDecode(localStorage.getItem("access_token"));
-  //   } else {
-  //     return false;
-  //   }
-  // };
 
   return (
     <BrowserRouter>
@@ -77,280 +56,194 @@ function App() {
 
         <Route
           path="/home"
-          element={!token ? <Navigate to="/login" replace={true} /> : <Home />}
+          element={
+            auth.getExpiryTime() ? <Home />
+           : <Navigate to="/login" replace={true} />
+          }
         />
 
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Noaccess" element={<Noaccess />} />
+
         <Route
-          path="/regulators"
-          element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <Regulators />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
-          }
-        />
+  path="/regulators"
+  element={
+    auth.getExpiryTime()
+      ? auth.loggedAndAdminOrEditorM() ? <Regulators /> : <Noaccess />
+      : <Navigate to="/login" replace={true} />
+  }
+/>
 
         <Route
           path="/regulators/add"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <AddRegulator />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <AddRegulator /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/regulators/edit/:regulator"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <EditRegulator />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <EditRegulator /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/regulators/show/:regulator"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <ShowRegulator />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <ShowRegulator /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/contacts"
           element={
-            token ? (
-              role === 1 ? (
-                <Contacts />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdmin() ? <Contacts /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/contacts/add"
-          element={token ? <AddContact /> : <Login />}
+          element={
+            auth.getExpiryTime() ? <AddContact />
+           : <Navigate to="/login" replace={true} />
+          }
+
         />
         <Route
           path="/contacts/show/:contact"
           element={
-            token ? (
-              role === 1 ? (
-                <ShowContact />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdmin() ? <ShowContact /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/bcds"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <Bcds />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <Bcds /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/bcds/add"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <AddBcd />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <AddBcd /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/bcds/edit/:bcd"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <EditBcd />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <EditBcd /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/bcds/show/:bcd"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <ShowBcd />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <ShowBcd /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/tanks"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <Tanks />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <Tanks /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
-        <Route path="/tanks/add" element={token ? <AddTank /> : <Login />} />
+        <Route path="/tanks/add"
+              element={
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <AddTank /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
+          }
+        />
+
         <Route
           path="/tanks/edit/:tank"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <EditTank />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <EditTank /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/tanks/show/:tank"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <ShowTank />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <ShowTank /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/reservations"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <Reservations />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <Reservations /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/reservations/add"
-          element={token ? <AddReservation /> : <Login />}
+          element={
+            auth.getExpiryTime() ? <AddReservation />
+           : <Navigate to="/login" replace={true} />
+          }
         />
         <Route
           path="/reservations/edit/:reservation"
           element={
-            !token ? (
-              <Navigate to="/login" replace={true} />
-            ) : (
-              <EditReservation />
-            )
+            auth.getExpiryTime() ? <EditReservation />
+           : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/reservations/show/:reservation"
           element={
-            !token ? (
-              <Navigate to="/login" replace={true} />
-            ) : (
-              <ShowReservation />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <ShowReservation /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/reservations/user/:user"
           element={
-            !token ? (
-              <Navigate to="/login" replace={true} />
-            ) : (
-              <ReservationUser />
-            )
+            auth.getExpiryTime() ? <ReservationUser />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/users"
           element={
-            token ? (
-              role === 1 ? (
-                <Users />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime()
+              ? auth.loggedAndAdmin() ? <Users /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/users/edit/:user"
           element={
-            token ? (
-              role === 1 || role === 2 ? (
-                <EditUser />
-              ) : (
-                <Noaccess />
-              )
-            ) : (
-              <Navigate to="/login" replace={true} />
-            )
+            auth.getExpiryTime() ? <EditUser />
+           : <Navigate to="/login" replace={true} />
           }
         />
         <Route
           path="/users/show/:user"
           element={
-            !token ? <Navigate to="/login" replace={true} /> : <ShowUser />
+            auth.getExpiryTime() ? <ShowUser />
+           : <Navigate to="/login" replace={true} />
           }
         />
       </Routes>

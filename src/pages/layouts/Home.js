@@ -2,81 +2,26 @@ import React, { useEffect, useState } from "react";
 import Navigation from "../../components/Navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
-import { NavLink } from "react-router-dom";
 
 import { Link } from "react-router-dom";
-import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 
 import axios from "axios";
 import Sidebar from "../../components/Sidebar";
 
-import { getUser } from "../../actions/user.action";
-import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "../../reducers";
-import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer";
-import { isEmpty } from "../../components/Utils";
-import token from "../../services/auth/token.js";
+import auth from "../../services/auth/token.js";
 
 const Home = () => {
-  const truc = token.getRoles();
-  console.log(truc);
-
-  let decodedToken = token.getDecodedToken();
-  let userId = decodedToken.id;
-  let firstname = decodedToken.firstname;
-  let lastname = decodedToken.lastname;
-  let pseudo = decodedToken.pseudo;
-  let picture = decodedToken.picture;
-  let role = decodedToken.role;
-
-  // console.log("User ID:", userId);
-  // console.log("First Name:", firstname);
-  // console.log("Last Name:", lastname);
-  // console.log("Pseudo:", pseudo);
-  // console.log("Picture:", picture);
-  // console.log("Role:", role);
-
-  console.log(decodedToken);
-
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
 
-  const store = configureStore({
-    reducer: rootReducer,
-    devTools: true,
-  });
-  const dispatch = useDispatch();
-
-  store.dispatch(getUser());
-
-  const user = useSelector((state) => state.userReducer);
-
-  // On récupère l'id du user
-  // const [userId, setUserId] = useState("");
-  // const [role, setRole] = useState("");
-  // const [user, setUser] = useState("");
-
-  // const userId = user.id;
-  // const role = user.role;
-
-  // const displayCurrentUser = async () => {
-  //   await axios
-  //     .get(`http://127.0.0.1:8000/api/current-user`, {
-  //       headers: {
-  //         Authorization: "Bearer" + localStorage.getItem("access_token"),
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setUser(res.data);
-  //       setRole(res.data.role);
-  //       setUserId(res.data.id);
-
-  //       console.log(res.data);
-  //     });
-  // };
+  const userId = auth.getId();
+  const role = auth.getRoles();
+  const firstname = auth.getFirstname();
+  const lastname = auth.getLastname();
+  const picture = auth.getPicture();
 
   const displayUsers = async () => {
     await axios
@@ -121,24 +66,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // displayCurrentUser();
     displayUsers();
     displayContacts();
-    // setIsLoading(true);
-    // fetchComUser().then((data) => {
-    //   setCommentsUser(data);
-    //   setIsLoading(false);
-    // });
   }, []);
 
   return (
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={2}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
+        <Col xs={11} md={9} lg={10}>
           <Row className="mt-5 mb-5">
             {/* ===================================================================== RESERVATION =============================================== */}
             <Col sm={11} md={6} lg={4}>
@@ -475,10 +414,8 @@ const Home = () => {
                           viewBox="0 0 16 16"
                         >
                           <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-                        </svg>
-                        <span className="menu d-none d-md-inline">
-                          Mon Compte
-                        </span>
+                        </svg>{" "}
+                        <span className="menu">Mon Compte</span>
                       </h3>
                     </div>
 
@@ -486,9 +423,7 @@ const Home = () => {
                       <Row className="justify-content-center">
                         <div className="text-center">
                           <img
-                            src={`http://localhost:8000/storage/uploads/users/${
-                              !isEmpty(user) && user.picture
-                            }`}
+                            src={`http://localhost:8000/storage/uploads/users/${picture}`}
                             alt="photo adhérent"
                             width="130px"
                             className="rounded-image"
@@ -497,7 +432,7 @@ const Home = () => {
                       </Row>
                       <Row className="justify-content-center mt-3">
                         <p className="text-center">
-                          Gestion du compte de {user.lastname} {user.firstname}
+                          Gestion du compte de {lastname} {firstname}
                         </p>
                       </Row>
                     </div>
@@ -523,10 +458,8 @@ const Home = () => {
                           >
                             <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
                             <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
-                          </svg>
-                          <span className="menu d-none d-md-inline">
-                            Contacts
-                          </span>
+                          </svg>{" "}
+                          <span className="menu">Contacts</span>
                         </h3>
                       </div>
 
