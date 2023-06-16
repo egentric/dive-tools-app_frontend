@@ -18,15 +18,13 @@ const Login = () => {
     formData.append("email_user", email);
     formData.append("password", password);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     const log = await axios
       .post(`http://127.0.0.1:8000/api/login`, formData)
       .then((response) => {
-        // const token = response.data.token
-        console.log(response.data);
         if (response.data.status === "success") {
           localStorage.setItem(
             "access_token",
@@ -38,12 +36,6 @@ const Login = () => {
           console.error("Login failed");
         }
       });
-    // .catch(( response ) => {
-    //     // const data = response.json();
-    //     if (response.status === 422) {
-    //         setValidationError(response.data.errors);
-    //     }
-    // });
   };
 
   return (

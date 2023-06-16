@@ -10,10 +10,10 @@ import Navigation from "../../components/Navigation";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import auth from "../../services/auth/token.js";
 
 const Reservations = () => {
-  const user = useSelector((state) => state.userReducer);
+  const userId = auth.getId();
 
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
@@ -29,7 +29,7 @@ const Reservations = () => {
   const displayReservations = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/reservations/user/${user.id}`,
+        `http://127.0.0.1:8000/api/reservations/user/${userId}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -56,22 +56,21 @@ const Reservations = () => {
   };
 
   useEffect(() => {
-    // console.log(user);
-    if (user) {
+    if (userId) {
       displayReservations();
     }
-  }, [user]); // Sans les crochets ça tourne en boucle
+  }, [userId]); // Sans les crochets ça tourne en boucle
 
   return (
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={2}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col xs={11} md={10} lg={10}>
-          <div className="row justify-content-center mt-4 mb-5 ms-2">
-            <div className="col-11 col-sm-11 col-md-11">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center mt-4 mb-5">
+            <Col xs={10} sm={11}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -129,7 +128,7 @@ const Reservations = () => {
                     // Afficher un message de chargement pendant le chargement des données
                     <p>Loading...</p>
                   ) : (
-                    <div class="table-responsive">
+                    <div className="table-responsive">
                       <Table striped bordered hover>
                         <thead>
                           <tr>
@@ -226,8 +225,8 @@ const Reservations = () => {
                   )}
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

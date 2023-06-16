@@ -21,7 +21,6 @@ const AddBcd = () => {
   const [availabilityBcd, setAvailabilityBcd] = useState("");
   const [causeUnavailabilityBcd, setCauseUnavailabilityBcd] = useState("");
 
-  //   const [counterLoanBcd, setCounterLoanBcd] = useState("");
   const [validationError, setValidationError] = useState({});
 
   const changeHandler = (event) => {
@@ -51,11 +50,9 @@ const AddBcd = () => {
     formData.append("qrcode_BCD", qrcodeBcd);
     formData.append("availability_BCD", availabilityBcd);
     formData.append("cause_unavailability_BCD", causeUnavailabilityBcd);
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
-
-    // formData.append("counter_loan_regulator", counterLoanRegulator);
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     await axios
       .post(`http://127.0.0.1:8000/api/bcds`, formData, {
@@ -75,12 +72,12 @@ const AddBcd = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={11} md={10} lg={9}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -141,7 +138,7 @@ const AddBcd = () => {
 
                     <Form onSubmit={AddBcd}>
                       <Row>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           <Form.Group controlId="codeBcd">
                             <Form.Label className="label">Code</Form.Label>
                             <Form.Control
@@ -154,7 +151,7 @@ const AddBcd = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="sizeBcd">
                             <Form.Label className="label">Taille</Form.Label>
                             <Form.Select
@@ -172,8 +169,8 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="markBcd">
                             <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
@@ -187,7 +184,7 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="modelBcd">
                             <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
@@ -201,8 +198,8 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="yearBcd">
                             <Form.Label className="label">Année</Form.Label>
                             <Form.Control
@@ -218,7 +215,7 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="revisionBcdDate">
                             <Form.Label className="label">
                               Date de révision
@@ -234,8 +231,8 @@ const AddBcd = () => {
                         </Col>
                       </Row>
 
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group controlId="qrcodeBcd" className="mb-3">
                             <Form.Label className="label">
                               Image du QrCode
@@ -247,8 +244,8 @@ const AddBcd = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="availabilityBcd">
                             <Form.Label className="label">
                               Disponibilité
@@ -279,7 +276,7 @@ const AddBcd = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           {availabilityBcd === 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
                               <Form.Label className="label">
@@ -338,8 +335,8 @@ const AddBcd = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

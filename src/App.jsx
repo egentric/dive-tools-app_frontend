@@ -19,6 +19,7 @@ import Tanks from "./pages/tanks/Tanks";
 import AddTank from "./pages/tanks/AddTank";
 import EditTank from "./pages/tanks/EditTank";
 import ShowTank from "./pages/tanks/ShowTank";
+import TanksUser from "./pages/tanks/TanksUser";
 import Users from "./pages/users/Users";
 import EditUser from "./pages/users/EditUser";
 import ShowUser from "./pages/users/ShowUser";
@@ -186,7 +187,14 @@ function App() {
               ? auth.loggedAndAdminOrEditorM() ? <ShowTank /> : <Noaccess />
               : <Navigate to="/login" replace={true} />
           }
-        />
+        />        <Route
+        path="/tanks/user/:user"
+        element={
+          auth.getExpiryTime() ? <TanksUser />
+            : <Navigate to="/login" replace={true} />
+        }
+      />
+
         <Route
           path="/reservations"
           element={

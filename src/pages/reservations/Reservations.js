@@ -3,14 +3,12 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Reservations = () => {
   const [reservations, setReservations] = useState([]);
@@ -35,10 +33,8 @@ const Reservations = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-
         setReservations(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       });
   };
   // ============= fonction delete =====================
@@ -56,13 +52,13 @@ const Reservations = () => {
   return (
     <div>
       <Navigation />
-      <Row className="align-items-start">
-        <Col xs="auto" md={2} lg={2}>
+      <Row>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col xs={11} md={10} lg={10}>
-          <div className="row justify-content-center mt-4 mb-5 ms-2">
-            <div className="col-11 col-sm-11 col-md-11">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center mt-4 mb-5">
+            <Col xs={10} sm={11}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -116,7 +112,7 @@ const Reservations = () => {
                     </svg>{" "}
                     <span className="menu">Réservation</span>
                   </Link>
-                  <div class="table-responsive">
+                  <div className="table-responsive">
                     <Table striped bordered hover>
                       <thead>
                         <tr>
@@ -212,8 +208,8 @@ const Reservations = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

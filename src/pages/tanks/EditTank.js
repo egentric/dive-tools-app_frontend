@@ -9,6 +9,7 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
+import auth from "../../services/auth/token.js";
 
 const EditTank = () => {
   const navigate = useNavigate();
@@ -33,8 +34,12 @@ const EditTank = () => {
   const [lastname, setLastname] = useState("");
   const [userId, setUserId] = useState("");
 
-  const [userCoId, setUserCoId] = useState("");
-  const [role, setRole] = useState([]);
+  const userCoId = auth.getId();
+  const role = auth.getRoles();
+  // const firstname = auth.getFirstname();
+  // const lastname = auth.getLastname();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);
@@ -85,24 +90,13 @@ const EditTank = () => {
       });
   };
 
-  // // ------------Récupération UserCo----------------------------------------//
-  const displayUserCo = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserCoId(res.data.id);
-        setRole(res.data.role_id);
-        // console.log(res.data);
-      });
-  };
   // // ------------ GET - Récupère les valeurs de la fiche avec l'API----------------------------------------//
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
+
         const response = await axios.get(
           `http://localhost:8000/api/tanks/${tank}`,
           {
@@ -132,7 +126,7 @@ const EditTank = () => {
         setUserId(fetchedTankData.user_id);
         setFirstname(fetchedTankData.firstname);
         setLastname(fetchedTankData.lastname);
-
+        // console.log(fetchedTankData);
         // Vérifier si l'ID de l'utilisateur existe dans la liste des utilisateurs
         const userExists = users.some(
           (user) => user.id === fetchedTankData.user_id
@@ -146,23 +140,24 @@ const EditTank = () => {
           };
           setSelectedUser(selectedUser);
         }
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false); // En cas d'erreur, définir isLoading sur false
       }
     };
 
     fetchData();
-    displayUserCo();
     displayUsers();
   }, []);
 
   // // ------------Select propriétaire----------------------------------------//
   const handleNameChange = (selectedOption) => {
-    console.log("handleNameChange - selectedOption:", selectedOption);
+    // console.log("handleNameChange - selectedOption:", selectedOption);
     setSelectedUser(selectedOption);
   };
 
-  console.log("valeurs de users : ", users); // Vérifiez la valeur initiale de users
+  // console.log("valeurs de users : ", users); // Vérifiez la valeur initiale de users
 
   const sortedOptions = users
     .map((user) => ({
@@ -171,8 +166,8 @@ const EditTank = () => {
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
-  console.log("Options trié :", sortedOptions); // Vérifiez les options triées
-  console.log("valeur initial de sélection :", selectedUser); // Vérifiez la valeur initiale de selectedUser
+  // console.log("Options trié :", sortedOptions); // Vérifiez les options triées
+  // console.log("valeur initial de sélection :", selectedUser); // Vérifiez la valeur initiale de selectedUser
   // // ------------Fonction de modification de tank ----------------------------------------//
   const updateTank = async (e) => {
     e.preventDefault();
@@ -205,9 +200,9 @@ const EditTank = () => {
     formData.append("counter_loan_tank", counterLoanTank);
 
     // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     await axios
       .post(`http://127.0.0.1:8000/api/tanks/${tank}`, formData, {
@@ -226,12 +221,12 @@ const EditTank = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={11} md={10} lg={9}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -271,7 +266,7 @@ const EditTank = () => {
 
                     <Form onSubmit={updateTank}>
                       <Row>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           <Form.Group controlId="codeTank">
                             <Form.Label className="label">Code</Form.Label>
                             <Form.Control
@@ -284,7 +279,7 @@ const EditTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="gasTank">
                             <Form.Label className="label">Gaz</Form.Label>
                             <Form.Select
@@ -298,8 +293,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="capacityTank">
                             <Form.Label className="label">
                               Capacité (litre)
@@ -322,7 +317,7 @@ const EditTank = () => {
                             </Form.Select>
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="outletTank">
                             <Form.Label className="label">
                               Nombre de sortie
@@ -339,7 +334,7 @@ const EditTank = () => {
                             </Form.Select>
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="operatingPressureTank">
                             <Form.Label className="label">
                               Pression de service (bars)
@@ -358,8 +353,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="builderTank">
                             <Form.Label className="label">
                               Constructeur
@@ -375,7 +370,7 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="markTank">
                             <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
@@ -389,8 +384,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="numberTank">
                             <Form.Label className="label">Numéro</Form.Label>
                             <Form.Control
@@ -403,7 +398,7 @@ const EditTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="peTank">
                             <Form.Label className="label">PE (bars)</Form.Label>
                             <Form.Control
@@ -417,7 +412,7 @@ const EditTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="tivDate">
                             <Form.Label className="label">
                               Date de TIV
@@ -432,8 +427,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="requalificationDate">
                             <Form.Label className="label">
                               Date de requalification
@@ -447,7 +442,7 @@ const EditTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="firstTestDateTank">
                             <Form.Label className="label">
                               Date de 1er épreuve
@@ -462,8 +457,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group controlId="qrcodeTank" className="mb-3">
                             <Form.Label className="label">
                               Image du QrCode
@@ -475,8 +470,8 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="availabilityTank">
                             <Form.Label className="label">
                               Disponibilité
@@ -507,7 +502,7 @@ const EditTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           {availabilityTank === 0 ? (
                             <Form.Group controlId="causeUnavailabilityTank">
                               <Form.Label className="label">
@@ -527,30 +522,31 @@ const EditTank = () => {
                         </Col>
                       </Row>
                       {role === 1 || role === 2 ? (
-                        <Row className="mt-3">
-                          <Col md={6}>
+                        <Row>
+                          <Col lg={12} xl={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 Nom du propriétaire
                               </Form.Label>
-                              <Select
-                                options={sortedOptions.map((user) => ({
-                                  value: user.value,
-                                  label: user.label,
-                                }))}
-                                // defaultValue={selectedUser}
-                                value={selectedUser}
-                                onChange={handleNameChange}
-                                placeholder="Sélectionnez un nom"
-                              />
+                              {isLoading ? (
+                                <div>Chargement en cours...</div> // Affichez un indicateur de chargement
+                              ) : (
+                                <Select
+                                  options={sortedOptions}
+                                  value={selectedUser}
+                                  onChange={handleNameChange}
+                                  placeholder="Sélectionnez un nom"
+                                  isDisabled={isLoading}
+                                />
+                              )}
                             </Form.Group>
                           </Col>
                         </Row>
                       ) : (
                         <input type="hidden" name="userCoId" value={userCoId} />
                       )}
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group controlId="counterLoanTank">
                             <Form.Label className="label">
                               Compteur : {counterLoanTank}
@@ -610,8 +606,8 @@ const EditTank = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

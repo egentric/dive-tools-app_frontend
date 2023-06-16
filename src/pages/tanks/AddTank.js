@@ -9,6 +9,7 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
+import auth from "../../services/auth/token.js";
 
 const AddTank = () => {
   const navigate = useNavigate();
@@ -28,18 +29,18 @@ const AddTank = () => {
   const [availabilityTank, setAvailabilityTank] = useState("");
   const [causeUnavailabilityTank, setCauseUnavailabilityTank] = useState("");
 
-  const [userCoId, setUserCoId] = useState("");
-  const [role, setRole] = useState([]);
+  const userCoId = auth.getId();
+  const role = auth.getRoles();
+  const firstname = auth.getFirstname();
+  const lastname = auth.getLastname();
 
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);
 
-  //   const [counterLoanTank, setCounterLoanTank] = useState("");
   const [validationError, setValidationError] = useState({});
 
   useEffect(() => {
     displayUsers();
-    displayUserCo();
   }, []);
 
   const changeHandler = (event) => {
@@ -80,23 +81,15 @@ const AddTank = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
+        // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
+        const currentUserOption = {
+          value: userCoId,
+          label: `${lastname} ${firstname}`,
+        };
+        setSelectedUser(currentUserOption);
       });
   };
 
-  // // ------------Récupération UserCo----------------------------------------//
-  const displayUserCo = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserCoId(res.data.id);
-        setRole(res.data.role_id);
-        // console.log(res.data);
-      });
-  };
   // ----------------------- Fonction d'ajout de Tank----------------------------------------//
   const AddFormTank = async (e) => {
     e.preventDefault();
@@ -122,9 +115,9 @@ const AddTank = () => {
     formData.append("cause_unavailability_tank", causeUnavailabilityTank);
     formData.append("user_id", userId);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     await axios
       .post(`http://127.0.0.1:8000/api/tanks`, formData, {
@@ -144,12 +137,12 @@ const AddTank = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={11} md={10} lg={9}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -189,7 +182,7 @@ const AddTank = () => {
 
                     <Form onSubmit={AddFormTank}>
                       <Row>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           <Form.Group controlId="codeTank">
                             <Form.Label className="label">Code</Form.Label>
                             <Form.Control
@@ -202,7 +195,7 @@ const AddTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="gasTank">
                             <Form.Label className="label">Gaz</Form.Label>
                             <Form.Select
@@ -216,8 +209,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="capacityTank">
                             <Form.Label className="label">
                               Capacité (litre)
@@ -234,13 +227,13 @@ const AddTank = () => {
                               <option value="7">7 Litres</option>
                               <option value="10">10 Litres</option>
                               <option value="12">12 Litres</option>
-                              <option value="15">15 LitresL</option>
+                              <option value="15">15 Litres</option>
                               <option value="18">18 Litres</option>
                               <option value="20">20 Litres</option>
                             </Form.Select>
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="outletTank">
                             <Form.Label className="label">
                               Nombre de sortie
@@ -257,15 +250,15 @@ const AddTank = () => {
                             </Form.Select>
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={12} lg={4} className="mt-3">
                           <Form.Group controlId="operatingPressureTank">
                             <Form.Label className="label">
-                              Pression de service (bars)
+                              Pression de service
                             </Form.Label>
                             <Form.Control
                               type="text"
                               value={operatingPressureTank}
-                              placeholder="pression de service"
+                              placeholder="(en bars)"
                               onChange={(event) => {
                                 setOperatingPressureTank(event.target.value);
                               }}
@@ -273,8 +266,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="builderTank">
                             <Form.Label className="label">
                               Constructeur
@@ -290,7 +283,7 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="markTank">
                             <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
@@ -304,8 +297,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="numberTank">
                             <Form.Label className="label">Numéro</Form.Label>
                             <Form.Control
@@ -318,7 +311,7 @@ const AddTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="peTank">
                             <Form.Label className="label">PE (bars)</Form.Label>
                             <Form.Control
@@ -331,7 +324,7 @@ const AddTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="tivDate">
                             <Form.Label className="label">
                               Date de TIV
@@ -346,8 +339,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="requalificationDate">
                             <Form.Label className="label">
                               Date de requalification
@@ -361,7 +354,7 @@ const AddTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="firstTestDateTank">
                             <Form.Label className="label">
                               Date de 1er épreuve
@@ -376,8 +369,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group controlId="qrcodeTank" className="mb-3">
                             <Form.Label className="label">
                               Image du QrCode
@@ -389,8 +382,8 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="availabilityTank">
                             <Form.Label className="label">
                               Disponibilité
@@ -421,7 +414,7 @@ const AddTank = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           {availabilityTank === 0 ? (
                             <Form.Group controlId="causeUnavailabilityTank">
                               <Form.Label className="label">
@@ -441,17 +434,14 @@ const AddTank = () => {
                         </Col>
                       </Row>
                       {role === 1 || role === 2 ? (
-                        <Row className="mt-3">
-                          <Col md={6}>
+                        <Row>
+                          <Col lg={12} xl={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 Nom du propriétaire
                               </Form.Label>
                               <Select
-                                options={sortedOptions.map((user) => ({
-                                  value: user.value,
-                                  label: user.label,
-                                }))}
+                                options={sortedOptions}
                                 value={selectedUser}
                                 onChange={handleNameChange}
                                 placeholder="Sélectionnez un nom"
@@ -504,8 +494,8 @@ const AddTank = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

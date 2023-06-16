@@ -16,6 +16,7 @@ const Users = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   useEffect(() => {
     displayUsers();
@@ -23,17 +24,22 @@ const Users = () => {
   // Sans les crochets ça tourne en boucle
 
   const displayUsers = async () => {
-    await axios
-      .get("http://localhost:8000/api/users", {
+    try {
+      const response = await axios.get("http://localhost:8000/api/users", {
         headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
-      })
-      .then((res) => {
-        setUsers(res.data.data);
-        // setImage(res.data.data.picture);
-        // console.log(setImage);
       });
+      setUsers(response.data.data);
+      // setImage(res.data.data.picture);
+      // console.log(setImage);
+      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+    }
   };
   const deleteUser = (id) => {
     axios
@@ -57,7 +63,7 @@ const Users = () => {
         }
       )
       .then((response) => {
-        console.log(response.data.message);
+        // console.log(response.data.message);
         handleClose(); // Appeler la fonction handleClose pour fermer la modal
         displayUsers(); // Appeler displayUsers pour récupérer les données les plus récentes
       })
@@ -71,12 +77,12 @@ const Users = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center mt-4 mb-5">
+            <Col xs={10} sm={11}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -146,126 +152,135 @@ const Users = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Photos</th>
-                        <th>Noms</th>
-                        <th>Prénoms</th>
-                        <th>Emails</th>
-                        <th>Licence à jour</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map((user) => (
-                        <tr key={user.id}>
-                          <td>
-                            {user.picture === null ? (
-                              "Aucune"
-                            ) : (
-                              <img
-                                src={`http://localhost:8000/storage/uploads/users/${user.picture}`}
-                                alt={user.picture}
-                                width="30px"
-                              />
-                            )}
-                          </td>
+                  {isLoading ? (
+                    // Afficher un message de chargement pendant le chargement des données
+                    <p>Loading...</p>
+                  ) : (
+                    // Afficher les données une fois qu'elles sont récupérées
 
-                          <td>{user.lastname}</td>
-                          <td>{user.firstname}</td>
-                          <td>{user.email_user}</td>
-                          <td>
-                            {user.licensee === 1 ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="30"
-                                height="30"
-                                fill="rgb(149, 176, 51)"
-                                className="bi bi-check-lg"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="30"
-                                height="30"
-                                fill="rgb(176, 96, 86)"
-                                className="bi bi-x-octagon"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                              </svg>
-                            )}
-                          </td>
-                          <td>
-                            <Link
-                              to={`/users/show/${user.id}`}
-                              className="btn btnBlue2 btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-eye"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                              </svg>{" "}
-                              <span className="menu">Voir</span>
-                            </Link>
-                            <Link
-                              to={`/users/edit/${user.id}`}
-                              className="btn btnGreen btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-pencil-square"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path
-                                  fillRule="evenodd"
-                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                                />
-                              </svg>
-                              <span className="menu">Modifier</span>
-                            </Link>
-                            <Button
-                              className="btn btnRed btn-sm"
-                              onClick={() => {
-                                deleteUser(user.id);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-trash3"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                              </svg>
-                              <span className="menu">Supprimer</span>
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                    <div className="table-responsive">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Photos</th>
+                            <th>Noms</th>
+                            <th>Prénoms</th>
+                            <th>Emails</th>
+                            <th>Licences à jour</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {users.map((user) => (
+                            <tr key={user.id}>
+                              <td>
+                                {user.picture === null ? (
+                                  "Aucune"
+                                ) : (
+                                  <img
+                                    src={`http://localhost:8000/storage/uploads/users/${user.picture}`}
+                                    alt={user.picture}
+                                    width="30px"
+                                  />
+                                )}
+                              </td>
+
+                              <td>{user.lastname}</td>
+                              <td>{user.firstname}</td>
+                              <td>{user.email_user}</td>
+                              <td>
+                                {user.licensee === 1 ? (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="30"
+                                    height="30"
+                                    fill="rgb(149, 176, 51)"
+                                    className="bi bi-check-lg"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="30"
+                                    height="30"
+                                    fill="rgb(176, 96, 86)"
+                                    className="bi bi-x-octagon"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                  </svg>
+                                )}
+                              </td>
+                              <td>
+                                <Link
+                                  to={`/users/show/${user.id}`}
+                                  className="btn btnBlue2 btn-sm me-2"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-eye"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                  </svg>{" "}
+                                  <span className="menu">Voir</span>
+                                </Link>
+                                <Link
+                                  to={`/users/edit/${user.id}`}
+                                  className="btn btnGreen btn-sm me-2"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-pencil-square"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                    />
+                                  </svg>
+                                  <span className="menu">Modifier</span>
+                                </Link>
+                                <Button
+                                  className="btn btnRed btn-sm"
+                                  onClick={() => {
+                                    deleteUser(user.id);
+                                  }}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-trash3"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                  </svg>
+                                  <span className="menu">Supprimer</span>
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

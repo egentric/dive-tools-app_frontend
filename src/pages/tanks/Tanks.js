@@ -3,18 +3,17 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 
 import Sidebar from "../../components/Sidebar";
 import Navigation from "../../components/Navigation";
 import Footer from "../../components/Footer";
 
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Tanks = () => {
   const [tanks, setTanks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   const formatDate = (date) => {
     const dateParts = date.split("-");
@@ -28,17 +27,20 @@ const Tanks = () => {
 
   // // ------------Affichage bcds----------------------------------------//
   const displayTanks = async () => {
-    await axios
-      .get("http://localhost:8000/api/tanks", {
+    try {
+      const response = await axios.get("http://localhost:8000/api/tanks", {
         headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
-      })
-      .then((res) => {
-        // console.log(res);
-
-        setTanks(res.data.data);
       });
+      setTanks(response.data.data);
+      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+    }
   };
   // ============= fonction delete =====================
 
@@ -56,12 +58,12 @@ const Tanks = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-11 col-sm-11 col-md-11">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center mt-4 mb-5">
+            <Col xs={10} sm={11}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -71,11 +73,16 @@ const Tanks = () => {
                       height="50"
                       fill="currentColor"
                       className="tank"
-                      viewBox="0 0 17.44 57.07"
+                      viewBox="0 0 23.44 60.34"
                     >
-                      <path d="m13.24,7.77l1.46,1.46c.22.22.58.22.8,0l1.77-1.77c.22-.22.22-.58,0-.8l-1.46-1.46c-.22-.22-.58-.22-.8,0l-.21.21-.92-.65s0,0,0,0c0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,.1.01.19.03.28l-1.43.44h-.79l-2.37-2.78c.28-.28.45-.67.45-1.1,0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,0,0,.01,0,.02l-1.02.7c-.19-.1-.43-.09-.61.06L.21,3.63c-.25.19-.29.55-.09.8l1.56,1.97c.19.25.55.29.8.09l1.62-1.28c.22-.17.26-.47.14-.71l.15-.12,2.16,3.7h-.36v1.72h.29v2.26c-3.06.55-5.32,3.21-5.32,6.36v30.43c0,.08,0,.16.01.24v3.57h.25s0,3.68,0,3.68h1.3l.03-.08c.16-.39.45-.63.76-.63.49,0,.89.58.89,1.3v.14s.93,0,.93,0v-.4h6.93v.4h.78l.13-.02v-.13c0-.71.4-1.29.89-1.29.31,0,.6.24.76.63l.03.08h1.09v-3.69h.21s0-3.62,0-3.62c0-.06,0-.12,0-.18v-30.43c0-3.19-2.28-5.85-5.38-6.37v-2.25h.3v-1.72h-.09l1.88-1.1.26.16c-.1.21-.06.46.11.64Zm.7-1.75l-.28.27-.43-.26c.12-.08.22-.19.31-.3l.41.29Zm-1.63-2.34c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07ZM5.04.5c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07Zm-1.41,3.2l-.52-.65.71-.48c.17.21.39.38.65.48l-.84.66Zm3.39,9.28l.45-.05v-3.14h.44v3.46c-3.57.64-5.32,2.24-5.32,6.42v26.39c-.16-.06-.31-.12-.44-.19v-27.46c0-2.8,2.09-5.13,4.87-5.43Zm3.21,0c2.81.27,4.93,2.61,4.93,5.44v27.41c-1.22.66-3.74,1.09-6.54,1.09-1.56,0-3.04-.13-4.26-.37v-26.88c.05-4.23,2.18-4.52,4.53-4.78l.05-.06v-5.04h.84v3.14l.45.04Zm-2.52-4.9l-2.88-4.94c.07.01.14.02.22.02.07,0,.14-.01.2-.02l2.83,3.33h1.4l1.78-.54c.22.19.49.33.79.38l-3.05,1.78h-1.29Z" />
+                      <path d="m19.24,11.04l1.46,1.46c.22.22.58.22.8,0l1.77-1.77c.22-.22.22-.58,0-.8l-1.46-1.46c-.22-.22-.58-.22-.8,0l-.21.21-.92-.65s0,0,0,0c0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,.1.01.19.03.28l-1.43.44h-.79l-2.37-2.78c.28-.28.45-.67.45-1.1,0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,0,0,.01,0,.02l-1.02.7c-.19-.1-.43-.09-.61.06l-1.62,1.28c-.25.19-.29.55-.09.8l1.56,1.97c.19.25.55.29.8.09l1.62-1.28c.22-.17.26-.47.14-.71l.15-.12,2.16,3.7h-.36v1.72h.29v2.26c-3.06.55-5.32,3.21-5.32,6.36v30.43c0,.08,0,.16.01.24v3.57h.25s0,3.68,0,3.68h1.3l.03-.08c.16-.39.45-.63.76-.63.49,0,.89.58.89,1.3v.14s.93,0,.93,0v-.4h6.93v.4h.78l.13-.02v-.13c0-.71.4-1.29.89-1.29.31,0,.6.24.76.63l.03.08h1.09v-3.69h.21s0-3.62,0-3.62c0-.06,0-.12,0-.18v-30.43c0-3.19-2.28-5.85-5.38-6.37v-2.25h.3v-1.72h-.09l1.88-1.1.26.16c-.1.21-.06.46.11.64Zm.7-1.75l-.28.27-.43-.26c.12-.08.22-.19.31-.3l.41.29Zm-1.63-2.34c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07Zm-7.26-3.17c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07Zm-1.41,3.2l-.52-.65.71-.48c.17.21.39.38.65.48l-.84.66Zm3.39,9.28l.45-.05v-3.14h.44v3.46c-3.57.64-5.32,2.24-5.32,6.42v26.39c-.16-.06-.31-.12-.44-.19v-27.46c0-2.8,2.09-5.13,4.87-5.43Zm3.21,0c2.81.27,4.93,2.61,4.93,5.44v27.41c-1.22.66-3.74,1.09-6.54,1.09-1.56,0-3.04-.13-4.26-.37v-26.88c.05-4.23,2.18-4.52,4.53-4.78l.05-.06v-5.04h.84v3.14l.45.04Zm-2.52-4.9l-2.88-4.94c.07.01.14.02.22.02.07,0,.14-.01.2-.02l2.83,3.33h1.4l1.78-.54c.22.19.49.33.79.38l-3.05,1.78h-1.29Z" />
+                      <circle cx="11.04" cy="4.85" r=".73" />
+                      <circle cx="18.3" cy="8.02" r=".73" />
+                      <path d="m6.15,52.12v-5.32c-.64-.06-1.24-.14-1.79-.25v-26.88c.05-4.23,2.18-4.52,4.53-4.78l.05-.06v-4.19c-.32.19-.68.27-1.03.22v2.39c-3.57.64-5.32,2.24-5.32,6.42v26.39c-.16-.06-.31-.12-.44-.19v-27.46c0-2.8,2.09-5.13,4.87-5.43l.45-.05v-2.2c-.21-.1-.41-.24-.57-.44l-.72-.9v.41h.29v2.26c-3.06.55-5.32,3.21-5.32,6.36v30.43c0,.08,0,.16.01.24v3.57h.25s0,3.68,0,3.68h1.3l.03-.08c.16-.39.45-.63.76-.63.49,0,.89.58.89,1.3v.14s.93,0,.93,0v-.4h.84v-4.31c0-.1-.01-.17-.01-.24Z" />
+                      <path d="m6.26,5.59l-1.44-2.46c.07.01.14.02.22.02.07,0,.14-.01.2-.02l1.66,1.95.3-.24c.17-.14.37-.22.57-.27l-1.61-1.89c.28-.28.45-.67.45-1.1,0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,0,0,.01,0,.02l-1.02.7c-.19-.1-.43-.09-.61.06L.21,3.63c-.25.19-.29.55-.09.8l1.56,1.97c.19.25.55.29.8.09l1.62-1.28c.22-.17.26-.47.14-.71l.15-.12,1.08,1.86s.07-.08.12-.11l.67-.53ZM5.04.5c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07Zm-1.41,3.2l-.52-.65.71-.48c.17.21.39.38.65.48l-.84.66Z" />
+                      <path d="m13.42,5.83s.08-.07.11-.11l.41.29-.22.21,1.28,1.51h.18l.59-.18c.11-.61.44-1.14.89-1.52l-.84-.84c-.22-.22-.58-.22-.8,0l-.21.21-.92-.65s0,0,0,0c0-.54-.27-1.02-.69-1.3.27.41.42.89.42,1.41,0,.34-.07.68-.2.99Z" />
+                      <path d="m9.78,10v2.93l.45.04c.33.03.64.1.95.18v-1.01c-.14-.03-.26-.08-.4-.1v-1.74l-.44-.75-.56.45Z" />
                       <circle cx="5.04" cy="1.58" r=".73" />
-                      <circle cx="12.3" cy="4.74" r=".73" />
                     </svg>{" "}
                     <span className="menu">Blocs</span>
                   </h3>
@@ -99,99 +106,108 @@ const Tanks = () => {
                     </svg>{" "}
                     <span className="menu">Nouveau</span>
                   </Link>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Code</th>
-                        <th>Capacité</th>
-                        <th>Gaz</th>
-                        <th>Disponibilité</th>
-                        <th>Date de requalification</th>
-                        <th>Compteur</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
+                  {isLoading ? (
+                    // Afficher un message de chargement pendant le chargement des données
+                    <p>Loading...</p>
+                  ) : (
+                    // Afficher les données une fois qu'elles sont récupérées
 
-                    <tbody>
-                      {tanks.map((tank) => (
-                        <tr key={tank.id}>
-                          <td>{tank.code_tank}</td>
-                          <td>{tank.capacity_tank}</td>
-                          <td>{tank.gas_tank}</td>
+                    <div className="table-responsive">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Codes</th>
+                            <th>Capacités</th>
+                            <th>Gaz</th>
+                            <th>Disponibilités</th>
+                            <th>Dates de requalification</th>
+                            <th>Compteurs</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
 
-                          <td>
-                            {tank.availability_tank === 1
-                              ? "Disponible"
-                              : "Indisponible"}
-                          </td>
+                        <tbody>
+                          {tanks.map((tank) => (
+                            <tr key={tank.id}>
+                              <td>{tank.code_tank}</td>
+                              <td>{tank.capacity_tank} Litres</td>
+                              <td>{tank.gas_tank}</td>
 
-                          <td>{formatDate(tank.requalification_date)}</td>
-                          <td> {tank.counter_loan_tank}</td>
-                          <td>
-                            <Link
-                              to={`/tanks/show/${tank.id}`}
-                              className="btn btnBlue2 btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-eye"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                              </svg>{" "}
-                              <span className="menu">Voir</span>
-                            </Link>
-                            <Link
-                              to={`/tanks/edit/${tank.id}`}
-                              className="btn btnGreen btn-sm me-2"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-pencil-square"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path
-                                  fillRule="evenodd"
-                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                                />
-                              </svg>{" "}
-                              <span className="menu">Modifier</span>
-                            </Link>
-                            <Button
-                              className="btn btnRed btn-sm"
-                              onClick={() => {
-                                deleteTank(tank.id);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-trash3"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                              </svg>{" "}
-                              <span className="menu">Supprimer</span>
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                              <td>
+                                {tank.availability_tank === 1
+                                  ? "Disponible"
+                                  : "Indisponible"}
+                              </td>
+
+                              <td>{formatDate(tank.requalification_date)}</td>
+                              <td> {tank.counter_loan_tank}</td>
+                              <td>
+                                <Link
+                                  to={`/tanks/show/${tank.id}`}
+                                  className="btn btnBlue2 btn-sm me-2"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-eye"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                  </svg>{" "}
+                                  <span className="menu">Voir</span>
+                                </Link>
+                                <Link
+                                  to={`/tanks/edit/${tank.id}`}
+                                  className="btn btnGreen btn-sm me-2"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-pencil-square"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                    />
+                                  </svg>{" "}
+                                  <span className="menu">Modifier</span>
+                                </Link>
+                                <Button
+                                  className="btn btnRed btn-sm"
+                                  onClick={() => {
+                                    deleteTank(tank.id);
+                                  }}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-trash3"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                  </svg>{" "}
+                                  <span className="menu">Supprimer</span>
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

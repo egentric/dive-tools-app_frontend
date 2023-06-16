@@ -9,8 +9,7 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
-
-import { useDispatch, useSelector } from "react-redux";
+import auth from "../../services/auth/token.js";
 
 const AddReservation = () => {
   const navigate = useNavigate();
@@ -19,8 +18,10 @@ const AddReservation = () => {
   const [reservationDate, setReservationDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
 
-  const [userCoId, setUserCoId] = useState("");
-  const [role, setRole] = useState([]);
+  const userCoId = auth.getId();
+  const role = auth.getRoles();
+  const firstname = auth.getFirstname();
+  const lastname = auth.getLastname();
 
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);
@@ -67,10 +68,8 @@ const AddReservation = () => {
         }
       )
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateRegulator(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
 
     await axios
@@ -80,10 +79,8 @@ const AddReservation = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateBcd(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
 
     await axios
@@ -93,24 +90,15 @@ const AddReservation = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateTank(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 
-  // // ------------Recupération des Gets pour afficher mes selects----------------------------------------//
-  const tanks = useSelector((state) => state.tankReducer);
-  const bcds = useSelector((state) => state.bcdReducer);
-  const regulators = useSelector((state) => state.regulatorReducer);
-
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    displayUserCo();
     displayUsers();
   }, []);
+
   // // ------------Select users----------------------------------------//
 
   const handleNameChange = (selectedOption) => {
@@ -133,32 +121,15 @@ const AddReservation = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
-      });
-  };
-
-  // // ------------Récupération UserCo----------------------------------------//
-  const displayUserCo = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserCoId(res.data.id);
-        setRole(res.data.role_id);
-        // console.log(res.data);
 
         // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
         const currentUserOption = {
-          value: res.data.id,
-          label: `${res.data.lastname} ${res.data.firstname}`,
+          value: userCoId,
+          label: `${lastname} ${firstname}`,
         };
         setSelectedUser(currentUserOption);
       });
   };
-
-  // // ------------Select regulators----------------------------------------//
 
   const handleNameChangeR = (selectedOptionR) => {
     setSelectedRegulator(selectedOptionR);
@@ -252,9 +223,9 @@ const AddReservation = () => {
       formData.append("tank_id[]", selectedTankIds[i]);
     }
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     await axios
       .post(`http://127.0.0.1:8000/api/reservations`, formData, {
@@ -274,12 +245,12 @@ const AddReservation = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={9} sm={8} md={9} lg={8}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -318,7 +289,7 @@ const AddReservation = () => {
 
                     <Form onSubmit={AddReservationsDate}>
                       <Row className="align-items-end">
-                        <Col md={5}>
+                        <Col md={6} lg={4} className="mt-3">
                           <Form.Group controlId="reservationDate">
                             <Form.Label className="label">
                               <svg
@@ -344,7 +315,7 @@ const AddReservation = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={5}>
+                        <Col md={6} lg={4} className="mt-3">
                           <Form.Group controlId="returnDate">
                             <Form.Label className="label">
                               <svg
@@ -369,7 +340,7 @@ const AddReservation = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={2}>
+                        <Col sm={12} md={12} lg={4}>
                           <Button
                             className="btnGreen mt-4 btn-sm"
                             size="lg"
@@ -395,7 +366,7 @@ const AddReservation = () => {
                     {isFirstFormSubmitted && (
                       <Form onSubmit={AddReservations}>
                         <Row className="mt-3">
-                          <Col md={6}>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -423,7 +394,7 @@ const AddReservation = () => {
                               />
                             </Form.Group>
                           </Col>
-                          <Col md={6}>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -473,8 +444,8 @@ const AddReservation = () => {
                             </Form.Group>
                           </Col>
                         </Row>
-                        <Row className="mt-3">
-                          <Col md={6}>
+                        <Row>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -504,7 +475,7 @@ const AddReservation = () => {
                             </Form.Group>
                           </Col>
                           {role === 1 || role === 2 ? (
-                            <Col md={6}>
+                            <Col md={6} className="mt-3">
                               <Form.Group>
                                 <Form.Label className="label">
                                   <svg
@@ -520,10 +491,6 @@ const AddReservation = () => {
                                   Nom de l'emprunteur
                                 </Form.Label>
                                 <Select
-                                  // options={sortedOptions.map((user) => ({
-                                  //   value: user.value,
-                                  //   label: user.label,
-                                  // }))}
                                   options={sortedOptions}
                                   value={selectedUser}
                                   onChange={handleNameChange}
@@ -582,8 +549,8 @@ const AddReservation = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

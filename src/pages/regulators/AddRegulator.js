@@ -50,9 +50,9 @@ const AddRegulator = () => {
       "cause_unavailability_regulator",
       causeUnavailabilityRegulator
     );
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     // formData.append("counter_loan_regulator", counterLoanRegulator);
 
@@ -74,12 +74,12 @@ const AddRegulator = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={11} md={10} lg={9}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -119,7 +119,7 @@ const AddRegulator = () => {
 
                     <Form onSubmit={AddRegulator}>
                       <Row>
-                        <Col>
+                        <Col className="mt-3">
                           <Form.Group controlId="codeRegulator">
                             <Form.Label className="label">Code</Form.Label>
                             <Form.Control
@@ -133,8 +133,8 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="markRegulator">
                             <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
@@ -148,7 +148,7 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="modelRegulator">
                             <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
@@ -162,8 +162,8 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="yearRegulator">
                             <Form.Label className="label">Année</Form.Label>
                             <Form.Control
@@ -179,7 +179,7 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="revisionRegulatorDate">
                             <Form.Label className="label">
                               Date de révision
@@ -195,8 +195,8 @@ const AddRegulator = () => {
                         </Col>
                       </Row>
 
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group
                             controlId="qrcodeRegulator"
                             className="mb-3"
@@ -211,8 +211,8 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="availabilityRegulator">
                             <Form.Label className="label">
                               Disponibilité
@@ -243,7 +243,7 @@ const AddRegulator = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           {availabilityRegulator === 0 ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
                               <Form.Label className="label">
@@ -304,8 +304,8 @@ const AddRegulator = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

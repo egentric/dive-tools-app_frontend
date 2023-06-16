@@ -8,10 +8,14 @@ import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Regulators = () => {
-  const [regulators, setRegulators] = useState([]);
+import auth from "../../services/auth/token.js";
+
+const Reservations = () => {
+  const userId = auth.getId();
+
+  const [tanks, setTanks] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   const formatDate = (date) => {
@@ -20,39 +24,42 @@ const Regulators = () => {
     return formattedDate;
   };
 
-  useEffect(() => {
-    displayRegulators();
-  }, []); // Sans les crochets ça tourne en boucle
+  // // ------------Affichage reservation----------------------------------------//
 
-  // // ------------Affichage regulators----------------------------------------//
-
-  const displayRegulators = async () => {
+  const displayTanksUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/regulators", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
-      setRegulators(response.data.data);
-      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
-      // console.log(response.data);
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/tanks/user/${userId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
+      setTanks(response.data.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      setIsLoading(false);
     }
   };
   // ============= fonction delete =====================
 
-  const deleteRegulator = (id) => {
+  const deleteTank = (id) => {
     axios
-      .delete(`http://localhost:8000/api/regulators/${id}`, {
+      .delete(`http://localhost:8000/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
       })
-      .then(displayRegulators);
+      .then(displayTanksUser);
   };
+
+  useEffect(() => {
+    if (userId) {
+      displayTanksUser();
+    }
+  }, [userId]); // Sans les crochets ça tourne en boucle
 
   return (
     <div>
@@ -69,23 +76,23 @@ const Regulators = () => {
                   <h3 className="card-title">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="60"
-                      height="60"
+                      width="50"
+                      height="50"
                       fill="currentColor"
-                      className="Regulator"
-                      viewBox="0 0 56.69 26.69"
+                      className="tank"
+                      viewBox="0 0 17.44 57.07"
                     >
-                      <path d="m39.62,10.3c-2.15,0-3.89,1.75-3.89,3.89s1.75,3.89,3.89,3.89,3.89-1.75,3.89-3.89-1.75-3.89-3.89-3.89Z" />
-                      <path d="m39.62,6.87c-4.04,0-7.32,3.28-7.32,7.32s3.28,7.32,7.32,7.32,7.32-3.28,7.32-7.32-3.28-7.32-7.32-7.32Zm0,11.76c-2.45,0-4.44-1.99-4.44-4.44s1.99-4.44,4.44-4.44,4.44,1.99,4.44,4.44-1.99,4.44-4.44,4.44Z" />
-                      <path d="m55.6,10.03h-1.41c0-.4-.21-.79-.59-.99l-3.7-1.93c-.91-1.32-2.08-2.46-3.42-3.35.27-.2.45-.52.45-.88v-1.78c0-.6-.49-1.1-1.1-1.1,0,0-2.3.73-6.3.73-4,0-6.3-.73-6.3-.73-.6,0-1.1.49-1.1,1.1v1.78c0,.4.21.74.53.94-2.02,1.35-3.62,3.28-4.57,5.54-.1-.03-.19-.04-.3-.04h-4.4c-.5,0-.93.34-1.05.81h-4.86c-.13-.46-.55-.81-1.05-.81H6.62c-.6,0-1.09.49-1.09,1.08H0v4.74h5.52c0,.6.5,1.08,1.09,1.08h9.81c.5,0,.93-.34,1.05-.81h4.86c.13.46.55.81,1.05.81h3.89c.97,5.93,6.13,10.48,12.33,10.48,4.26,0,8.03-2.14,10.29-5.41l3.7-1.93c.34-.18.54-.5.58-.86h1.41c.6,0,1.1-.49,1.1-1.1v-6.27c0-.6-.49-1.1-1.1-1.1Zm-38.07.64h4.78v4.19h-4.78v-4.19Zm22.1,12.92c-5.18,0-9.4-4.21-9.4-9.4s4.22-9.4,9.4-9.4,9.4,4.22,9.4,9.4-4.21,9.4-9.4,9.4Z" />{" "}
+                      <path d="m13.24,7.77l1.46,1.46c.22.22.58.22.8,0l1.77-1.77c.22-.22.22-.58,0-.8l-1.46-1.46c-.22-.22-.58-.22-.8,0l-.21.21-.92-.65s0,0,0,0c0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,.1.01.19.03.28l-1.43.44h-.79l-2.37-2.78c.28-.28.45-.67.45-1.1,0-.87-.71-1.58-1.58-1.58s-1.58.71-1.58,1.58c0,0,0,.01,0,.02l-1.02.7c-.19-.1-.43-.09-.61.06L.21,3.63c-.25.19-.29.55-.09.8l1.56,1.97c.19.25.55.29.8.09l1.62-1.28c.22-.17.26-.47.14-.71l.15-.12,2.16,3.7h-.36v1.72h.29v2.26c-3.06.55-5.32,3.21-5.32,6.36v30.43c0,.08,0,.16.01.24v3.57h.25s0,3.68,0,3.68h1.3l.03-.08c.16-.39.45-.63.76-.63.49,0,.89.58.89,1.3v.14s.93,0,.93,0v-.4h6.93v.4h.78l.13-.02v-.13c0-.71.4-1.29.89-1.29.31,0,.6.24.76.63l.03.08h1.09v-3.69h.21s0-3.62,0-3.62c0-.06,0-.12,0-.18v-30.43c0-3.19-2.28-5.85-5.38-6.37v-2.25h.3v-1.72h-.09l1.88-1.1.26.16c-.1.21-.06.46.11.64Zm.7-1.75l-.28.27-.43-.26c.12-.08.22-.19.31-.3l.41.29Zm-1.63-2.34c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07ZM5.04.5c.59,0,1.07.48,1.07,1.07s-.48,1.07-1.07,1.07-1.07-.48-1.07-1.07.48-1.07,1.07-1.07Zm-1.41,3.2l-.52-.65.71-.48c.17.21.39.38.65.48l-.84.66Zm3.39,9.28l.45-.05v-3.14h.44v3.46c-3.57.64-5.32,2.24-5.32,6.42v26.39c-.16-.06-.31-.12-.44-.19v-27.46c0-2.8,2.09-5.13,4.87-5.43Zm3.21,0c2.81.27,4.93,2.61,4.93,5.44v27.41c-1.22.66-3.74,1.09-6.54,1.09-1.56,0-3.04-.13-4.26-.37v-26.88c.05-4.23,2.18-4.52,4.53-4.78l.05-.06v-5.04h.84v3.14l.45.04Zm-2.52-4.9l-2.88-4.94c.07.01.14.02.22.02.07,0,.14-.01.2-.02l2.83,3.33h1.4l1.78-.54c.22.19.49.33.79.38l-3.05,1.78h-1.29Z" />
+                      <circle cx="5.04" cy="1.58" r=".73" />
+                      <circle cx="12.3" cy="4.74" r=".73" />
                     </svg>{" "}
-                    <span className="menu">Détendeurs</span>
+                    <span className="menu">Blocs Perso</span>
                   </h3>
                 </div>
 
                 <div className="card-body">
                   <Link
-                    to={`/regulators/add`}
+                    to={`/tanks/add`}
                     className="btn btnBlue btn-sm me-2 mb-2 mt-2"
                   >
                     <svg
@@ -105,39 +112,38 @@ const Regulators = () => {
                     // Afficher un message de chargement pendant le chargement des données
                     <p>Loading...</p>
                   ) : (
-                    // Afficher les données une fois qu'elles sont récupérées
-
                     <div className="table-responsive">
                       <Table striped bordered hover>
-                        {" "}
                         <thead>
                           <tr>
                             <th>Codes</th>
-                            <th>Marques</th>
+                            <th>Capacités</th>
+                            <th>Gaz</th>
                             <th>Disponibilités</th>
-                            <th>Dates de révision</th>
+                            <th>Dates de requalification</th>
                             <th>Compteurs</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
+
                         <tbody>
-                          {regulators.map((regulator) => (
-                            <tr key={regulator.id}>
-                              <td>{regulator.code_regulator}</td>
-                              <td>{regulator.mark_regulator}</td>
+                          {tanks.map((tank) => (
+                            <tr key={tank.id}>
+                              <td>{tank.code_tank}</td>
+                              <td>{tank.capacity_tank} Litres</td>
+                              <td>{tank.gas_tank}</td>
+
                               <td>
-                                {regulator.availability_regulator === 1
+                                {tank.availability_tank === 1
                                   ? "Disponible"
                                   : "Indisponible"}
                               </td>
 
-                              <td>
-                                {formatDate(regulator.revision_regulator_date)}
-                              </td>
-                              <td> {regulator.counter_loan_regulator}</td>
+                              <td>{formatDate(tank.requalification_date)}</td>
+                              <td> {tank.counter_loan_tank}</td>
                               <td>
                                 <Link
-                                  to={`/regulators/show/${regulator.id}`}
+                                  to={`/tanks/show/${tank.id}`}
                                   className="btn btnBlue2 btn-sm me-2"
                                 >
                                   <svg
@@ -154,7 +160,7 @@ const Regulators = () => {
                                   <span className="menu">Voir</span>
                                 </Link>
                                 <Link
-                                  to={`/regulators/edit/${regulator.id}`}
+                                  to={`/tanks/edit/${tank.id}`}
                                   className="btn btnGreen btn-sm me-2"
                                 >
                                   <svg
@@ -176,7 +182,7 @@ const Regulators = () => {
                                 <Button
                                   className="btn btnRed btn-sm"
                                   onClick={() => {
-                                    deleteRegulator(regulator.id);
+                                    deleteTank(tank.id);
                                   }}
                                 >
                                   <svg
@@ -209,4 +215,4 @@ const Regulators = () => {
   );
 };
 
-export default Regulators;
+export default Reservations;

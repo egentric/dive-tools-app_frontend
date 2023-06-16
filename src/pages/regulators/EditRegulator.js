@@ -69,7 +69,7 @@ const EditRegulator = () => {
           res.data.data.cause_unavailability_regulator
         );
         setCounterLoanRegulator(res.data.data.counter_loan_regulator);
-        console.log(res.data);
+        // console.log(res.data);
         // console.log(res.data.data.code_regulator);
       })
       .catch((error) => {
@@ -101,9 +101,9 @@ const EditRegulator = () => {
     formData.append("counter_loan_regulator", counterLoanRegulator);
 
     // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     await axios
       .post(`http://127.0.0.1:8000/api/regulators/${regulator}`, formData, {
@@ -122,12 +122,12 @@ const EditRegulator = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={11} md={10} lg={9}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -170,9 +170,9 @@ const EditRegulator = () => {
                       encType="multipart/form-data"
                     >
                       <Row>
-                        <Col>
+                        <Col className="mt-3">
                           <Form.Group controlId="codeRegulator">
-                            <Form.Label>Code</Form.Label>
+                            <Form.Label className="label">Code</Form.Label>
                             <Form.Control
                               type="text"
                               value={codeRegulator}
@@ -184,9 +184,9 @@ const EditRegulator = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="markRegulator">
-                            <Form.Label>Marque</Form.Label>
+                            <Form.Label className="label">Marque</Form.Label>
                             <Form.Control
                               type="text"
                               value={markRegulator}
@@ -197,9 +197,9 @@ const EditRegulator = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="modelRegulator">
-                            <Form.Label>Modèle</Form.Label>
+                            <Form.Label className="label">Modèle</Form.Label>
                             <Form.Control
                               type="text"
                               value={modelRegulator}
@@ -211,9 +211,9 @@ const EditRegulator = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="yearRegulator">
-                            <Form.Label>Année</Form.Label>
+                            <Form.Label className="label">Année</Form.Label>
                             <Form.Control
                               type="number"
                               min="2000" // année minimale
@@ -227,9 +227,11 @@ const EditRegulator = () => {
                           </Form.Group>
                         </Col>
 
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="revisionRegulatorDate">
-                            <Form.Label>Date de révision</Form.Label>
+                            <Form.Label className="label">
+                              Date de révision
+                            </Form.Label>
                             <Form.Control
                               type="date"
                               value={revisionRegulatorDate}
@@ -242,12 +244,14 @@ const EditRegulator = () => {
                       </Row>
 
                       <Row>
-                        <Col>
+                        <Col className="mt-3">
                           <Form.Group
                             controlId="qrcodeRegulator"
                             className="mb-3"
                           >
-                            <Form.Label>Image du QrCode</Form.Label>
+                            <Form.Label className="label">
+                              Image du QrCode
+                            </Form.Label>
                             <Form.Control
                               type="file"
                               name="qrcode_regulator"
@@ -258,9 +262,11 @@ const EditRegulator = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={4}>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="availabilityRegulator">
-                            <Form.Label>Disponibilité</Form.Label>
+                            <Form.Label className="label">
+                              Disponibilité
+                            </Form.Label>
                             <Form.Check
                               type="switch"
                               id="custom-switch-user"
@@ -287,10 +293,12 @@ const EditRegulator = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           {availabilityRegulator === 0 ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
-                              <Form.Label>Cause d'indisponibilité</Form.Label>
+                              <Form.Label className="label">
+                                Cause d'indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityRegulator}
@@ -304,8 +312,8 @@ const EditRegulator = () => {
                           ) : null}
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col>
+                      <Row>
+                        <Col className="mt-3">
                           <Form.Group controlId="counterLoanRegulator">
                             <Form.Label className="label">
                               Compteur : {counterLoanRegulator}
@@ -365,8 +373,8 @@ const EditRegulator = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

@@ -45,12 +45,12 @@ const AddContact = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center mt-4 mb-5">
-            <div className="col-12 col-sm-12 col-md-6 mt-2">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={9} sm={8} md={9} lg={8}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -151,8 +151,8 @@ const AddContact = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

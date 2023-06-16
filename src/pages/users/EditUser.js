@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
+import auth from "../../services/auth/token.js";
 
 const EditUser = () => {
   const { user } = useParams();
@@ -32,9 +33,8 @@ const EditUser = () => {
   const [role_id, setRoleId] = useState("");
   const [validationError, setValidationError] = useState({});
 
-  // On récupère l'id du user
-  const [userCo, setUserCo] = useState([]);
-  const [roleCo, setRoleCo] = useState([]);
+  // On récupère le role du user
+  const roleCo = auth.getRoles();
 
   const changeHandler = (event) => {
     setPicture(event.target.files[0]);
@@ -56,23 +56,9 @@ const EditUser = () => {
       window.alert("La licence sera activée !");
     }
   };
-  const displayUser = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserCo(res.data);
-        setRoleCo(res.data.role_id);
-      });
-  };
-  // console.log(role);
 
   useEffect(() => {
     getUser();
-    displayUser();
   }, []);
 
   // GET - Récupère les valeurs de la fiche avec l'API
@@ -84,7 +70,7 @@ const EditUser = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setFirstname(res.data.data.firstname);
         setLastname(res.data.data.lastname);
         setEmail(res.data.data.email_user);
@@ -144,9 +130,9 @@ const EditUser = () => {
     }
 
     // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
     await axios
       .post(`http://localhost:8000/api/users/${user}`, formData, {
         headers: {
@@ -164,12 +150,12 @@ const EditUser = () => {
     <div>
       <Navigation />
       <Row className="mt-3">
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={9} sm={8} md={9} lg={8}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -210,7 +196,7 @@ const EditUser = () => {
                     )}
                     <Form onSubmit={updateUser}>
                       <Row>
-                        <Col md={2}>
+                        <Col md={2} className="mt-3">
                           <Form.Group controlId="civility">
                             <Form.Label className="label">Civilité</Form.Label>
                             <Form.Control
@@ -222,7 +208,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={5}>
+                        <Col md={5} className="mt-3">
                           <Form.Group controlId="lastname">
                             <Form.Label className="label">Nom</Form.Label>
                             <Form.Control
@@ -234,7 +220,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={5}>
+                        <Col md={5} className="mt-3">
                           <Form.Group controlId="firstname">
                             <Form.Label className="label">Prénom</Form.Label>
                             <Form.Control
@@ -247,8 +233,8 @@ const EditUser = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="pseudo">
                             <Form.Label className="label">Pseudo</Form.Label>
                             <Form.Control
@@ -260,7 +246,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="email">
                             <Form.Label className="label">Email</Form.Label>
                             <Form.Control
@@ -273,8 +259,8 @@ const EditUser = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={6}>
+                      <Row>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="phone">
                             <Form.Label className="label">Téléphone</Form.Label>
                             <Form.Control
@@ -286,7 +272,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className="mt-3">
                           <Form.Group controlId="cellphone">
                             <Form.Label className="label">Mobile</Form.Label>
                             <Form.Control
@@ -303,7 +289,8 @@ const EditUser = () => {
                         <Form.Group controlId="address">
                           <Form.Label className="label">Adresse</Form.Label>
                           <Form.Control
-                            type="text"
+                            as="textarea"
+                            rows="2"
                             value={address}
                             onChange={(event) => {
                               setAddress(event.target.value);
@@ -312,8 +299,8 @@ const EditUser = () => {
                         </Form.Group>
                       </Row>
 
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <Form.Group controlId="zip">
                             <Form.Label className="label">
                               Code Postal
@@ -327,7 +314,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={8}>
+                        <Col md={8} className="mt-3">
                           <Form.Group controlId="city">
                             <Form.Label className="label">Ville</Form.Label>
                             <Form.Control
@@ -351,8 +338,8 @@ const EditUser = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row className="mt-3">
-                        <Col md={4}>
+                      <Row>
+                        <Col md={4} className="mt-3">
                           <p className="label">
                             Licence à jour :{" "}
                             {licensee === 1 ? (
@@ -382,7 +369,7 @@ const EditUser = () => {
                           </p>
                         </Col>
                         {roleCo === 1 && (
-                          <Col md={8}>
+                          <Col md={8} className="mt-3">
                             <Form.Group controlId="licensee">
                               <Form.Label className="label">
                                 Activation/désactivation de la licence
@@ -398,8 +385,8 @@ const EditUser = () => {
                           </Col>
                         )}
                       </Row>
-                      <Row className="mt-3">
-                        <Col lg={4}>
+                      <Row>
+                        <Col lxl={4} className="mt-3">
                           <Form.Group controlId="licenseNumber">
                             <Form.Label className="label">
                               N° de licence
@@ -413,7 +400,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col lg={4}>
+                        <Col xl={4} className="mt-3">
                           <Form.Group controlId="licenseDate">
                             <Form.Label className="label">
                               Date de la licence
@@ -427,7 +414,7 @@ const EditUser = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col lg={4}>
+                        <Col xl={4} className="mt-3">
                           <Form.Group controlId="certificateDate">
                             <Form.Label className="label">
                               Date du certificat médical
@@ -533,8 +520,8 @@ const EditUser = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

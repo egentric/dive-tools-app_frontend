@@ -13,6 +13,7 @@ const ShowContact = () => {
   const { contact } = useParams();
   const navigate = useNavigate();
   const [showContact, setShowContact] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
   useEffect(() => {
     displayShowContact();
@@ -37,19 +38,25 @@ const ShowContact = () => {
   };
 
   const displayShowContact = async () => {
-    await axios
-      .get(`http://localhost:8000/api/contacts/${contact}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        console.log(res.data.data[0]);
-        setShowContact(res.data.data[0]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/contacts/${contact}`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
+      // console.log(res.data.data[0]);
+      setShowContact(response.data.data[0]);
+
+      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+    }
   };
 
   const deleteShowContact = (id) => {
@@ -69,12 +76,12 @@ const ShowContact = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center mt-4 mb-5">
-            <div className="col-11 col-sm-11 col-md-11">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center mt-4 mb-5">
+            <Col xs={10} sm={11}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -94,73 +101,81 @@ const ShowContact = () => {
                   </h3>
 
                   <hr />
-                  <Table striped bordered hover>
-                    <tbody>
-                      <tr>
-                        <th>Email</th>
-                        <td>{showContact.email_contact}</td>
-                      </tr>
-                      <tr>
-                        <th>Sujet</th>
-                        <td>{showContact.topic_contact}</td>
-                      </tr>
-                      <tr>
-                        <th>Description</th>
-                        <td>{showContact.description_contact}</td>
-                      </tr>
-                      <tr>
-                        <th>Date</th>
-                        <td>{formatDate(showContact.created_at)}</td>
-                      </tr>
+                  {isLoading ? (
+                    // Afficher un message de chargement pendant le chargement des données
+                    <p>Loading...</p>
+                  ) : (
+                    // Afficher les données une fois qu'elles sont récupérées
+                    <div className="table-responsive">
+                      <Table striped bordered hover>
+                        <tbody>
+                          <tr>
+                            <th>Email</th>
+                            <td>{showContact.email_contact}</td>
+                          </tr>
+                          <tr>
+                            <th>Sujet</th>
+                            <td>{showContact.topic_contact}</td>
+                          </tr>
+                          <tr>
+                            <th>Description</th>
+                            <td>{showContact.description_contact}</td>
+                          </tr>
+                          <tr>
+                            <th>Date</th>
+                            <td>{formatDate(showContact.created_at)}</td>
+                          </tr>
 
-                      <tr>
-                        <th>Actions</th>
-                        <td>
-                          <Button
-                            className="btn btnBlue btn-sm me-2"
-                            onClick={() => navigate(-1)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-arrow-return-left"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
-                              />
-                            </svg>{" "}
-                            <span className="menu">Retour</span>
-                          </Button>
-                          <Button
-                            className="btn btnRed btn-sm"
-                            onClick={() => {
-                              deleteShowContact(showContact.id);
-                            }}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-trash3"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                            </svg>{" "}
-                            <span className="menu">Supprimer</span>
-                          </Button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                          <tr>
+                            <th>Actions</th>
+                            <td>
+                              <Button
+                                className="btn btnBlue btn-sm me-2"
+                                onClick={() => navigate(-1)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-arrow-return-left"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
+                                  />
+                                </svg>{" "}
+                                <span className="menu">Retour</span>
+                              </Button>
+                              <Button
+                                className="btn btnRed btn-sm"
+                                onClick={() => {
+                                  deleteShowContact(showContact.id);
+                                }}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-trash3"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                </svg>{" "}
+                                <span className="menu">Supprimer</span>
+                              </Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />

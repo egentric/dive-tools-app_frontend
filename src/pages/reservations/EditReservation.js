@@ -9,9 +9,8 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
-
-import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "../../components/Utils";
+import auth from "../../services/auth/token.js";
 
 const EditReservation = () => {
   const navigate = useNavigate();
@@ -23,8 +22,10 @@ const EditReservation = () => {
 
   const [validationError, setValidationError] = useState({});
 
-  const [userCoId, setUserCoId] = useState("");
-  const [role, setRole] = useState([]);
+  const userCoId = auth.getId();
+  const role = auth.getRoles();
+  const firstname = auth.getFirstname();
+  const lastname = auth.getLastname();
 
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);
@@ -41,7 +42,7 @@ const EditReservation = () => {
     label: "Aucune Stab",
   });
   const [selectedBcdId, setSelectedBcdId] = useState("");
-
+  const [tanks, setTanks] = useState([]);
   const [selectedTanks, setSelectedTanks] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
@@ -55,51 +56,53 @@ const EditReservation = () => {
   // ================== GET - Récupère les valeurs de la fiche avec l'API=====================================================
   const getReservation = async () => {
     try {
-      const response = await axios
-        .get(`http://localhost:8000/api/reservations/${reservation}`, {
+      const response = await axios.get(
+        `http://localhost:8000/api/reservations/${reservation}`,
+        {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
           },
-        })
-        .then((res) => {
-          //   console.log(res.data.data);
-          setReservationDate(res.data.data.reservation_date);
-          setReturnDate(res.data.data.return_date);
-          setReservationId(res.data.data.id);
-          setSelectedBcd({
-            value: res.data.data.BCD_id,
-            label: `${res.data.data.code_BCD} - ${res.data.data.size_BCD}`,
-          });
-          setSelectedBcdId(res.data.data.BCD_id || "");
+        }
+      );
 
-          setSelectedRegulator({
-            value: res.data.data.regulator_id,
-            label: `${res.data.data.code_regulator}`,
-          });
-          setSelectedUser({
-            value: res.data.data.user_id,
-            label: `${res.data.data.lastname} ${res.data.data.firstname}`,
-          });
-          setSelectedRegulatorId(res.data.data.regulator_id || "");
+      setReservationDate(response.data.data.reservation_date);
+      setReturnDate(response.data.data.return_date);
+      setReservationId(response.data.data.id);
+      setSelectedBcd({
+        value: response.data.data.BCD_id,
+        label: `${response.data.data.code_BCD} - ${response.data.data.size_BCD}`,
+      });
+      setSelectedBcdId(response.data.data.BCD_id || "");
 
-          const tankOptions =
-            !isEmpty(tanks) &&
-            tanks.map((tank) => ({
-              value: tank.id,
-              label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
-            }));
+      setSelectedRegulator({
+        value: response.data.data.regulator_id,
+        label: `${response.data.data.code_regulator}`,
+      });
 
-          const selectedTankOptions = tankOptions.filter((option) => {
-            // Ajoutez ici votre condition pour filtrer les options à sélectionner
-            // Par exemple, si vous avez une liste de codes de réservoirs à modifier
-            const codesToSelect = res.data.data.tanks.map(
-              (tank) => tank.code_tank
-            );
-            return codesToSelect.includes(option.label.split(" - ")[0]);
-          });
+      setSelectedUser({
+        value: response.data.data.user_id,
+        label: `${response.data.data.lastname} ${response.data.data.firstname}`,
+      });
 
-          setSelectedTanks(selectedTankOptions);
-        });
+      setSelectedRegulatorId(response.data.data.regulator_id || "");
+
+      setTanks(response.data.data.tanks);
+      // console.log(response.data.data.tanks);
+      const tankOptions =
+        // !isEmpty(tanks) &&
+        tanks.map((tank) => ({
+          value: tank.id,
+          label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
+        }));
+
+      const selectedTankOptions = tankOptions.filter((option) => {
+        const codesToSelect = response.data.data.tanks.map(
+          (tank) => tank.code_tank
+        );
+        return codesToSelect.includes(option.label.split(" - ")[0]);
+      });
+
+      setSelectedTanks(selectedTankOptions);
 
       setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
       //   console.log(response.data);
@@ -131,10 +134,8 @@ const EditReservation = () => {
         }
       )
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateRegulator(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
 
     await axios
@@ -144,10 +145,8 @@ const EditReservation = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateBcd(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
 
     await axios
@@ -157,19 +156,10 @@ const EditReservation = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-
         setReservationsDateTank(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
-
-  // // ------------Recupération des Gets pour afficher mes selects----------------------------------------//
-  const tanks = useSelector((state) => state.tankReducer);
-  const bcds = useSelector((state) => state.bcdReducer);
-  const regulators = useSelector((state) => state.regulatorReducer);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -177,7 +167,6 @@ const EditReservation = () => {
       //   console.log(codeBcd);
     };
     fetchData();
-    displayUserCo();
     displayUsers();
   }, []);
 
@@ -203,26 +192,11 @@ const EditReservation = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
-      });
-  };
-
-  // // ------------Récupération UserCo----------------------------------------//
-  const displayUserCo = async () => {
-    await axios
-      .get(`http://127.0.0.1:8000/api/current-user`, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUserCoId(res.data.id);
-        setRole(res.data.role_id);
-        // console.log(res.data);
 
         // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
         const currentUserOption = {
-          value: res.data.id,
-          label: `${res.data.lastname} ${res.data.firstname}`,
+          value: userCoId,
+          label: `${lastname} ${firstname}`,
         };
         setSelectedUser(currentUserOption);
       });
@@ -391,12 +365,12 @@ const EditReservation = () => {
     <div>
       <Navigation />
       <Row>
-        <Col xs="auto" md={2} lg={1}>
+        <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
-        <Col>
-          <div className="row justify-content-center  mt-4 mb-5">
-            <div className="col-8 col-sm-8 col-md-8">
+        <Col xs={11} md={9} lg={10}>
+          <Row className="justify-content-center  mt-4 mb-5">
+            <Col xs={9} sm={8} md={9} lg={8}>
               <div className="card mt-5">
                 <div className="card-header">
                   <h3 className="card-title">
@@ -434,13 +408,9 @@ const EditReservation = () => {
                         </div>
                       </div>
                     )}
-                    {/* {isLoading ? (
-                      // Afficher un message de chargement pendant le chargement des données
-                      <p>Loading...</p>
-                    ) : ( */}
                     <Form onSubmit={AddReservationsDate}>
                       <Row className="align-items-end">
-                        <Col md={5}>
+                        <Col md={6} lg={4} className="mt-3">
                           <Form.Group controlId="reservationDate">
                             <Form.Label className="label">
                               <svg
@@ -465,7 +435,7 @@ const EditReservation = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={5}>
+                        <Col md={6} lg={4} className="mt-3">
                           <Form.Group controlId="returnDate">
                             <Form.Label className="label">
                               <svg
@@ -490,7 +460,7 @@ const EditReservation = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={2}>
+                        <Col sm={12} md={12} lg={4} className="mt-3">
                           <Button
                             className="btnGreen mt-4 btn-sm"
                             size="lg"
@@ -515,8 +485,8 @@ const EditReservation = () => {
                     </Form>
                     {isFirstFormSubmitted && (
                       <Form onSubmit={UpdateReservations}>
-                        <Row className="mt-3">
-                          <Col md={6}>
+                        <Row>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -540,7 +510,7 @@ const EditReservation = () => {
                               />{" "}
                             </Form.Group>
                           </Col>
-                          <Col md={6}>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -586,8 +556,8 @@ const EditReservation = () => {
                             </Form.Group>
                           </Col>
                         </Row>
-                        <Row className="mt-3">
-                          <Col md={6}>
+                        <Row>
+                          <Col md={6} className="mt-3">
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -617,7 +587,7 @@ const EditReservation = () => {
                             </Form.Group>
                           </Col>
                           {role === 1 || role === 2 ? (
-                            <Col md={6}>
+                            <Col md={6} className="mt-3">
                               <Form.Group>
                                 <Form.Label className="label">
                                   <svg
@@ -633,10 +603,6 @@ const EditReservation = () => {
                                   Nom de l'emprunteur
                                 </Form.Label>
                                 <Select
-                                  // options={sortedOptions.map((user) => ({
-                                  //   value: user.value,
-                                  //   label: user.label,
-                                  // }))}
                                   options={sortedOptions}
                                   value={selectedUser}
                                   onChange={handleNameChange}
@@ -692,12 +658,11 @@ const EditReservation = () => {
                         </Button>
                       </Form>
                     )}
-                    {/* )} */}
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <Footer />
