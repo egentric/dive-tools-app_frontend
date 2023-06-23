@@ -9,10 +9,8 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
-import { isEmpty } from "../../components/Utils";
-import auth from "../../services/auth/token.js";
 
-const EditReservation = () => {
+const ReturnReservation = () => {
   const navigate = useNavigate();
   const { reservation } = useParams();
 
@@ -22,39 +20,39 @@ const EditReservation = () => {
 
   const [validationError, setValidationError] = useState({});
 
-  const userCoId = auth.getId();
-  const role = auth.getRoles();
-  const firstname = auth.getFirstname();
-  const lastname = auth.getLastname();
+  const [selectedUser, setSelectedUser] = useState({});
 
-  const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
-  const [selectedUser, setSelectedUser] = useState(null);
-
-  const [selectedRegulator, setSelectedRegulator] = useState({
-    value: "",
-    label: "Aucun détendeur",
-  });
+  const [selectedRegulator, setSelectedRegulator] = useState({});
   const [selectedRegulatorId, setSelectedRegulatorId] = useState("");
 
-  //   const [initialBCDId, setInitialBCDId] = useState("");
-  const [selectedBcd, setSelectedBcd] = useState({
-    value: "",
-    label: "Aucune Stab",
-  });
+  const [selectedBcd, setSelectedBcd] = useState({});
   const [selectedBcdId, setSelectedBcdId] = useState("");
   const [tanks, setTanks] = useState([]);
-  const [selectedTanks, setSelectedTanks] = useState([]);
+  //   const [selectedTanks, setSelectedTanks] = useState([]);
+  //   const [selectedTanksLabel, setSelectedTanksLabel] = useState("");
   const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
 
-  const [isFirstFormSubmitted, setIsFirstFormSubmitted] = useState(false);
-  const [reservationsDateRegulator, setReservationsDateRegulator] = useState(
-    []
-  );
-  const [reservationsDateBcd, setReservationsDateBcd] = useState([]);
-  const [reservationsDateTank, setReservationsDateTank] = useState([]);
+  const [confirmationDate, setConfirmationDate] = useState("");
 
-  console.log(tanks);
-  console.log(selectedTanks);
+  const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    // Ajouter un zéro devant le mois et le jour si nécessaire
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    if (day < 10) {
+      day = `0${day}`;
+    }
+
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+  //   console.log(tanks);
+
   // ================== GET - Récupère les valeurs de la fiche avec l'API=====================================================
   const getReservation = async () => {
     try {
@@ -66,7 +64,7 @@ const EditReservation = () => {
           },
         }
       );
-
+      //   console.log(response.data.data);
       setReservationDate(response.data.data.reservation_date);
       setReturnDate(response.data.data.return_date);
       setReservationId(response.data.data.id);
@@ -87,237 +85,48 @@ const EditReservation = () => {
       });
 
       setSelectedRegulatorId(response.data.data.regulator_id || "");
+      setTanks(response.data.data.tanks);
 
-      setTanks(response.data.data.tanks); //récupère les informations tanks
-      // console.log(response.data.data.tanks);
-      const tankOptions =
-        // !isEmpty(tanks) &&
-        tanks.map((tank) => ({
-          value: tank.id,
-          label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
-        })); //map les information tanks dans un tableau en définissant la value et le label
-
-      const selectedTankOptions = tankOptions.filter((option) => {
-        const codesToSelect = response.data.data.tanks.map(
-          (tank) => tank.code_tank
-        );
-        return codesToSelect.includes(option.label.split(" - ")[0]);
-      });
-      // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
-
-      setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
-
-      setIsLoading(false);
-      // Mettez isLoading à false une fois les données récupérées
+      setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
+      //   console.log(response.data);
     } catch (error) {
       console.log(error);
       // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
       setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
     }
   };
-  console.log(selectedTanks);
-  // // ------------Envoyé mes requetes DateReservations pour les selects----------------------------------------//
-
-  const AddReservationsDate = async (event) => {
-    event.preventDefault();
-    setIsFirstFormSubmitted(true);
-
-    const formData = new FormData();
-    formData.append("start_date", reservationDate);
-    formData.append("end_date", returnDate);
-
-    await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-tank`, formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setReservationsDateTank(res.data);
-        // console.log(res.data);
-      });
-
-    await axios
-      .post(
-        `http://127.0.0.1:8000/api/check-availability-regulator`,
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      )
-      .then((res) => {
-        setReservationsDateRegulator(res.data);
-        // console.log(res.data);
-      });
-
-    await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-bcd`, formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setReservationsDateBcd(res.data);
-        // console.log(res.data);
-      });
-  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getReservation();
-      //   console.log(codeBcd);
-    };
-    fetchData();
-    displayUsers();
+    getReservation();
   }, []);
-  console.log(selectedTanks);
-  // // ------------Select users----------------------------------------//
 
-  const handleNameChange = (selectedOption) => {
-    setSelectedUser(selectedOption);
-  };
-  const sortedOptions = users
-    .map((user) => ({
-      value: user.id,
-      label: `${user.lastname} ${user.firstname}`,
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+  // Mettre à jour la date lors du montage du composant
+  useState(() => {
+    const currentDate = getCurrentDate();
+    setConfirmationDate(currentDate);
+  }, []);
 
-  // // ------------Récupération Users----------------------------------------//
-  const displayUsers = async () => {
-    await axios
-      .get("http://localhost:8000/api/users", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((res) => {
-        setUsers(res.data.data);
-
-        // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
-        const currentUserOption = {
-          value: userCoId,
-          label: `${lastname} ${firstname}`,
-        };
-        setSelectedUser(currentUserOption);
-      });
-  };
-
-  // // ------------Select regulators----------------------------------------//
-
-  const handleNameChangeR = (selectedOptionR) => {
-    if (selectedOptionR && selectedOptionR.value === "none") {
-      setSelectedRegulator(null);
-      setSelectedRegulatorId("");
-    } else {
-      setSelectedRegulator(selectedOptionR);
-      setSelectedRegulatorId(selectedOptionR ? selectedOptionR.value : "");
-    }
-  };
-
-  // console.log(selectedRegulatorId);
-
-  let defaultOptionR = selectedRegulator
-    ? { value: selectedRegulator.value, label: selectedRegulator.label }
-    : { value: "none", label: "Aucun détendeur" };
-  let sortedOptionsR = [];
-
-  if (reservationsDateRegulator.length > 0) {
-    sortedOptionsR = [
-      { value: "none", label: "Aucun détendeur" },
-      ...reservationsDateRegulator.map((regulator) => ({
-        value: regulator.id,
-        label: regulator.code_regulator ? regulator.code_regulator : "",
-      })),
-    ].sort((a, b) => a.label.localeCompare(b.label));
-  } else {
-    sortedOptionsR = [defaultOptionR];
-  }
-
-  // Ajoutez l'option "Aucun détendeur" si aucun régulateur sélectionné
-  if (!selectedRegulatorId) {
-    sortedOptionsR = [defaultOptionR, ...sortedOptionsR];
-  }
-
-  // // ------------Select bcds----------------------------------------//
-
-  const handleNameChangeB = (selectedOptionB) => {
-    if (selectedOptionB && selectedOptionB.value === "none") {
-      setSelectedBcd(null);
-      setSelectedBcdId("");
-    } else {
-      setSelectedBcd(selectedOptionB);
-      setSelectedBcdId(selectedOptionB ? selectedOptionB.value : "");
-    }
-  };
-
-  let defaultOptionB = selectedBcd
-    ? { value: selectedBcd.value, label: selectedBcd.label }
-    : { value: "", label: "Aucune Stab" };
-  let sortedOptionsB = [];
-
-  if (reservationsDateBcd.length > 0) {
-    sortedOptionsB = [
-      { value: "none", label: "Aucune stab" },
-      ...reservationsDateBcd.map((bcd) => ({
-        value: bcd.id,
-        label: `${bcd.code_BCD} - ${bcd.size_BCD}` || "",
-      })),
-    ].sort((a, b) => a.label.localeCompare(b.label));
-  } else {
-    sortedOptionsB = [defaultOptionB];
-  }
-
-  if (!selectedBcdId) {
-    sortedOptionsB = [defaultOptionB, ...sortedOptionsB];
-  }
-
-  // const defaultSelectedOptionB = selectedBcd
-  //   ? { value: selectedBcd.value, label: selectedBcd.label }
-  //   : { value: "none", label: "Aucune Stab" };
-  console.log(selectedTanks);
-  // // ------------Multi Select tanks----------------------------------------//
-  const handleNameChangeT = (selectedOptionT) => {
-    setSelectedTanks(selectedOptionT);
-  };
-  let sortedOptionsT = [];
-  if (reservationsDateTank.length > 0) {
-    sortedOptionsT = [
-      { value: "", label: "Aucun Bloc" },
-      ...reservationsDateTank.map((tank) => ({
-        value: tank.id,
-        label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
-      })),
-    ].sort((a, b) => {
-      if (a.label === "Aucun Bloc") {
-        return -1; // Place 'Aucun Bloc' en premier
-      }
-      if (b.label === "Aucun Bloc") {
-        return 1; // Place 'Aucun Bloc' en premier
-      }
-      return a.label.localeCompare(b.label);
-    });
-  } else {
-    sortedOptionsT = [];
-  }
+  const selectedTanks = tanks.map((tank) => ({
+    value: tank.tank_id,
+    label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
+  }));
   console.log(selectedTanks);
 
   // // ------------Fonction de modification de reservation
-  const UpdateReservations = async (e) => {
+  const DisplayReturn = async (e) => {
     e.preventDefault();
 
-    // Determine the user ID based on the role
-    const userId = role === 1 || role === 2 ? selectedUser.value : userCoId;
+    const returnConfirmation = 1;
 
     const formData = new FormData();
     formData.append("_method", "POST");
     formData.append("reservation_date", reservationDate);
     formData.append("return_date", returnDate);
-    formData.append("user_id", userId);
+    formData.append("user_id", selectedUser.value);
     formData.append("BCD_id", selectedBcdId);
     formData.append("regulator_id", selectedRegulatorId);
+    formData.append("confirmation_date", confirmationDate);
+    formData.append("return_confirmation", returnConfirmation);
 
     // envoie des ids tanks
     const selectedTankIds = selectedTanks.map((tank) => tank.value);
@@ -343,7 +152,6 @@ const EditReservation = () => {
         }
       });
   };
-  console.log(selectedTanks);
   return (
     <div>
       <Navigation />
@@ -359,17 +167,17 @@ const EditReservation = () => {
                   <h3 className="card-title">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="40"
-                      height="40"
+                      width="30"
+                      height="30"
                       fill="currentColor"
-                      className="reservation"
-                      viewBox="0 0 58.69 45.96"
+                      className="bi bi-file-earmark-arrow-down"
+                      viewBox="0 0 16 16"
                     >
-                      <path d="m5.17,34.55h48.35c.55,0,1-.45,1-1,0-12.83-9.89-23.74-22.6-25.04V3.91h2.82V0h-10.78v3.91h2.82v4.61c-12.71,1.3-22.6,12.21-22.6,25.04,0,.55.45,1,1,1ZM29.07,10.39h.28c12.34,0,22.62,9.89,23.15,22.17H17.51c.43-11.06,7.73-20.68,11.56-22.17Zm-7.38,1.3c-3.69,2.93-9.13,9.21-9.43,20.87h-6.06c.41-9.45,6.7-17.76,15.5-20.87Z" />
-                      <path d="m58.53,44.41l-4.17-6.38c-.19-.28-.5-.45-.84-.45H5.17c-.34,0-.65.17-.84.45L.16,44.41c-.2.31-.22.7-.04,1.02.17.32.51.52.88.52h56.69c.37,0,.71-.2.88-.52.18-.32.16-.72-.04-1.02Zm-5.55-4.83l2.86,4.38H17.98v-4.38h35Zm-40.88,0l-.99,4.38H2.85l2.86-4.38h6.39Z" />{" "}
+                      <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
                     </svg>{" "}
                     <span className="menu">
-                      Modification de la réservation N° {reservationId}
+                      Restitution de la réservation N° {reservationId}
                     </span>
                   </h3>
                 </div>
@@ -395,9 +203,12 @@ const EditReservation = () => {
                       // Afficher un message de chargement pendant le chargement des données
                       <p>Loading...</p>
                     ) : (
-                      <Form onSubmit={AddReservationsDate}>
+                      // Afficher les données une fois qu'elles sont récupérées
+
+                      <Form onSubmit={DisplayReturn}>
                         <Row className="align-items-end">
-                          <Col md={6} lg={4} className="mt-3">
+                          <Col md={6} className="mt-3">
+                            {/* ============================================Réservation Date===================================== */}
                             <Form.Group controlId="reservationDate">
                               <Form.Label className="label">
                                 <svg
@@ -414,15 +225,17 @@ const EditReservation = () => {
                                 Date d'emprunt
                               </Form.Label>
                               <Form.Control
+                                readOnly
                                 type="date"
                                 value={reservationDate}
-                                onChange={(event) => {
-                                  setReservationDate(event.target.value);
-                                }}
+                                onChange={(e) =>
+                                  setReservationDate(e.target.value)
+                                }
                               />
                             </Form.Group>
                           </Col>
-                          <Col md={6} lg={4} className="mt-3">
+                          <Col md={6} className="mt-3">
+                            {/* ============================================Retour Date===================================== */}
                             <Form.Group controlId="returnDate">
                               <Form.Label className="label">
                                 <svg
@@ -439,45 +252,18 @@ const EditReservation = () => {
                                 Date de retour
                               </Form.Label>
                               <Form.Control
+                                readOnly
                                 type="date"
                                 value={returnDate}
-                                onChange={(event) => {
-                                  setReturnDate(event.target.value);
-                                }}
+                                onChange={(e) => setReturnDate(e.target.value)}
                               />
                             </Form.Group>
                           </Col>
-                          <Col sm={12} md={12} lg={4} className="mt-3">
-                            <Button
-                              className="btnGreen mt-4 btn-sm"
-                              size="lg"
-                              block="block"
-                              type="submit"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-calendar-plus"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z" />
-                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-                              </svg>{" "}
-                              <span className="menu ">Confirmer la date</span>
-                            </Button>
-                          </Col>
                         </Row>
-                      </Form>
-                    )}
 
-                    {isFirstFormSubmitted && (
-                      <Form onSubmit={UpdateReservations}>
                         <Row>
                           <Col md={6} className="mt-3">
-                            {/* // // ------------Select
-                            regulators----------------------------------------// */}
+                            {/* ============================================Regulator===================================== */}
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -494,18 +280,34 @@ const EditReservation = () => {
                                 </svg>{" "}
                                 Détendeur
                               </Form.Label>
-                              <Select
-                                options={sortedOptionsR}
-                                value={defaultOptionR}
-                                onChange={handleNameChangeR}
-                              />{" "}
+                              {selectedRegulator.value === null ? (
+                                <>
+                                  <Form.Control
+                                    readOnly
+                                    type="text"
+                                    value="Pas de détendeur emprunté"
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <Form.Control
+                                    readOnly
+                                    type="text"
+                                    value={selectedRegulator.label}
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="regulatorId"
+                                    value={selectedRegulatorId}
+                                  />
+                                </>
+                              )}
                             </Form.Group>
                           </Col>
                           <Col md={6} className="mt-3">
-                            {/* // // ------------Select
-                            bcds----------------------------------------// */}
+                            {/* ============================================BCD===================================== */}
                             <Form.Group>
-                              <Form.Label className="label">
+                              <Form.Label className="label mt-1">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="20"
@@ -541,18 +343,34 @@ const EditReservation = () => {
                                 </svg>{" "}
                                 Stab
                               </Form.Label>
-                              <Select
-                                options={sortedOptionsB}
-                                value={defaultOptionB}
-                                onChange={handleNameChangeB}
-                              />
+                              {selectedRegulator.value === null ? (
+                                <>
+                                  <Form.Control
+                                    readOnly
+                                    type="text"
+                                    value="Pas de stab empruntée"
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <Form.Control
+                                    readOnly
+                                    type="text"
+                                    value={selectedBcd.label}
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="BcdId"
+                                    value={selectedBcdId}
+                                  />
+                                </>
+                              )}
                             </Form.Group>
                           </Col>
                         </Row>
                         <Row>
                           <Col md={6} className="mt-3">
-                            {/* // // ------------Select
-                            tanks----------------------------------------// */}
+                            {/* ============================================Tank===================================== */}
                             <Form.Group>
                               <Form.Label className="label">
                                 <svg
@@ -568,52 +386,111 @@ const EditReservation = () => {
                                   <circle cx="12.3" cy="4.74" r=".73" />
                                 </svg>{" "}
                                 Bloc
+                              </Form.Label>{" "}
+                              {selectedTanks.length === 0 ? (
+                                <>
+                                  <Form.Control
+                                    readOnly
+                                    type="text"
+                                    value="Pas de bloc empruntée"
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  {selectedTanks.map((tank) => (
+                                    <React.Fragment key={tank.value}>
+                                      <Form.Control
+                                        type="text"
+                                        readOnly
+                                        value={tank.label}
+                                      />
+                                      <Form.Control
+                                        type="hidden"
+                                        name="selectedTanks"
+                                        value={tank.value}
+                                      />
+                                    </React.Fragment>
+                                  ))}
+                                </>
+                              )}
+                            </Form.Group>
+                          </Col>
+                          <Col md={6} className="mt-3 mb-3">
+                            {/* ============================================User===================================== */}
+                            <Form.Group>
+                              <Form.Label className="label">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="20"
+                                  height="20"
+                                  fill="currentColor"
+                                  className="bi bi-person"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                </svg>{" "}
+                                Nom de l'emprunteur
                               </Form.Label>
-                              <Select
-                                options={sortedOptionsT.map((tank) => ({
-                                  value: tank.value,
-                                  label: tank.label,
-                                }))}
-                                value={selectedTanks}
-                                onChange={handleNameChangeT}
-                                isMulti
-                                placeholder="Sélectionnez un ou des Blocs"
+                              <Form.Control
+                                readOnly
+                                type="text"
+                                value={selectedUser.label}
                               />
                             </Form.Group>
                           </Col>
-                          {role === 1 || role === 2 ? (
-                            <Col md={6} className="mt-3">
-                              {/* // // ------------Select
-                              users----------------------------------------// */}
-                              <Form.Group>
-                                <Form.Label className="label">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="20"
-                                    height="20"
-                                    fill="currentColor"
-                                    className="bi bi-person"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-                                  </svg>{" "}
-                                  Nom de l'emprunteur
-                                </Form.Label>
-                                <Select
-                                  options={sortedOptions}
-                                  value={selectedUser}
-                                  onChange={handleNameChange}
-                                  placeholder="Sélectionnez un nom"
-                                />
-                              </Form.Group>
-                            </Col>
-                          ) : (
-                            <input
-                              type="hidden"
-                              name="userCoId"
-                              value={userCoId}
-                            />
-                          )}
+
+                          <input
+                            type="hidden"
+                            name="userId"
+                            value={selectedUser.value}
+                          />
+                        </Row>
+                        <hr></hr>
+                        <Row className="align-items-end">
+                          <Col md={6} className="mt-3">
+                            {/* ============================================Confirmation Date===================================== */}
+                            <Form.Group controlId="reservationDate">
+                              <Form.Label className="label">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  class="bi bi-calendar"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                </svg>{" "}
+                                Date
+                              </Form.Label>
+                              <Form.Control
+                                readOnly
+                                type="date"
+                                value={confirmationDate}
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="btnRed mt-3 btn-sm"
+                              size="lg"
+                              block="block"
+                              type="submit"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-file-earmark-arrow-down"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                              </svg>{" "}
+                              <span className="menu ">Restitution</span>
+                            </Button>
+                          </Col>
                         </Row>
                         <Button
                           className="btn btnBlue mt-3 btn-sm me-2"
@@ -634,25 +511,6 @@ const EditReservation = () => {
                           </svg>{" "}
                           <span className="menu">Retour</span>
                         </Button>
-                        <Button
-                          className="btnGreen mt-3 btn-sm"
-                          size="lg"
-                          block="block"
-                          type="submit"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-plus-square"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                          </svg>{" "}
-                          <span className="menu ">Réserver</span>
-                        </Button>
                       </Form>
                     )}
                   </div>
@@ -667,4 +525,4 @@ const EditReservation = () => {
   );
 };
 
-export default EditReservation;
+export default ReturnReservation;

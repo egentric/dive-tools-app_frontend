@@ -28,11 +28,15 @@ import AddReservation from "./pages/reservations/AddReservation";
 import EditReservation from "./pages/reservations/EditReservation";
 import ShowReservation from "./pages/reservations/ShowReservation";
 import ReservationUser from "./pages/reservations/ReservationsUser";
+import ReturnReservation from "./pages/reservations/Return";
 import Contacts from "./pages/contacts/Contacts";
 import AddContact from "./pages/contacts/AddContact";
 import ShowContact from "./pages/contacts/ShowContact";
 import jwtDecode from "jwt-decode";
 import auth from "./services/auth/token"
+import MentionsLegales from "./pages/layouts/MentionsLegales";
+import Rgpd from "./pages/layouts/Rgpd";
+
 
 function App() {
   // On récupère role_id
@@ -166,8 +170,7 @@ function App() {
         />
         <Route path="/tanks/add"
               element={
-            auth.getExpiryTime()
-              ? auth.loggedAndAdminOrEditorM() ? <AddTank /> : <Noaccess />
+            auth.getExpiryTime() ?  <AddTank />
               : <Navigate to="/login" replace={true} />
           }
         />
@@ -176,7 +179,7 @@ function App() {
           path="/tanks/edit/:tank"
           element={
             auth.getExpiryTime()
-              ? auth.loggedAndAdminOrEditorM() ? <EditTank /> : <Noaccess />
+              ?  <EditTank />
               : <Navigate to="/login" replace={true} />
           }
         />
@@ -232,6 +235,15 @@ function App() {
               : <Navigate to="/login" replace={true} />
           }
         />
+                <Route
+          path="/reservations/return/:reservation"
+          element={
+            auth.getExpiryTime()
+              ? auth.loggedAndAdminOrEditorM() ? <ReturnReservation /> : <Noaccess />
+              : <Navigate to="/login" replace={true} />
+          }
+        />
+
         <Route
           path="/users"
           element={
@@ -254,6 +266,21 @@ function App() {
            : <Navigate to="/login" replace={true} />
           }
         />
+                <Route
+          path="/rgpd"
+          element={
+            auth.getExpiryTime() ? <Rgpd />
+           : <Navigate to="/login" replace={true} />
+          }
+        />
+        <Route
+          path="/mentionlegales"
+          element={
+            auth.getExpiryTime() ? <MentionsLegales />
+           : <Navigate to="/login" replace={true} />
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );

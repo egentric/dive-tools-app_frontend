@@ -163,9 +163,13 @@ const ShowReservation = () => {
                             <th>Stab</th>
                             <td>
                               {showReservation.code_BCD}
-                              {showReservation.size_BCD &&
-                                `<span className="circle"></span>Taille ${showReservation.size_BCD}`}
-                            </td>{" "}
+                              {showReservation.size_BCD && (
+                                <span>
+                                  <span className="circle"></span>
+                                  Taille {showReservation.size_BCD}
+                                </span>
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <th>Bloc</th>
@@ -187,6 +191,45 @@ const ShowReservation = () => {
                               </ul>
                             </td>
                           </tr>
+                          <tr>
+                            <th>Restitué</th>
+                            <td>
+                              {showReservation.return_confirmation === 1 ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="30"
+                                  height="30"
+                                  fill="rgb(149, 176, 51)"
+                                  className="bi bi-check-lg"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="30"
+                                  height="30"
+                                  fill="rgb(176, 96, 86)"
+                                  className="bi bi-x-octagon"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                              )}
+                            </td>
+                          </tr>
+                          {showReservation.return_confirmation === 1 ? (
+                            <tr>
+                              <th>Date de restitution</th>
+                              <td>
+                                {formatDateShow(
+                                  showReservation.confirmation_date
+                                )}
+                              </td>
+                            </tr>
+                          ) : null}
                           <tr>
                             <th>Date de création</th>
                             <td>
@@ -221,29 +264,30 @@ const ShowReservation = () => {
                                 </svg>{" "}
                                 <span className="menu">Retour</span>
                               </Button>
-                              <Link
-                                to={`/reservations/edit/${showReservation.id}`}
-                                className="btn btnGreen btn-1 btn-sm me-2"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-pencil-square"
-                                  viewBox="0 0 16 16"
+                              {showReservation.return_confirmation === 0 ? (
+                                <Link
+                                  to={`/reservations/edit/${showReservation.id}`}
+                                  className="btn btnGreen btn-1 btn-sm me-2"
                                 >
-                                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                                  />
-                                </svg>{" "}
-                                <span className="menu">Modifier</span>
-                              </Link>
-
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-pencil-square"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                    />
+                                  </svg>{" "}
+                                  <span className="menu">Modifier</span>
+                                </Link>
+                              ) : null}
                               <Button
-                                className="btn btnRed btn-sm"
+                                className="btn btnRed btn-sm me-2"
                                 onClick={() => {
                                   deleteShowReservation(showReservation.id);
                                 }}
@@ -260,6 +304,25 @@ const ShowReservation = () => {
                                 </svg>{" "}
                                 <span className="menu">Supprimer</span>
                               </Button>
+                              {showReservation.return_confirmation === 0 ? (
+                                <Link
+                                  to={`/reservations/return/${reservation.id}`}
+                                  className="btn btnBlue3 btn-sm"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-file-earmark-arrow-down"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                                  </svg>{" "}
+                                  <span className="menu">Restituer</span>
+                                </Link>
+                              ) : null}
                             </td>
                           </tr>
                         </tbody>

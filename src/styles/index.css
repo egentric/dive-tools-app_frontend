@@ -222,6 +222,21 @@ select option {
   color: rgb(245, 245, 250) !important;
 }
 
+.btnBlue3 {
+  background-color: rgb(153, 153, 153) !important;
+  border-radius: 5px;
+  border: none !important;
+  padding: 4px 6px 4px 6px;
+  margin-bottom: 5px;
+  color: rgb(29, 58, 99) !important;
+}
+
+.btnBlue3:hover {
+  transition: 0.5s;
+  background-color: rgb(77, 77, 77) !important;
+  color: rgb(245, 245, 250) !important;
+}
+
 .btnRed {
   background-color: rgb(252, 161, 149) !important;
   border-radius: 5px;
@@ -290,9 +305,19 @@ select option {
   left: 0;
   background-color: rgb(29, 58, 99) !important;
   padding: 2px;
-  color: rgb(130, 155, 189);
+  color: rgb(130, 155, 189) !important;
   font-size: 0.6rem;
   text-align: center;
+}
+
+.lienFooter {
+  color: rgb(130, 155, 189) !important;
+  text-decoration: none;
+}
+
+.lienFooter:hover {
+  transition: 0.5s;
+  color: rgb(245, 245, 250) !important;
 }
 
 .bloc {

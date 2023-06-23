@@ -25,7 +25,7 @@ const Tanks = () => {
     displayTanks();
   }, []); // Sans les crochets ça tourne en boucle
 
-  // // ------------Affichage bcds----------------------------------------//
+  // // ------------Affichage tanks----------------------------------------//
   const displayTanks = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/tanks", {

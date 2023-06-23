@@ -223,9 +223,9 @@ const AddReservation = () => {
       formData.append("tank_id[]", selectedTankIds[i]);
     }
 
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     await axios
       .post(`http://127.0.0.1:8000/api/reservations`, formData, {
@@ -233,7 +233,7 @@ const AddReservation = () => {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
       })
-      .then(() => navigate("/reservations"))
+      .then(() => navigate(-1))
       .catch(({ response }) => {
         if (response.status !== 200) {
           setValidationError(response.data);

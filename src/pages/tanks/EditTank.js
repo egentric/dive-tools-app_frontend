@@ -127,19 +127,12 @@ const EditTank = () => {
         setFirstname(fetchedTankData.firstname);
         setLastname(fetchedTankData.lastname);
         // console.log(fetchedTankData);
-        // Vérifier si l'ID de l'utilisateur existe dans la liste des utilisateurs
-        const userExists = users.some(
-          (user) => user.id === fetchedTankData.user_id
-        );
 
-        // Si l'utilisateur existe, le sélectionner dans le Select
-        if (userExists) {
-          const selectedUser = {
-            value: fetchedTankData.user_id,
-            label: `${fetchedTankData.lastname} ${fetchedTankData.firstname}`,
-          };
-          setSelectedUser(selectedUser);
-        }
+        setSelectedUser({
+          value: fetchedTankData.user_id,
+          label: `${fetchedTankData.lastname} ${fetchedTankData.firstname}`,
+        });
+
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -210,7 +203,7 @@ const EditTank = () => {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
       })
-      .then(() => navigate("/tanks"))
+      .then(() => navigate(-1))
       .catch(({ response }) => {
         if (response.status != 200) {
           setValidationError(response.data);
@@ -470,57 +463,72 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
-                        <Col md={4} className="mt-3">
+                      {role === 3 ? (
+                        <>
                           <Form.Group controlId="availabilityTank">
-                            <Form.Label className="label">
-                              Disponibilité
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch-user"
-                              label="Indisponible"
-                              value="0"
-                              checked={availabilityTank === 0}
-                              onChange={(event) => {
-                                if (event.target.checked) {
-                                  setAvailabilityTank(0);
-                                }
-                              }}
-                            />
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch-admin"
-                              label="Disponible"
-                              value="1"
-                              checked={availabilityTank === 1}
-                              onChange={(event) => {
-                                if (event.target.checked) {
-                                  setAvailabilityTank(1);
-                                }
-                              }}
-                            />
+                            <Form.Control type="hidden" value="0" />
                           </Form.Group>
-                        </Col>
-                        <Col md={8} className="mt-3">
-                          {availabilityTank === 0 ? (
-                            <Form.Group controlId="causeUnavailabilityTank">
-                              <Form.Label className="label">
-                                Cause d'indisponibilité
-                              </Form.Label>
-                              <Form.Control
-                                type="text"
-                                value={causeUnavailabilityTank}
-                                onChange={(event) => {
-                                  setCauseUnavailabilityTank(
-                                    event.target.value
-                                  );
-                                }}
-                              />
-                            </Form.Group>
-                          ) : null}
-                        </Col>
-                      </Row>
+                          <Form.Group controlId="causeUnavailabilityTank">
+                            <Form.Control type="hidden" value="perso" />
+                          </Form.Group>
+                        </>
+                      ) : (
+                        <div>
+                          {" "}
+                          {/* Ajout de la balise d'ouverture */}
+                          <Row>
+                            <Col md={4} className="mt-3">
+                              <Form.Group controlId="availabilityTank">
+                                <Form.Label className="label">
+                                  Disponibilité
+                                </Form.Label>
+                                <Form.Check
+                                  type="switch"
+                                  id="custom-switch-user"
+                                  label="Indisponible"
+                                  value="0"
+                                  checked={availabilityTank === 0}
+                                  onChange={(event) => {
+                                    if (event.target.checked) {
+                                      setAvailabilityTank(0);
+                                    }
+                                  }}
+                                />
+                                <Form.Check
+                                  type="switch"
+                                  id="custom-switch-admin"
+                                  label="Disponible"
+                                  value="1"
+                                  checked={availabilityTank === 1}
+                                  onChange={(event) => {
+                                    if (event.target.checked) {
+                                      setAvailabilityTank(1);
+                                    }
+                                  }}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={8} className="mt-3">
+                              {availabilityTank === 0 ? (
+                                <Form.Group controlId="causeUnavailabilityTank">
+                                  <Form.Label className="label">
+                                    Cause d'indisponibilité
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    value={causeUnavailabilityTank}
+                                    onChange={(event) => {
+                                      setCauseUnavailabilityTank(
+                                        event.target.value
+                                      );
+                                    }}
+                                  />
+                                </Form.Group>
+                              ) : null}
+                            </Col>
+                          </Row>
+                        </div>
+                      )}
                       {role === 1 || role === 2 ? (
                         <Row>
                           <Col lg={12} xl={6} className="mt-3">

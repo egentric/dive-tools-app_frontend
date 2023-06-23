@@ -17,6 +17,23 @@
 
   }
 
+  .btnBlue3 {
+      background-color: $Gray2 !important;
+      border-radius: 5px;
+      border: none !important;
+      padding: 4px 6px 4px 6px;
+      margin-bottom: 5px;
+      color: $blue2 !important;
+  }
+
+  .btnBlue3:hover {
+      transition: 0.5s;
+      background-color: $Gray1 !important;
+      color: $White !important;
+      // font-weight: bold;
+
+  }
+
   .btnRed {
       background-color: $red2 !important;
       border-radius: 5px;
