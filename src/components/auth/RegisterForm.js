@@ -7,9 +7,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LogoRVB from "../LogoRVB";
 
+function isPasswordValid(password) {
+  // Exigences : au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial
+  var passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).*$/;
+
+  return passwordRegex.test(password);
+}
+
 const RegisterForm = () => {
   const [pseudo, setPseudo] = useState("");
-  //   const [civility, setCivility] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [emailUser, setEmailUser] = useState("");
@@ -19,18 +26,45 @@ const RegisterForm = () => {
   const [zip, setZip] = useState("");
   const [city, setCity] = useState("");
   const [licenseNumber, setLicenseNumber] = useState("");
-  //   const [licenseDate, setLicenseDate] = useState("");
-  //   const [licensee, setLicensee] = useState("");
-  //   const [medicalCertificateDate, setMedicalCertificateDate] = useState("");
+
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [validationError, setValidationError] = useState({});
+
+  const [showAlert, setShowAlert] = useState(false); // État pour afficher ou masquer l'alerte
+  const [fieldName, setFieldName] = useState(""); // État pour stocker le nom du champ
+  const [showError, setShowError] = useState(false);
+
+  const handleBlur = (value, fieldName) => {
+    if (value.trim() === "") {
+      setShowAlert(true); // Afficher l'alerte si le champ est vide
+      setFieldName(fieldName); // Stocker le nom du champ
+    } else {
+      setShowAlert(false); // Masquer l'alerte si le champ n'est pas vide
+    }
+    if (fieldName === "Mot de passe") {
+      if (!isPasswordValid(value)) {
+        setShowError(true);
+      } else {
+        setShowError(false);
+      }
+    }
+  };
+
+  // const handleBlurMdp = (value, fieldName) => {
+  //   if (fieldName === "Mot de passe") {
+  //     if (!isPasswordValid(value)) {
+  //       setShowError(true);
+  //     } else {
+  //       setShowError(false);
+  //     }
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("pseudo", pseudo);
-    // formData.append("civility", civility);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
     formData.append("email_user", emailUser);
@@ -40,9 +74,7 @@ const RegisterForm = () => {
     formData.append("zip", zip);
     formData.append("city", city);
     formData.append("license_number", licenseNumber);
-    // formData.append("license_date", licenseDate);
-    // formData.append("licensee", licensee);
-    // formData.append("medical_certificate_date", medicalCertificateDate);
+
     formData.append("password", password);
 
     for (var pair of formData.entries()) {
@@ -107,36 +139,42 @@ const RegisterForm = () => {
                 )}
                 <Row>
                   <Form onSubmit={handleSubmit}>
+                    {showAlert && (
+                      <div className="alert alert-danger" role="alert">
+                        Le champ {fieldName} ne peut pas être vide !
+                      </div>
+                    )}
+                    {showError && (
+                      <div className="alert alert-danger" role="alert">
+                        Le mot de passe ne respecte pas les exigences de
+                        sécurité : Au moins 5 caractères dont au moins une
+                        lettre minuscule, une lettre majuscule, un chiffre et un
+                        caractère spécial.
+                      </div>
+                    )}
                     <Form.Group className="mb-3" controlId="formGroupPseudo">
-                      <Form.Label>Pseudo</Form.Label>
+                      <Form.Label>Pseudo*</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Pseudo"
                         value={pseudo}
                         onChange={(e) => setPseudo(e.target.value)}
+                        onBlur={(e) => handleBlur(e.target.value, "Pseudo")}
                       />
                     </Form.Group>
-                    {/* <Form.Group className="mb-3" controlId="formGroupCivility">
-                    <Form.Label>Civilité</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Civilité"
-                      value={civility}
-                      onChange={(e) => setCivility(e.target.value)}
-                    />
-                  </Form.Group>{" "} */}
                     <Row>
                       <Col md={6}>
                         <Form.Group
                           className="mb-3"
                           controlId="formGroupLastname"
                         >
-                          <Form.Label>Nom</Form.Label>
+                          <Form.Label>Nom*</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Nom"
                             value={lastname}
                             onChange={(e) => setLastname(e.target.value)}
+                            onBlur={(e) => handleBlur(e.target.value, "Nom")}
                           />
                         </Form.Group>{" "}
                       </Col>
@@ -145,23 +183,27 @@ const RegisterForm = () => {
                           className="mb-3"
                           controlId="formGroupFirstname"
                         >
-                          <Form.Label>Prénom</Form.Label>
+                          <Form.Label>Prénom*</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Prénom"
                             value={firstname}
                             onChange={(e) => setFirstname(e.target.value)}
+                            onBlur={(e) => handleBlur(e.target.value, "Prénom")}
                           />
                         </Form.Group>{" "}
                       </Col>
                     </Row>
                     <Form.Group className="mb-3" controlId="formGroupEmailUser">
-                      <Form.Label>Adresse mail</Form.Label>
+                      <Form.Label>Adresse mail*</Form.Label>
                       <Form.Control
                         type="email"
                         placeholder="Adresse mail"
                         value={emailUser}
                         onChange={(e) => setEmailUser(e.target.value)}
+                        onBlur={(e) =>
+                          handleBlur(e.target.value, "Adresse mail")
+                        }
                       />
                     </Form.Group>{" "}
                     <Row>
@@ -181,45 +223,53 @@ const RegisterForm = () => {
                           className="mb-3"
                           controlId="formGroupCellphone"
                         >
-                          <Form.Label>Téléphone portable</Form.Label>
+                          <Form.Label>Téléphone portable*</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Téléphone portable"
                             value={cellphone}
                             onChange={(e) => setCellphone(e.target.value)}
+                            onBlur={(e) =>
+                              handleBlur(e.target.value, "Téléphone portable")
+                            }
                           />
                         </Form.Group>{" "}
                       </Col>
                     </Row>
                     <Form.Group className="mb-3" controlId="formGroupAddress">
-                      <Form.Label>Adresse</Form.Label>
+                      <Form.Label>Adresse*</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Adresse"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
+                        onBlur={(e) => handleBlur(e.target.value, "Adresse")}
                       />
                     </Form.Group>{" "}
                     <Row>
                       <Col md={3}>
                         <Form.Group className="mb-3" controlId="formGroupZip">
-                          <Form.Label>Code postal</Form.Label>
+                          <Form.Label>Code postal*</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Code postal"
                             value={zip}
                             onChange={(e) => setZip(e.target.value)}
+                            onBlur={(e) =>
+                              handleBlur(e.target.value, "Code postal")
+                            }
                           />
                         </Form.Group>{" "}
                       </Col>
                       <Col md={9}>
                         <Form.Group className="mb-3" controlId="formGroupCity">
-                          <Form.Label>Ville</Form.Label>
+                          <Form.Label>Ville*</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="Ville"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
+                            onBlur={(e) => handleBlur(e.target.value, "Ville")}
                           />
                         </Form.Group>
                       </Col>
@@ -228,55 +278,38 @@ const RegisterForm = () => {
                       className="mb-3"
                       controlId="formGroupLicenseNumber"
                     >
-                      <Form.Label>N° de licence</Form.Label>
+                      <Form.Label>N° de licence*</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="N° de licence"
                         value={licenseNumber}
                         onChange={(e) => setLicenseNumber(e.target.value)}
+                        onBlur={(e) =>
+                          handleBlur(e.target.value, "N° de licence")
+                        }
                       />
                     </Form.Group>
-                    {/* <Form.Group className="mb-3" controlId="formGroupLicenseDate">
-                    <Form.Label>Date de la licence</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Date de la licence"
-                      value={licenseDate}
-                      onChange={(e) => setLicenseDate(e.target.value)}
-                    />
-                  </Form.Group> */}
-                    {/* <Form.Group className="mb-3" controlId="formLicensee">
-                    <Form.Label>Licencié</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Licencié"
-                      value={licensee}
-                      onChange={(e) => setLicensee(e.target.value)}
-                    />
-                  </Form.Group> */}
-                    {/* <Form.Group
-                    className="mb-3"
-                    controlId="formGroupMedicalCertificateDate"
-                  >
-                    <Form.Label>Date du certificat médical</Form.Label>
-                    <Form.Control
-                      type="date"
-                      placeholder="Date du certificat médical"
-                      value={medicalCertificateDate}
-                      onChange={(e) =>
-                        setMedicalCertificateDate(e.target.value)
-                      }
-                    />
-                  </Form.Group> */}
                     <Form.Group className="mb-3" controlId="formGroupPassword">
-                      <Form.Label>Mot de passe</Form.Label>
+                      <Form.Label>Mot de passe*</Form.Label>
                       <Form.Control
                         type="password"
                         placeholder="Mot de passe"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onBlur={(e) =>
+                          handleBlur(e.target.value, "Mot de passe")
+                        }
                       />
+                      {showError && (
+                        <div className="text-danger">
+                          Le mot de passe ne respecte pas les exigences de
+                          sécurité.
+                        </div>
+                      )}
                     </Form.Group>
+                    <Row className="mb-3">
+                      <i>* champs obligatoire</i>
+                    </Row>
                     <Button
                       className="btnBlue mt-2 btn-sm"
                       size="lg"

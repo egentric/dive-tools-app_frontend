@@ -171,6 +171,16 @@ nav {
   height: 100vh;
 }
 
+.lg-dropdown .dropdown-menu {
+  left: auto;
+  right: 0;
+  transform: translateX(0) !important;
+}
+
+.lg-navbar .navbar-nav .dropdown-menu {
+  position: static !important;
+}
+
 .register {
   padding-top: 10px;
   text-decoration: none !important;

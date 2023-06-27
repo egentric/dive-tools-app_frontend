@@ -213,7 +213,7 @@ const EditTank = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
@@ -450,19 +450,21 @@ const EditTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      <Row>
-                        <Col className="mt-3">
-                          <Form.Group controlId="qrcodeTank" className="mb-3">
-                            <Form.Label className="label">
-                              Image du QrCode
-                            </Form.Label>
-                            <Form.Control
-                              type="file"
-                              onChange={changeHandler}
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
+                      {role === 1 || role === 2 ? (
+                        <Row>
+                          <Col className="mt-3">
+                            <Form.Group controlId="qrcodeTank" className="mb-3">
+                              <Form.Label className="label">
+                                Image du QrCode
+                              </Form.Label>
+                              <Form.Control
+                                type="file"
+                                onChange={changeHandler}
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                      ) : null}
                       {role === 3 ? (
                         <>
                           <Form.Group controlId="availabilityTank">
@@ -553,22 +555,24 @@ const EditTank = () => {
                       ) : (
                         <input type="hidden" name="userCoId" value={userCoId} />
                       )}
-                      <Row>
-                        <Col className="mt-3">
-                          <Form.Group controlId="counterLoanTank">
-                            <Form.Label className="label">
-                              Compteur : {counterLoanTank}
-                            </Form.Label>
-                            <Form.Check
-                              type="checkbox"
-                              id="custom-checkbox-counter"
-                              label="Remise à zéro du compteur"
-                              checked={counterLoanTank === 0}
-                              onChange={handleCheckboxChange}
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
+                      {role === 1 || role === 2 ? (
+                        <Row>
+                          <Col className="mt-3">
+                            <Form.Group controlId="counterLoanTank">
+                              <Form.Label className="label">
+                                Compteur : {counterLoanTank}
+                              </Form.Label>
+                              <Form.Check
+                                type="checkbox"
+                                id="custom-checkbox-counter"
+                                label="Remise à zéro du compteur"
+                                checked={counterLoanTank === 0}
+                                onChange={handleCheckboxChange}
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                      ) : null}
                       <Button
                         className="btn btnBlue2 btn-sm me-2 mt-3 "
                         onClick={() => navigate(-1)}

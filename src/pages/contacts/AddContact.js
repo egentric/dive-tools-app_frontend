@@ -44,12 +44,12 @@ const AddContact = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
         <Col xs={11} md={9} lg={10}>
-          <Row className="justify-content-center  mt-4 mb-5">
+          <Row className="justify-content-center mt-4 mb-5 p-0">
             <Col xs={9} sm={8} md={9} lg={8}>
               <div className="card mt-5">
                 <div className="card-header">

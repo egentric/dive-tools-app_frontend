@@ -32,26 +32,12 @@ import ReturnReservation from "./pages/reservations/Return";
 import Contacts from "./pages/contacts/Contacts";
 import AddContact from "./pages/contacts/AddContact";
 import ShowContact from "./pages/contacts/ShowContact";
-import jwtDecode from "jwt-decode";
 import auth from "./services/auth/token"
 import MentionsLegales from "./pages/layouts/MentionsLegales";
 import Rgpd from "./pages/layouts/Rgpd";
 
 
 function App() {
-  // On récupère role_id
-//   const role = auth.getRoles();
-//  const expToken = auth.getExpiryTime();
-//  const admin = auth.loggedAndAdmin();
-//  const adminEditor = auth.loggedAndAdminOrEditorM();
-  // const firstname = auth.getFirstname();
-  // const pseudo = auth.getPseudo();
-
-  // console.log(expToken);
-  // console.log(role);
-  // console.log(admin);
-  // console.log(adminEditor);
-
 
   return (
     <BrowserRouter>

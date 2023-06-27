@@ -73,7 +73,7 @@ const AddRegulator = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>

@@ -137,7 +137,7 @@ const AddTank = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
@@ -386,12 +386,11 @@ const AddTank = () => {
                       {role === 3 ? (
                         <>
                           <Form.Group controlId="availabilityTank">
-                            <FormControl type="hidden" value="0" />
+                            <Form.Control type="hidden" value="0" />
                           </Form.Group>
                           <Form.Group controlId="causeUnavailabilityTank">
-                            <FormControl type="hidden" value="perso" />
+                            <Form.Control type="hidden" value="perso" />
                           </Form.Group>
-                          <FormGroup type="hidden" value="0" />
                         </>
                       ) : (
                         <div>

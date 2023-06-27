@@ -149,7 +149,7 @@ const EditUser = () => {
   return (
     <div>
       <Navigation />
-      <Row className="mt-3">
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>

@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Dropdown } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import auth from "../services/auth/token";
 
 const Sidebar = () => {
@@ -14,10 +14,31 @@ const Sidebar = () => {
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const [isLgScreen, setIsLgScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLgScreen(window.innerWidth >= 992);
+    };
+
+    // Écoute les événements de redimensionnement de la fenêtre pour mettre à jour isLgScreen
+    window.addEventListener("resize", handleResize);
+
+    // Vérifie la taille de l'écran lors du montage initial
+    handleResize();
+
+    // Nettoyage lors du démontage du composant
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="style">
-      <Navbar expand="lg" className="menuGauche flex-column">
+      <Navbar
+        expand="lg"
+        className={`menuGauche flex-column ${isLgScreen ? "lg-navbar" : ""}`}
+      >
         <Nav className="menuGauche flex-column">
           <ul>
             {/* =============================================================DASHBOARD========================================== */}

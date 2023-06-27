@@ -45,12 +45,14 @@ const Navigation = ({ onSelect }) => {
             <div className="nav-items">
               {isConnected && (
                 <Nav.Link href={`/users/show/${userId}`} className="navLink">
-                  <img
-                    src={`http://localhost:8000/storage/uploads/users/${picture}`}
-                    alt="photo adhérent"
-                    width="40px"
-                    className="rounded-image"
-                  />
+                  {picture && ( // Vérifie si la variable picture existe
+                    <img
+                      src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                      alt="photo adhérent"
+                      width="40px"
+                      className="rounded-image"
+                    />
+                  )}
                   {pseudo}
                 </Nav.Link>
               )}

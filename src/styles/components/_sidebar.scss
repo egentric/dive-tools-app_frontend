@@ -20,6 +20,10 @@
           border: 0;
           ;
 
+          //   @media (min-width: 992px) {
+          //       positio;
+          //   }
+
 
       }
 
@@ -60,12 +64,12 @@
       height: 100vh;
   }
 
+  .lg-dropdown .dropdown-menu {
+      left: auto;
+      right: 0;
+      transform: translateX(0) !important;
+  }
 
-  //   .toggle {
-  //       padding-top: 20px;
-  //       background-color: $blue2;
-  //       position: fixed;
-  //       left: 0;
-  //       top: 60px;
-  //       height: 100vh;
-  //   }
+  .lg-navbar .navbar-nav .dropdown-menu {
+      position: static !important;
+  }

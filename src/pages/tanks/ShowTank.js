@@ -93,7 +93,7 @@ const ShowTank = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
@@ -182,34 +182,38 @@ const ShowTank = () => {
                               {formatDateShow(showTank.first_test_date_tank)}
                             </td>
                           </tr>
+                          {role === 1 || role === 2 ? (
+                            <>
+                              <tr>
+                                <th>nom QrCode</th>
+                                <td>
+                                  {showTank.qrcode_tank === null
+                                    ? "Aucun"
+                                    : showTank.qrcode_tank}
+                                </td>
+                              </tr>
 
-                          <tr>
-                            <th>nom QrCode</th>
-                            <td>
-                              {showTank.qrcode_tank === null
-                                ? "Aucun"
-                                : showTank.qrcode_tank}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>image QrCode</th>
-                            <td>
-                              {" "}
-                              {showTank.qrcode_tank === null ? (
-                                "Aucune"
-                              ) : (
-                                <img
-                                  src={`http://localhost:8000/storage/uploads/tanks/${image}`}
-                                  alt={showTank.qrcode_tank}
-                                  width="100px"
-                                />
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>Compteur d'emprunt</th>
-                            <td>{showTank.counter_loan_tank}</td>
-                          </tr>
+                              <tr>
+                                <th>image QrCode</th>
+                                <td>
+                                  {" "}
+                                  {showTank.qrcode_tank === null ? (
+                                    "Aucune"
+                                  ) : (
+                                    <img
+                                      src={`http://localhost:8000/storage/uploads/tanks/${image}`}
+                                      alt={showTank.qrcode_tank}
+                                      width="100px"
+                                    />
+                                  )}
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Compteur d'emprunt</th>
+                                <td>{showTank.counter_loan_tank}</td>
+                              </tr>
+                            </>
+                          ) : null}
                           <tr>
                             <th>Disponibilité</th>
                             <td>

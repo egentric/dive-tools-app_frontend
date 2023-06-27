@@ -73,7 +73,7 @@ const Home = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
@@ -447,12 +447,14 @@ const Home = () => {
                     <div className="card-body">
                       <Row className="justify-content-center">
                         <div className="text-center">
-                          <img
-                            src={`http://localhost:8000/storage/uploads/users/${picture}`}
-                            alt="photo adhérent"
-                            width="130px"
-                            className="rounded-image"
-                          />
+                          {picture && ( // Vérifie si la variable picture existe
+                            <img
+                              src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                              alt="photo adhérent"
+                              width="130px"
+                              className="rounded-image"
+                            />
+                          )}
                         </div>
                       </Row>
                       <Row className="justify-content-center mt-3">

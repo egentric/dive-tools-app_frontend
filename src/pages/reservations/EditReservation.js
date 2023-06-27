@@ -90,22 +90,22 @@ const EditReservation = () => {
 
       setTanks(response.data.data.tanks); //récupère les informations tanks
       // console.log(response.data.data.tanks);
-      const tankOptions =
-        // !isEmpty(tanks) &&
-        tanks.map((tank) => ({
-          value: tank.id,
-          label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
-        })); //map les information tanks dans un tableau en définissant la value et le label
+      // const tankOptions =
+      //   // !isEmpty(tanks) &&
+      //   tanks.map((tank) => ({
+      //     value: tank.id,
+      //     label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
+      //   })); //map les information tanks dans un tableau en définissant la value et le label
 
-      const selectedTankOptions = tankOptions.filter((option) => {
-        const codesToSelect = response.data.data.tanks.map(
-          (tank) => tank.code_tank
-        );
-        return codesToSelect.includes(option.label.split(" - ")[0]);
-      });
-      // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
+      // const selectedTankOptions = tankOptions.filter((option) => {
+      //   const codesToSelect = response.data.data.tanks.map(
+      //     (tank) => tank.code_tank
+      //   );
+      //   return codesToSelect.includes(option.label.split(" - ")[0]);
+      // });
+      // // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
 
-      setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
+      // setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
 
       setIsLoading(false);
       // Mettez isLoading à false une fois les données récupérées
@@ -172,7 +172,27 @@ const EditReservation = () => {
     fetchData();
     displayUsers();
   }, []);
+
+  useEffect(() => {
+    const updateSelectedTanks = () => {
+      const tankOptions = tanks.map((tank) => ({
+        value: tank.id,
+        label: `${tank.code_tank} - ${tank.capacity_tank} Litres - ${tank.outlet_tank} sortie - ${tank.gas_tank}`,
+      })); //map les information tanks dans un tableau en définissant la value et le label
+
+      const selectedTankOptions = tankOptions.filter((option) => {
+        const codesToSelect = tanks.map((tank) => tank.code_tank);
+        return codesToSelect.includes(option.label.split(" - ")[0]);
+      });
+      // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
+
+      setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
+    };
+
+    updateSelectedTanks();
+  }, [tanks]);
   console.log(selectedTanks);
+
   // // ------------Select users----------------------------------------//
 
   const handleNameChange = (selectedOption) => {
@@ -195,13 +215,6 @@ const EditReservation = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
-
-        // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
-        const currentUserOption = {
-          value: userCoId,
-          label: `${lastname} ${firstname}`,
-        };
-        setSelectedUser(currentUserOption);
       });
   };
 
@@ -278,6 +291,7 @@ const EditReservation = () => {
   //   ? { value: selectedBcd.value, label: selectedBcd.label }
   //   : { value: "none", label: "Aucune Stab" };
   console.log(selectedTanks);
+
   // // ------------Multi Select tanks----------------------------------------//
   const handleNameChangeT = (selectedOptionT) => {
     setSelectedTanks(selectedOptionT);
@@ -347,7 +361,7 @@ const EditReservation = () => {
   return (
     <div>
       <Navigation />
-      <Row>
+      <Row className="m-0">
         <Col xs={1} md={3} lg={2}>
           <Sidebar />
         </Col>
