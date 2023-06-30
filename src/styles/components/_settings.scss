@@ -119,3 +119,21 @@
       margin-left: 10px;
       margin-right: 10px;
   }
+
+  .expired {
+      color: $red1 !important;
+      font-weight: bold;
+
+      svg {
+          padding-right: 10px;
+      }
+  }
+
+  .expired2 {
+      color: $blue2 !important;
+      font-weight: bold;
+
+      svg {
+          padding-right: 10px;
+      }
+  }

@@ -68,6 +68,22 @@ h5 {
   margin-right: 10px;
 }
 
+.expired {
+  color: rgb(176, 96, 86) !important;
+  font-weight: bold;
+}
+.expired svg {
+  padding-right: 10px;
+}
+
+.expired2 {
+  color: rgb(29, 58, 99) !important;
+  font-weight: bold;
+}
+.expired2 svg {
+  padding-right: 10px;
+}
+
 nav {
   background-color: rgb(29, 58, 99) !important;
   font-family: "font-1", sans-serif !important;

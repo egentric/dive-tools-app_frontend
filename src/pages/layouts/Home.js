@@ -104,7 +104,7 @@ const Home = () => {
                     <div className="card-body">
                       <p>
                         Rubrique de réservation du matériel de plongée,
-                        Détendeur, Gilet Stabilisateur et bouteille.
+                        Détendeur, Gilet Stabilisateur et bouteilles de plongée.
                       </p>
                       <p>
                         <Link

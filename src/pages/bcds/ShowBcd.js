@@ -89,6 +89,22 @@ const ShowBcd = () => {
     return ""; // ou une autre valeur par défaut si date n'est pas définie
   };
 
+  // ============================================================== vérification plus de 2ans =================================
+  // Vérifie si la date est expirée (plus de deux ans)
+  const isDateExpired2 = (date) => {
+    const twoYearInMilliseconds = 63072000000; // Nombre de millisecondes dans deux ans
+    const currentDate = new Date(); // Date actuelle
+
+    // Convertit la date du tiv en objet Date
+    const revisionBcdDate = new Date(date);
+
+    // Vérifie si la différence entre la date actuelle et la date du tiv dépasse un an
+    return currentDate - revisionBcdDate > twoYearInMilliseconds;
+  };
+
+  const revisionBcdDate = formatDateShow(showBcd.revision_BCD_date);
+  const isExpired2 = isDateExpired2(showBcd.revision_BCD_date);
+
   return (
     <div>
       <Navigation />
@@ -171,7 +187,22 @@ const ShowBcd = () => {
                           </tr>
                           <tr>
                             <th>Date de la révision</th>
-                            <td>{formatDateShow(showBcd.revision_BCD_date)}</td>
+                            <td className={isExpired2 ? "expired2" : ""}>
+                              {isExpired2 && (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="30"
+                                  height="30"
+                                  fill="currentColor"
+                                  class="bi bi-exclamation-circle"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                </svg>
+                              )}
+                              {revisionBcdDate}
+                            </td>
                           </tr>
                           <tr>
                             <th>nom QrCode</th>
@@ -197,11 +228,38 @@ const ShowBcd = () => {
                           </tr>
                           <tr>
                             <th>Compteur d'emprunt</th>
-                            <td>{showBcd.counter_loan_BCD}</td>
+                            <td
+                              className={
+                                showBcd.counter_loan_BCD >= 100
+                                  ? "expired2"
+                                  : ""
+                              }
+                            >
+                              {showBcd.counter_loan_BCD >= 100 ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="30"
+                                  height="30"
+                                  fill="currentColor"
+                                  class="bi bi-exclamation-circle"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                </svg>
+                              ) : null}
+                              {showBcd.counter_loan_BCD}
+                            </td>
                           </tr>
                           <tr>
                             <th>Disponibilité</th>
-                            <td>
+                            <td
+                              className={
+                                showBcd.availability_BCD === 0
+                                  ? "expired2"
+                                  : null
+                              }
+                            >
                               {showBcd.availability_BCD === 1
                                 ? "Disponible"
                                 : "Indisponible"}
