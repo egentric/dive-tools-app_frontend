@@ -98,7 +98,7 @@ const AddReservation = () => {
   useEffect(() => {
     displayUsers();
   }, []);
-
+  console.log(users);
   // // ------------Select users----------------------------------------//
 
   const handleNameChange = (selectedOption) => {
@@ -130,6 +130,7 @@ const AddReservation = () => {
         setSelectedUser(currentUserOption);
       });
   };
+  // // ------------Select regulators----------------------------------------//
 
   const handleNameChangeR = (selectedOptionR) => {
     setSelectedRegulator(selectedOptionR);
