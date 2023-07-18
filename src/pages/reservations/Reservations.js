@@ -134,11 +134,15 @@ const Reservations = () => {
                         <thead>
                           <tr>
                             <th>Réf</th>
-                            <th>Emprunteur</th>
+                            <th className="d-none d-md-table-cell">
+                              Emprunteur
+                            </th>
                             <th>Date emprunt</th>
-                            <th>Détendeur</th>
-                            <th>Stab</th>
-                            <th>Bloc</th>
+                            <th className="d-none d-lg-table-cell">
+                              Détendeur
+                            </th>
+                            <th className="d-none d-lg-table-cell">Stab</th>
+                            <th className="d-none d-lg-table-cell">Bloc</th>
                             <th>Restituer</th>
                             <th>Actions</th>
                           </tr>
@@ -148,15 +152,19 @@ const Reservations = () => {
                           {reservations.map((reservation) => (
                             <tr key={reservation.id}>
                               <td>{reservation.id}</td>
-                              <td>
+                              <td className="d-none d-md-table-cell">
                                 {reservation.lastname} {reservation.firstname}
                               </td>
                               <td>
                                 {formatDate(reservation.reservation_date)}
                               </td>
-                              <td>{reservation.code_regulator}</td>
-                              <td>{reservation.code_BCD}</td>
-                              <td>
+                              <td className="d-none d-lg-table-cell">
+                                {reservation.code_regulator}
+                              </td>
+                              <td className="d-none d-lg-table-cell">
+                                {reservation.code_BCD}
+                              </td>
+                              <td className="d-none d-lg-table-cell">
                                 <ul>
                                   {reservation.tanks.map((tank) => (
                                     <li key={tank.code_tank}>

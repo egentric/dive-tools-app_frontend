@@ -148,11 +148,17 @@ const Tanks = () => {
                         <thead>
                           <tr>
                             <th>Codes</th>
-                            <th>Capacités</th>
-                            <th>Gaz</th>
-                            <th>Disponibilités</th>
+                            <th className="d-none d-sm-table-cell">
+                              Capacités
+                            </th>
+                            <th className="d-none d-md-table-cell">Gaz</th>
+                            <th className="d-none d-md-table-cell">
+                              Disponibilités
+                            </th>
                             <th>Dates de requalification</th>
-                            <th>Compteurs</th>
+                            <th className="d-none d-md-table-cell">
+                              Compteurs
+                            </th>
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -168,14 +174,18 @@ const Tanks = () => {
                             return (
                               <tr key={tank.id}>
                                 <td>{tank.code_tank}</td>
-                                <td>{tank.capacity_tank} Litres</td>
-                                <td>{tank.gas_tank}</td>
+                                <td className="d-none d-sm-table-cell">
+                                  {tank.capacity_tank} Litres
+                                </td>
+                                <td className="d-none d-md-table-cell">
+                                  {tank.gas_tank}
+                                </td>
                                 <td
-                                  className={
+                                  className={`d-none d-md-table-cell ${
                                     tank.availability_tank === 0
                                       ? "expired2"
                                       : null
-                                  }
+                                  }`}
                                 >
                                   {tank.availability_tank === 1
                                     ? "Disponible"
@@ -230,13 +240,13 @@ const Tanks = () => {
                                     ) &&
                                     null}
                                   {requalifDate}
-                                </td>{" "}
+                                </td>
                                 <td
-                                  className={
+                                  className={`d-none d-md-table-cell ${
                                     tank.counter_loan_tank >= 100
                                       ? "expired2"
                                       : ""
-                                  }
+                                  }`}
                                 >
                                   {tank.counter_loan_tank >= 100 ? (
                                     <svg

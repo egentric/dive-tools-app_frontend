@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 import auth from "../../services/auth/token.js";
 
-const Reservations = () => {
+const ReservationsUser = () => {
   const userId = auth.getId();
 
   const [reservations, setReservations] = useState([]);
@@ -139,9 +139,11 @@ const Reservations = () => {
                           <tr>
                             <th>Réf</th>
                             <th>Date emprunt</th>
-                            <th>Détendeur</th>
-                            <th>Stab</th>
-                            <th>Bloc</th>
+                            <th className="d-none d-lg-table-cell">
+                              Détendeur
+                            </th>
+                            <th className="d-none d-lg-table-cell">Stab</th>
+                            <th className="d-none d-lg-table-cell">Bloc</th>
                             <th>Restituer</th>
                             <th>Actions</th>
                           </tr>
@@ -154,9 +156,13 @@ const Reservations = () => {
                               <td>
                                 {formatDate(reservation.reservation_date)}
                               </td>
-                              <td>{reservation.code_regulator}</td>
-                              <td>{reservation.code_BCD}</td>
-                              <td>
+                              <td className="d-none d-lg-table-cell">
+                                {reservation.code_regulator}
+                              </td>
+                              <td className="d-none d-lg-table-cell">
+                                {reservation.code_BCD}
+                              </td>
+                              <td className="d-none d-lg-table-cell">
                                 <ul>
                                   {reservation.tanks.map((tank) => (
                                     <li key={tank.code_tank}>
@@ -286,4 +292,4 @@ const Reservations = () => {
   );
 };
 
-export default Reservations;
+export default ReservationsUser;

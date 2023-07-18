@@ -146,10 +146,14 @@ const Regulators = () => {
                         <thead>
                           <tr>
                             <th>Codes</th>
-                            <th>Marques</th>
-                            <th>Disponibilités</th>
+                            <th className="d-none d-md-table-cell">Marques</th>
+                            <th className="d-none d-sm-table-cell">
+                              Disponibilités
+                            </th>
                             <th>Dates de révision</th>
-                            <th>Compteurs</th>
+                            <th className="d-none d-sm-table-cell">
+                              Compteurs
+                            </th>
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -164,13 +168,16 @@ const Regulators = () => {
                             return (
                               <tr key={regulator.id}>
                                 <td>{regulator.code_regulator}</td>
-                                <td>{regulator.mark_regulator}</td>
+                                <td className="d-none d-md-table-cell">
+                                  {regulator.mark_regulator}
+                                </td>
                                 <td
-                                  className={
+                                  className={`d-none d-sm-table-cell
+                                  ${
                                     regulator.availability_regulator === 0
                                       ? "expired2"
                                       : null
-                                  }
+                                  }`}
                                 >
                                   {regulator.availability_regulator === 1
                                     ? "Disponible"
@@ -228,11 +235,12 @@ const Regulators = () => {
                                   {revisionRegulatorDate}
                                 </td>
                                 <td
-                                  className={
+                                  className={`d-none d-sm-table-cell 
+                                  ${
                                     regulator.counter_loan_regulator >= 100
                                       ? "expired"
                                       : ""
-                                  }
+                                  }`}
                                 >
                                   {regulator.counter_loan_regulator >= 100 ? (
                                     <svg

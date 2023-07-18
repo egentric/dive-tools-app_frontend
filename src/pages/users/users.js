@@ -164,8 +164,8 @@ const Users = () => {
                           <tr>
                             <th>Photos</th>
                             <th>Noms</th>
-                            <th>Prénoms</th>
-                            <th>Emails</th>
+                            <th className="d-none d-sm-table-cell">Prénoms</th>
+                            <th className="d-none d-md-table-cell">Emails</th>
                             <th>Licences à jour</th>
                             <th>Actions</th>
                           </tr>
@@ -186,8 +186,12 @@ const Users = () => {
                               </td>
 
                               <td>{user.lastname}</td>
-                              <td>{user.firstname}</td>
-                              <td>{user.email_user}</td>
+                              <td className="d-none d-sm-table-cell">
+                                {user.firstname}
+                              </td>
+                              <td className="d-none d-md-table-cell">
+                                {user.email_user}
+                              </td>
                               <td>
                                 {user.licensee === 1 ? (
                                   <svg

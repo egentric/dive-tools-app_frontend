@@ -145,11 +145,15 @@ const Bcds = () => {
                         <thead>
                           <tr>
                             <th>Codes</th>
-                            <th>Marques</th>
-                            <th>Tailles</th>
-                            <th>Disponibilités</th>
+                            <th className="d-none d-md-table-cell">Marques</th>
+                            <th className="d-none d-md-table-cell">Tailles</th>
+                            <th className="d-none d-sm-table-cell">
+                              Disponibilités
+                            </th>
                             <th>Dates de révision</th>
-                            <th>Compteurs</th>
+                            <th className="d-none d-sm-table-cell">
+                              Compteurs
+                            </th>
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -165,15 +169,19 @@ const Bcds = () => {
                             return (
                               <tr key={bcd.id}>
                                 <td>{bcd.code_BCD}</td>
-                                <td>{bcd.mark_BCD}</td>
-                                <td>{bcd.size_BCD}</td>
+                                <td className="d-none d-md-table-cell">
+                                  {bcd.mark_BCD}
+                                </td>
+                                <td className="d-none d-md-table-cell">
+                                  {bcd.size_BCD}
+                                </td>
 
                                 <td
-                                  className={
+                                  className={`d-none d-sm-table-cell ${
                                     bcd.availability_BCD === 0
                                       ? "expired2"
                                       : null
-                                  }
+                                  }`}
                                 >
                                   {bcd.availability_BCD === 1
                                     ? "Disponible"
@@ -197,11 +205,11 @@ const Bcds = () => {
                                   {revisionBcdDate}
                                 </td>
                                 <td
-                                  className={
+                                  className={`d-none d-sm-table-cell ${
                                     bcd.counter_loan_BCD >= 100
                                       ? "expired2"
                                       : ""
-                                  }
+                                  }`}
                                 >
                                   {bcd.counter_loan_BCD >= 100 ? (
                                     <svg

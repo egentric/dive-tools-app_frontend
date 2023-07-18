@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 import auth from "../../services/auth/token.js";
 
-const Reservations = () => {
+const TanksUser = () => {
   const userId = auth.getId();
   const role = auth.getRoles();
 
@@ -149,11 +149,21 @@ const Reservations = () => {
                         <thead>
                           <tr>
                             <th>Codes</th>
-                            <th>Capacités</th>
-                            <th>Gaz</th>
-                            {role === 1 ? <th>Disponibilités</th> : null}
+                            <th className="d-none d-sm-table-cell">
+                              Capacités
+                            </th>
+                            <th className="d-none d-md-table-cell">Gaz</th>
+                            {role === 1 ? (
+                              <th className="d-none d-md-table-cell">
+                                Disponibilités
+                              </th>
+                            ) : null}
                             <th>Dates de requalification</th>
-                            {role === 1 ? <th>Compteurs</th> : null}
+                            {role === 1 ? (
+                              <th className="d-none d-md-table-cell">
+                                Compteurs
+                              </th>
+                            ) : null}
                             <th>Actions</th>
                           </tr>
                         </thead>
@@ -169,15 +179,19 @@ const Reservations = () => {
                             return (
                               <tr key={tank.id}>
                                 <td>{tank.code_tank}</td>
-                                <td>{tank.capacity_tank} Litres</td>
-                                <td>{tank.gas_tank}</td>
+                                <td className="d-none d-sm-table-cell">
+                                  {tank.capacity_tank} Litres
+                                </td>
+                                <td className="d-none d-md-table-cell">
+                                  {tank.gas_tank}
+                                </td>
                                 {role === 1 ? (
                                   <td
-                                    className={
+                                    className={`d-none d-md-table-cell ${
                                       tank.availability_tank === 0
                                         ? "expired2"
                                         : null
-                                    }
+                                    }`}
                                   >
                                     {tank.availability_tank === 1
                                       ? "Disponible"
@@ -236,11 +250,11 @@ const Reservations = () => {
                                 </td>
                                 {role === 1 ? (
                                   <td
-                                    className={
+                                    className={`d-none d-md-table-cell ${
                                       tank.counter_loan_tank >= 100
                                         ? "expired2"
                                         : ""
-                                    }
+                                    }`}
                                   >
                                     {tank.counter_loan_tank >= 100 ? (
                                       <svg
@@ -335,4 +349,4 @@ const Reservations = () => {
   );
 };
 
-export default Reservations;
+export default TanksUser;
