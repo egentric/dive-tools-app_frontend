@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import LogoRVB from "../LogoRVB";
+import { Routes, Route } from "react-router-dom";
+import Home from "../../pages/layouts/Home";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [validationError, setValidationError] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [auth, setAuth] = useState({
+    isLoggedIn: false,
+    expiryTime: null,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("email_user", email);
     formData.append("password", password);
@@ -22,7 +30,7 @@ const Login = () => {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
 
-    const log = await axios
+    axios
       .post(`http://127.0.0.1:8000/api/login`, formData)
       .then((response) => {
         if (response.data.status === "success") {
@@ -30,14 +38,24 @@ const Login = () => {
             "access_token",
             response.data.authorisation.token
           );
-
+          setAuth({
+            isLoggedIn: true,
+            expiryTime: response.data.authorisation.expiry_time,
+          });
           navigate("/home");
         } else {
-          console.error("Login failed");
+          if (response.data.status === "error" && response.data.message) {
+            setErrorMessage(response.data.message);
+          } else {
+            setErrorMessage("Identifiant ou mot de passe incorrect.");
+          }
         }
+      })
+      .catch((error) => {
+        console.error("An error occurred during login:", error);
+        setErrorMessage("Identifiant ou mot de passe incorrect.");
       });
   };
-
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -69,6 +87,11 @@ const Login = () => {
                   </div>
                 )}
                 <Form onSubmit={handleSubmit}>
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}{" "}
                   <Form.Group className="mb-3 " controlId="formGroupEmail">
                     <Form.Label>Adresse email</Form.Label>
                     <Form.Control
@@ -78,7 +101,6 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Form.Group>
-
                   <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Mot de passe</Form.Label>
                     <Form.Control
@@ -102,6 +124,12 @@ const Login = () => {
                     </a>
                   </Row>
                 </Form>
+                <Routes>
+                  {auth.isLoggedIn && <Route path="/home" element={<Home />} />}
+                  {!auth.isLoggedIn && (
+                    <Route path="/login" element={<Login />} />
+                  )}
+                </Routes>
               </div>
             </div>
           </div>
