@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LogoRVB from "../LogoRVB";
+import { ReCAPTCHA } from "react-google-recaptcha";
 
 function isPasswordValid(password) {
   // Exigences : au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial
@@ -30,10 +31,12 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [validationError, setValidationError] = useState({});
+  const [validationErrorMail, setValidationErrorMail] = useState("");
 
   const [showAlert, setShowAlert] = useState(false); // État pour afficher ou masquer l'alerte
   const [fieldName, setFieldName] = useState(""); // État pour stocker le nom du champ
   const [showError, setShowError] = useState(false);
+  // const recaptchaRef = React.createRef();
 
   const handleBlur = (value, fieldName) => {
     if (value.trim() === "") {
@@ -63,6 +66,10 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Vérification ReCAPTCHA avant de soumettre le formulaire
+    // const token = await recaptchaRef.current.executeAsync();
+
     const formData = new FormData();
     formData.append("pseudo", pseudo);
     formData.append("firstname", firstname);
@@ -82,27 +89,28 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios
-        .post(`http://127.0.0.1:8000/api/register`, formData)
-        .then(navigate("/login"))
-        .catch(({ response }) => {
-          if (response.status === 422) {
-            setValidationError(response.data.errors);
-          }
-        });
-
-      const data = await response.json();
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/register`,
+        formData
+      );
+      const data = response.data; // Les données sont déjà parsées par Axios
       if (data.status === "success") {
-        console.log("Registration successful");
+        console.log("Inscription réussie");
         console.log(data.authorisation.token);
         localStorage.setItem("token", data.authorisation.token);
-        // window.location.href = "/";
         navigate("/", { replace: true });
       } else {
-        console.error("Registration failed");
+        console.error("Échec de l'inscription");
       }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 422) {
+        // Le serveur a retourné une erreur 422 (Unprocessable Entity)
+        setValidationErrorMail(
+          "Cet e-mail est déjà utilisé. Veuillez en choisir un autre."
+        );
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -139,6 +147,11 @@ const RegisterForm = () => {
                 )}
                 <Row>
                   <Form onSubmit={handleSubmit}>
+                    {validationErrorMail && (
+                      <div className="alert alert-danger" role="alert">
+                        {validationErrorMail}
+                      </div>
+                    )}
                     {showAlert && (
                       <div className="alert alert-danger" role="alert">
                         Le champ {fieldName} ne peut pas être vide !
@@ -147,7 +160,7 @@ const RegisterForm = () => {
                     {showError && (
                       <div className="alert alert-danger" role="alert">
                         Le mot de passe ne respecte pas les exigences de
-                        sécurité : Au moins 5 caractères dont au moins une
+                        sécurité : Au moins 8 caractères dont au moins une
                         lettre minuscule, une lettre majuscule, un chiffre et un
                         caractère spécial.
                       </div>
@@ -205,8 +218,8 @@ const RegisterForm = () => {
                           handleBlur(e.target.value, "Adresse mail")
                         }
                       />
-                    </Form.Group>{" "}
-                    <Row>
+                    </Form.Group>
+                    <Row className="align-items-bottom">
                       <Col md={6}>
                         <Form.Group className="mb-3" controlId="formGroupPhone">
                           <Form.Label>Téléphone fixe</Form.Label>
@@ -216,7 +229,7 @@ const RegisterForm = () => {
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                           />
-                        </Form.Group>{" "}
+                        </Form.Group>
                       </Col>
                       <Col md={6}>
                         <Form.Group
@@ -245,8 +258,8 @@ const RegisterForm = () => {
                         onChange={(e) => setAddress(e.target.value)}
                         onBlur={(e) => handleBlur(e.target.value, "Adresse")}
                       />
-                    </Form.Group>{" "}
-                    <Row>
+                    </Form.Group>
+                    <Row className="align-items-bottom">
                       <Col md={3}>
                         <Form.Group className="mb-3" controlId="formGroupZip">
                           <Form.Label>Code postal*</Form.Label>
@@ -259,7 +272,7 @@ const RegisterForm = () => {
                               handleBlur(e.target.value, "Code postal")
                             }
                           />
-                        </Form.Group>{" "}
+                        </Form.Group>
                       </Col>
                       <Col md={9}>
                         <Form.Group className="mb-3" controlId="formGroupCity">
@@ -318,6 +331,14 @@ const RegisterForm = () => {
                     >
                       Enregistrement
                     </Button>
+                    {/* <Row>
+                      <ReCAPTCHA
+                        ref={recaptchaRef} // Référence utilisée pour obtenir le token ReCAPTCHA
+                        // sitekey="6LdzStUmAAAAAIiQh8lxYb0n4sO_rSZ8R8-rw-Vk"
+                        sitekey="6LeujDcnAAAAAHFUmWUJ_XcAJtQoVkFX7biErE-t"
+                        onChange={handleCaptchaChange}
+                      />
+                    </Row> */}
                   </Form>
                 </Row>
               </div>

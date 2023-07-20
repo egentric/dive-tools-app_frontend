@@ -233,6 +233,11 @@ select option {
   font-weight: bold;
 }
 
+.align-items-bottom {
+  display: flex;
+  align-items: flex-end;
+}
+
 .btnBlue2 {
   background-color: rgb(124, 177, 252) !important;
   border-radius: 5px;
