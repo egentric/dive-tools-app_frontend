@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LogoRVB from "../LogoRVB";
-import { ReCAPTCHA } from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"; // Importez le composant ReCAPTCHA
 
 function isPasswordValid(password) {
   // Exigences : au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial
@@ -17,6 +17,7 @@ function isPasswordValid(password) {
 }
 
 const RegisterForm = () => {
+  const [recaptchaValue, setRecaptchaValue] = useState(""); // État pour stocker la valeur du reCAPTCHA
   const [pseudo, setPseudo] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -36,7 +37,6 @@ const RegisterForm = () => {
   const [showAlert, setShowAlert] = useState(false); // État pour afficher ou masquer l'alerte
   const [fieldName, setFieldName] = useState(""); // État pour stocker le nom du champ
   const [showError, setShowError] = useState(false);
-  // const recaptchaRef = React.createRef();
 
   const handleBlur = (value, fieldName) => {
     if (value.trim() === "") {
@@ -66,10 +66,6 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Vérification ReCAPTCHA avant de soumettre le formulaire
-    // const token = await recaptchaRef.current.executeAsync();
-
     const formData = new FormData();
     formData.append("pseudo", pseudo);
     formData.append("firstname", firstname);
@@ -83,6 +79,13 @@ const RegisterForm = () => {
     formData.append("license_number", licenseNumber);
 
     formData.append("password", password);
+
+    if (!recaptchaValue) {
+      alert(
+        "Veuillez vérifier que vous êtes un humain en cochant le reCAPTCHA."
+      );
+      return;
+    }
 
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
@@ -204,7 +207,7 @@ const RegisterForm = () => {
                             onChange={(e) => setFirstname(e.target.value)}
                             onBlur={(e) => handleBlur(e.target.value, "Prénom")}
                           />
-                        </Form.Group>{" "}
+                        </Form.Group>
                       </Col>
                     </Row>
                     <Form.Group className="mb-3" controlId="formGroupEmailUser">
@@ -246,7 +249,7 @@ const RegisterForm = () => {
                               handleBlur(e.target.value, "Téléphone portable")
                             }
                           />
-                        </Form.Group>{" "}
+                        </Form.Group>
                       </Col>
                     </Row>
                     <Form.Group className="mb-3" controlId="formGroupAddress">
@@ -323,6 +326,10 @@ const RegisterForm = () => {
                     <Row className="mb-3">
                       <i>* champs obligatoire</i>
                     </Row>
+                    <ReCAPTCHA
+                      sitekey="6LdqGEEnAAAAAGQZIeI6vNWfuuGvMXtA46T0ilvb"
+                      onChange={(value) => setRecaptchaValue(value)}
+                    />
                     <Button
                       className="btnBlue mt-2 btn-sm"
                       size="lg"
@@ -331,14 +338,6 @@ const RegisterForm = () => {
                     >
                       Enregistrement
                     </Button>
-                    {/* <Row>
-                      <ReCAPTCHA
-                        ref={recaptchaRef} // Référence utilisée pour obtenir le token ReCAPTCHA
-                        // sitekey="6LdzStUmAAAAAIiQh8lxYb0n4sO_rSZ8R8-rw-Vk"
-                        sitekey="6LeujDcnAAAAAHFUmWUJ_XcAJtQoVkFX7biErE-t"
-                        onChange={handleCaptchaChange}
-                      />
-                    </Row> */}
                   </Form>
                 </Row>
               </div>
