@@ -9,7 +9,6 @@ import Select from "react-select";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
-import { isEmpty } from "../../components/Utils";
 import auth from "../../services/auth/token.js";
 
 const EditReservation = () => {
@@ -24,8 +23,6 @@ const EditReservation = () => {
 
   const userCoId = auth.getId();
   const role = auth.getRoles();
-  const firstname = auth.getFirstname();
-  const lastname = auth.getLastname();
 
   const [users, setUsers] = useState([]); // Tableau de données des utilisateurs
   const [selectedUser, setSelectedUser] = useState(null);

@@ -40,7 +40,7 @@ const EditUser = () => {
     setPicture(event.target.files[0]);
   };
 
-  const [labelValue, setLabelValue] = useState("");
+  const setLabelValue = useState("");
 
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;

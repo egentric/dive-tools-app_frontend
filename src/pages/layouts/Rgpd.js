@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
@@ -157,7 +157,7 @@ const Rgpd = () => {
                     <a
                       href="http://www.cnil.fr/vos-droits/vos-traces/les-cookies/"
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                     >
                       http://www.cnil.fr/vos-droits/vos-traces/les-cookies/
                     </a>

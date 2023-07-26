@@ -18,7 +18,7 @@ let getExpiryTime = () => {
     return true;
   } else {
     return localStorage.removeItem("access_token");
-    return false;
+    // return false;
   }
 };
 

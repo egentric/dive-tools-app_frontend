@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
-import axios from "axios";
-import { Link } from "react-router-dom";
 
 const MentionsLegales = () => {
   return (
@@ -37,6 +33,7 @@ const MentionsLegales = () => {
                     <a
                       href="http://www.egentric.fr/divetoolsapp"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       www.egentric.fr/divetoolsapp
                     </a>{" "}
@@ -93,6 +90,7 @@ const MentionsLegales = () => {
                       <a
                         href="https://www.generer-mentions-legales.com/generateur-mentions-legales.html"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         générateur de mentions legales
                       </a>
@@ -118,6 +116,7 @@ const MentionsLegales = () => {
                     <a
                       href="http://www.egentric.fr/divetoolsapp"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       www.egentric.fr/divetoolsapp
                     </a>

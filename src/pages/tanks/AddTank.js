@@ -10,7 +10,6 @@ import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 import auth from "../../services/auth/token.js";
-import { FormControl, FormGroup } from "react-bootstrap";
 
 const AddTank = () => {
   const navigate = useNavigate();

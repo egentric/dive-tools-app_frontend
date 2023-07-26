@@ -30,9 +30,9 @@ const EditTank = () => {
   const [qrcodeTank, setQrcodeTank] = useState("");
   const [availabilityTank, setAvailabilityTank] = useState("");
   const [causeUnavailabilityTank, setCauseUnavailabilityTank] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [userId, setUserId] = useState("");
+  const setFirstname = useState("");
+  const setLastname = useState("");
+  const setUserId = useState("");
 
   const userCoId = auth.getId();
   const role = auth.getRoles();
@@ -205,7 +205,7 @@ const EditTank = () => {
       })
       .then(() => navigate(-1))
       .catch(({ response }) => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           setValidationError(response.data);
         }
       });

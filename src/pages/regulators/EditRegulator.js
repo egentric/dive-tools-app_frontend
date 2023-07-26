@@ -113,7 +113,7 @@ const EditRegulator = () => {
       })
       .then(navigate("/regulators"))
       .catch(({ response }) => {
-        if (response.status != 422) {
+        if (response.status !== 422) {
           setValidationError(response.data.errors);
         }
       });

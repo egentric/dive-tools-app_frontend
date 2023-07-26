@@ -114,7 +114,7 @@ const EditBcd = () => {
       })
       .then(() => navigate("/bcds"))
       .catch(({ response }) => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           setValidationError(response.data);
         }
       });

@@ -31,7 +31,7 @@ const RegisterForm = () => {
 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [validationError, setValidationError] = useState({});
+  const validationError = useState({});
   const [validationErrorMail, setValidationErrorMail] = useState("");
 
   const [showAlert, setShowAlert] = useState(false); // État pour afficher ou masquer l'alerte

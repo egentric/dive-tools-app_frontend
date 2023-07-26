@@ -48,7 +48,7 @@ const Navigation = ({ onSelect }) => {
                   {picture && ( // Vérifie si la variable picture existe
                     <img
                       src={`http://localhost:8000/storage/uploads/users/${picture}`}
-                      alt="photo adhérent"
+                      alt="Avatar adhérent"
                       width="40px"
                       className="rounded-image"
                     />
