@@ -1,20 +1,19 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import LogoRVB from "../LogoRVB";
-import { Routes, Route } from "react-router-dom";
-import Home from "../../pages/layouts/Home";
+// import { Routes, Route } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [validationError, setValidationError] = useState({});
+  const validationError = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const [auth, setAuth] = useState({
+  const setAuth = useState({
     isLoggedIn: false,
     expiryTime: null,
   });
@@ -124,12 +123,12 @@ const Login = () => {
                     </a>
                   </Row>
                 </Form>
-                <Routes>
+                {/* <Routes>
                   {auth.isLoggedIn && <Route path="/home" element={<Home />} />}
                   {!auth.isLoggedIn && (
                     <Route path="/login" element={<Login />} />
                   )}
-                </Routes>
+                </Routes> */}
               </div>
             </div>
           </div>
