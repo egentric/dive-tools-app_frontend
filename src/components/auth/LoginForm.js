@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const validationError = useState({});
+  const [validationError] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const setAuth = useState({
     isLoggedIn: false,
