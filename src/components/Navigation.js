@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import auth from "../services/auth/token";
 
-const Navigation = ({ onSelect }) => {
+const Navigation = () => {
   const navigate = useNavigate();
 
   const userId = auth.getId();
