@@ -106,7 +106,7 @@ const RegisterForm = () => {
         console.error("Échec de l'inscription");
       }
     } catch (error) {
-      if (error.response && error.response.status === 422) {
+      if (error.response && error.response.status == 422) {
         // Le serveur a retourné une erreur 422 (Unprocessable Entity)
         setValidationErrorMail(
           "Cet e-mail est déjà utilisé. Veuillez en choisir un autre."

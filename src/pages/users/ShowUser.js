@@ -201,7 +201,7 @@ const ShowUser = () => {
                           <tr>
                             <th>Licencié</th>
                             <td>
-                              {showUser.licensee === 1 ? (
+                              {showUser.licensee === "1" ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
@@ -291,7 +291,7 @@ const ShowUser = () => {
                                 </svg>{" "}
                                 <span className="menu">Modifier</span>
                               </Link>
-                              {role === 1 ? (
+                              {role === "1" ? (
                                 <Button
                                   className="btn btnRed btn-sm"
                                   onClick={() => {

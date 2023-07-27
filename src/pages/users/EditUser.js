@@ -342,7 +342,7 @@ const EditUser = () => {
                         <Col md={4} className="mt-3">
                           <p className="label">
                             Licence à jour :{" "}
-                            {licensee === 1 ? (
+                            {licensee === "1" ? (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="25"
@@ -368,7 +368,7 @@ const EditUser = () => {
                             )}
                           </p>
                         </Col>
-                        {roleCo === 1 && (
+                        {roleCo === "1" && (
                           <Col md={8} className="mt-3">
                             <Form.Group controlId="licensee">
                               <Form.Label className="label">
@@ -378,7 +378,7 @@ const EditUser = () => {
                                 type="checkbox"
                                 id="custom-checkbox-licensee"
                                 label="Licence activé"
-                                checked={licensee === 1}
+                                checked={licensee === "1"}
                                 onChange={handleCheckboxChange}
                               />
                             </Form.Group>
@@ -431,7 +431,7 @@ const EditUser = () => {
                       </Row>
 
                       <Row className="mt-3">
-                        {roleCo === 1 && (
+                        {roleCo === "1" && (
                           <Col>
                             <Form.Group controlId="Role">
                               <Form.Label className="label">Role</Form.Label>
@@ -440,7 +440,7 @@ const EditUser = () => {
                                 id="custom-switch-user"
                                 label="Utilisateur"
                                 value="3"
-                                checked={role_id === 3}
+                                checked={role_id === "3"}
                                 onChange={(event) => {
                                   if (event.target.checked) {
                                     setRoleId(3);
@@ -452,7 +452,7 @@ const EditUser = () => {
                                 id="custom-switch-editorM"
                                 label="Editeur Matériel"
                                 value="2"
-                                checked={role_id === 2}
+                                checked={role_id === "2"}
                                 onChange={(event) => {
                                   if (event.target.checked) {
                                     setRoleId(2);
@@ -464,7 +464,7 @@ const EditUser = () => {
                                 id="custom-switch-admin"
                                 label="Administrateur"
                                 value="1"
-                                checked={role_id === 1}
+                                checked={role_id === "1"}
                                 onChange={(event) => {
                                   if (event.target.checked) {
                                     setRoleId(1);

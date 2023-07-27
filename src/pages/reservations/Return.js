@@ -390,7 +390,7 @@ const ReturnReservation = () => {
                                 </svg>{" "}
                                 Bloc
                               </Form.Label>{" "}
-                              {selectedTanks.length === 0 ? (
+                              {selectedTanks.length === "0" ? (
                                 <>
                                   <Form.Control
                                     readOnly

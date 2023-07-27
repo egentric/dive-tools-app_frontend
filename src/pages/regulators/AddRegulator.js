@@ -222,7 +222,7 @@ const AddRegulator = () => {
                               id="custom-switch-user"
                               label="Indisponible"
                               value="0"
-                              checked={availabilityRegulator === 0}
+                              checked={availabilityRegulator === "0"}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityRegulator(0);
@@ -234,7 +234,7 @@ const AddRegulator = () => {
                               id="custom-switch-admin"
                               label="Disponible"
                               value="1"
-                              checked={availabilityRegulator === 1}
+                              checked={availabilityRegulator === "1"}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityRegulator(1);
@@ -244,7 +244,7 @@ const AddRegulator = () => {
                           </Form.Group>
                         </Col>
                         <Col md={8} className="mt-3">
-                          {availabilityRegulator === 0 ? (
+                          {availabilityRegulator === "0" ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
                               <Form.Label className="label">
                                 Cause d&#39;indisponibilité

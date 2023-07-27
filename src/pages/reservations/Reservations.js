@@ -174,7 +174,7 @@ const Reservations = () => {
                                 </ul>
                               </td>
                               <td>
-                                {reservation.return_confirmation === 1 ? (
+                                {reservation.return_confirmation === "1" ? (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="30"
@@ -217,7 +217,7 @@ const Reservations = () => {
                                   </svg>{" "}
                                   <span className="menu">Voir</span>
                                 </Link>
-                                {reservation.return_confirmation === 0 ? (
+                                {reservation.return_confirmation === "0" ? (
                                   <Link
                                     to={`/reservations/edit/${reservation.id}`}
                                     className="btn btnGreen btn-sm me-2"
@@ -257,7 +257,7 @@ const Reservations = () => {
                                   </svg>{" "}
                                   <span className="menu">Supprimer</span>
                                 </Button>
-                                {reservation.return_confirmation === 0 ? (
+                                {reservation.return_confirmation === "0" ? (
                                   <Link
                                     to={`/reservations/return/${reservation.id}`}
                                     className="btn btnBlue3 btn-sm"

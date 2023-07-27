@@ -181,7 +181,7 @@ const ShowReservation = () => {
                                     <span className="circle"></span>
                                     {tank.capacity_tank} litres
                                     <span className="circle"></span>
-                                    {tank.outlet_tank === 1
+                                    {tank.outlet_tank === "1"
                                       ? "1 sortie"
                                       : `${tank.outlet_tank} sorties`}
                                     <span className="circle"></span>
@@ -194,7 +194,7 @@ const ShowReservation = () => {
                           <tr>
                             <th>Restitué</th>
                             <td>
-                              {showReservation.return_confirmation === 1 ? (
+                              {showReservation.return_confirmation === "1" ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
@@ -220,7 +220,7 @@ const ShowReservation = () => {
                               )}
                             </td>
                           </tr>
-                          {showReservation.return_confirmation === 1 ? (
+                          {showReservation.return_confirmation === "1" ? (
                             <tr>
                               <th>Date de restitution</th>
                               <td>
@@ -264,7 +264,7 @@ const ShowReservation = () => {
                                 </svg>{" "}
                                 <span className="menu">Retour</span>
                               </Button>
-                              {showReservation.return_confirmation === 0 ? (
+                              {showReservation.return_confirmation === "0" ? (
                                 <Link
                                   to={`/reservations/edit/${showReservation.id}`}
                                   className="btn btnGreen btn-1 btn-sm me-2"
@@ -304,7 +304,7 @@ const ShowReservation = () => {
                                 </svg>{" "}
                                 <span className="menu">Supprimer</span>
                               </Button>
-                              {showReservation.return_confirmation === 0 ? (
+                              {showReservation.return_confirmation === "0 " ? (
                                 <Link
                                   to={`/reservations/return/${reservation.id}`}
                                   className="btn btnBlue3 btn-sm"

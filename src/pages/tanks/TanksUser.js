@@ -153,13 +153,13 @@ const TanksUser = () => {
                               Capacités
                             </th>
                             <th className="d-none d-md-table-cell">Gaz</th>
-                            {role === 1 ? (
+                            {role === "1" ? (
                               <th className="d-none d-md-table-cell">
                                 Disponibilités
                               </th>
                             ) : null}
                             <th>Dates de requalification</th>
-                            {role === 1 ? (
+                            {role === "1" ? (
                               <th className="d-none d-md-table-cell">
                                 Compteurs
                               </th>
@@ -185,15 +185,15 @@ const TanksUser = () => {
                                 <td className="d-none d-md-table-cell">
                                   {tank.gas_tank}
                                 </td>
-                                {role === 1 ? (
+                                {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
-                                      tank.availability_tank === 0
+                                      tank.availability_tank === "0"
                                         ? "expired2"
                                         : null
                                     }`}
                                   >
-                                    {tank.availability_tank === 1
+                                    {tank.availability_tank === "1"
                                       ? "Disponible"
                                       : "Indisponible"}
                                   </td>
@@ -248,15 +248,15 @@ const TanksUser = () => {
                                     null}
                                   {requalifDate}
                                 </td>
-                                {role === 1 ? (
+                                {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
-                                      tank.counter_loan_tank >= 100
+                                      tank.counter_loan_tank >= "100"
                                         ? "expired2"
                                         : ""
                                     }`}
                                   >
-                                    {tank.counter_loan_tank >= 100 ? (
+                                    {tank.counter_loan_tank >= "100" ? (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="30"
@@ -310,7 +310,7 @@ const TanksUser = () => {
                                     </svg>{" "}
                                     <span className="menu">Modifier</span>
                                   </Link>
-                                  {role === 1 || role === 2 ? (
+                                  {role === "1" || role === "2" ? (
                                     <Button
                                       className="btn btnRed btn-sm"
                                       onClick={() => {

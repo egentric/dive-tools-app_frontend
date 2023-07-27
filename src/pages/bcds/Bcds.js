@@ -178,12 +178,12 @@ const Bcds = () => {
 
                                 <td
                                   className={`d-none d-sm-table-cell ${
-                                    bcd.availability_BCD === 0
+                                    bcd.availability_BCD === "0"
                                       ? "expired2"
                                       : null
                                   }`}
                                 >
-                                  {bcd.availability_BCD === 1
+                                  {bcd.availability_BCD === "1"
                                     ? "Disponible"
                                     : "Indisponible"}
                                 </td>
@@ -206,12 +206,12 @@ const Bcds = () => {
                                 </td>
                                 <td
                                   className={`d-none d-sm-table-cell ${
-                                    bcd.counter_loan_BCD >= 100
+                                    bcd.counter_loan_BCD >= "100"
                                       ? "expired2"
                                       : ""
                                   }`}
                                 >
-                                  {bcd.counter_loan_BCD >= 100 ? (
+                                  {bcd.counter_loan_BCD >= "100" ? (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="30"

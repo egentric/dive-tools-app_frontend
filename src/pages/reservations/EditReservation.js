@@ -324,7 +324,7 @@ const EditReservation = () => {
     e.preventDefault();
 
     // Determine the user ID based on the role
-    const userId = role === 1 || role === 2 ? selectedUser.value : userCoId;
+    const userId = role === "1" || role === "2" ? selectedUser.value : userCoId;
 
     const formData = new FormData();
     formData.append("_method", "POST");
@@ -600,7 +600,7 @@ const EditReservation = () => {
                               />
                             </Form.Group>
                           </Col>
-                          {role === 1 || role === 2 ? (
+                          {role === "1" || role === "2" ? (
                             <Col md={6} className="mt-3">
                               {/* // // ------------Select
                               users----------------------------------------// */}

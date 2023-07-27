@@ -230,12 +230,12 @@ const ShowBcd = () => {
                             <th>Compteur d&#39;emprunt</th>
                             <td
                               className={
-                                showBcd.counter_loan_BCD >= 100
+                                showBcd.counter_loan_BCD >= "100"
                                   ? "expired2"
                                   : ""
                               }
                             >
-                              {showBcd.counter_loan_BCD >= 100 ? (
+                              {showBcd.counter_loan_BCD >= "100" ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
@@ -255,17 +255,17 @@ const ShowBcd = () => {
                             <th>Disponibilité</th>
                             <td
                               className={
-                                showBcd.availability_BCD === 0
+                                showBcd.availability_BCD === "0"
                                   ? "expired2"
                                   : null
                               }
                             >
-                              {showBcd.availability_BCD === 1
+                              {showBcd.availability_BCD === "1"
                                 ? "Disponible"
                                 : "Indisponible"}
                             </td>
                           </tr>
-                          {showBcd.availability_BCD === 0 ? (
+                          {showBcd.availability_BCD === "0" ? (
                             <tr>
                               <th>Cause d&#39;indisponibilité</th>
                               <td>{showBcd.cause_unavailability_BCD}</td>

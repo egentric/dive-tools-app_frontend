@@ -263,12 +263,12 @@ const ShowRegulator = () => {
                             <th>Compteur d&#39;emprunt</th>
                             <td
                               className={
-                                showRegulator.counter_loan_regulator >= 100
+                                showRegulator.counter_loan_regulator >= "100"
                                   ? "expired"
                                   : ""
                               }
                             >
-                              {showRegulator.counter_loan_regulator >= 100 ? (
+                              {showRegulator.counter_loan_regulator >= "100" ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
@@ -288,17 +288,17 @@ const ShowRegulator = () => {
                             <th>Disponibilité</th>
                             <td
                               className={
-                                showRegulator.availability_regulator === 0
+                                showRegulator.availability_regulator === "0"
                                   ? "expired2"
                                   : null
                               }
                             >
-                              {showRegulator.availability_regulator === 1
+                              {showRegulator.availability_regulator === "1"
                                 ? "Disponible"
                                 : "Indisponible"}
                             </td>
                           </tr>
-                          {showRegulator.availability_regulator === 0 ? (
+                          {showRegulator.availability_regulator === "0" ? (
                             <tr>
                               <th>Cause d&#39;indisponibilité</th>
                               <td>

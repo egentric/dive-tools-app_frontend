@@ -198,7 +198,7 @@ const Home = () => {
                           <span className="menu">Mes réservations</span>
                         </Link>
                         <br />
-                        {role === 1 || role === 2 ? (
+                        {role === "1" || role === "2" ? (
                           <Link
                             to={`/reservations`}
                             className="btn btnWhite btn-sm"
@@ -287,7 +287,7 @@ const Home = () => {
                           </span>
                         </Link>
                         <br />
-                        {role === 1 || role === 2 ? (
+                        {role === "1" || role === "2" ? (
                           <>
                             <Link to={`/tanks`} className="btn btnWhite btn-sm">
                               <svg
@@ -379,7 +379,7 @@ const Home = () => {
             </Col>
 
             {/* ===================================================================== UTILISATEURS =============================================== */}
-            {role === 1 && (
+            {role === "1" && (
               <Col sm={11} md={6} lg={4}>
                 <Row className="justify-content-center p-4">
                   <Link to="/users" className="bloc">
@@ -468,7 +468,7 @@ const Home = () => {
               </Row>
             </Col>
             {/* ===================================================================== Contacts =============================================== */}
-            {role === 1 && (
+            {role === "1" && (
               <Col sm={11} md={6} lg={4}>
                 <Row className="justify-content-center p-4">
                   <Link to="/contacts" className="bloc">
