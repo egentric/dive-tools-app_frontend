@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [validationError] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const setAuth = useState({
+  const [auth, setAuth] = useState({
     isLoggedIn: false,
     expiryTime: null,
   });
@@ -51,7 +51,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.error("An error occurred during login:", error);
+        console.error("Une erreur est survenue lors de la connexion :", error);
         setErrorMessage("Identifiant ou mot de passe incorrect.");
       });
   };
