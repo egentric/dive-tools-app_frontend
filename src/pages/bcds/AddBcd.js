@@ -279,9 +279,7 @@ const AddBcd = () => {
                         <Col md={8} className="mt-3">
                           {availabilityBcd === 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
-                              <Form.Label className="label">
-                                Cause d'indisponibilité
-                              </Form.Label>
+                              <Form.Label className="label">Cause d&#39;indisponibilité</Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityBcd}

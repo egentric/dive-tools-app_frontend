@@ -20,7 +20,7 @@ const ShowTank = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState("");
   const [showTank, setShowTank] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l&#39;affichage de chargement
 
   useEffect(() => {
     displayShowTank();
@@ -44,8 +44,8 @@ const ShowTank = () => {
       // console.log(response.data);
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      // Gérer l&#39;erreur ici (par exemple, afficher un message d&#39;erreur à l&#39;utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d&#39;erreur également
     }
   };
 
@@ -57,7 +57,7 @@ const ShowTank = () => {
         },
       })
       .then(() => {
-        navigate("/tanks"); // Redirige vers la page d'index après la suppression
+        navigate("/tanks"); // Redirige vers la page d&#39;index après la suppression
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +70,7 @@ const ShowTank = () => {
       const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
       return formattedDate;
     }
-    return ""; // ou une autre valeur par défaut si date n'est pas définie
+    return ""; // ou une autre valeur par défaut si date n&#39;est pas définie
   };
 
   const formatDateShow2 = (date) => {
@@ -87,7 +87,7 @@ const ShowTank = () => {
       );
       return formattedDate;
     }
-    return ""; // ou une autre valeur par défaut si date n'est pas définie
+    return ""; // ou une autre valeur par défaut si date n&#39;est pas définie
   };
 
   // ============================================================== vérification plus de 1an =================================
@@ -124,7 +124,7 @@ const ShowTank = () => {
 
   // ============================================================== vérification moins de 2 mois avant expiration =================================
 
-  // Vérifie si on est à moins de 2 mois avant la date d'expiration (1 an)
+  // Vérifie si on est à moins de 2 mois avant la date d&#39;expiration (1 an)
   const isTwoMonthsBeforeExpiration1 = (date) => {
     const currentDate = new Date(); // Date actuelle
 
@@ -134,18 +134,18 @@ const ShowTank = () => {
     // Ajoute 1 ans à la date de requalification
     tivDate.setFullYear(tivDate.getFullYear() + 1);
 
-    // Soustrait deux mois à la date d'expiration
+    // Soustrait deux mois à la date d&#39;expiration
     const twoMonthsBeforeExpiration = new Date(tivDate);
     twoMonthsBeforeExpiration.setMonth(tivDate.getMonth() - 2);
 
-    // Vérifie si la date actuelle est supérieure à la date deux mois avant la date d'expiration
+    // Vérifie si la date actuelle est supérieure à la date deux mois avant la date d&#39;expiration
     return currentDate > twoMonthsBeforeExpiration;
   };
 
   // ============================================================== vérification moins de 2 mois avant expiration =================================
   // console.log(showTank.requalification_date);
 
-  // Vérifie si on est à moins de 2 mois avant la date d'expiration (6 ans)
+  // Vérifie si on est à moins de 2 mois avant la date d&#39;expiration (6 ans)
   const isTwoMonthsBeforeExpiration6 = (date) => {
     const currentDate = new Date();
     const requalifDate = new Date(date);
@@ -153,7 +153,7 @@ const ShowTank = () => {
     // Ajoute 6 ans à la date de requalification
     requalifDate.setFullYear(requalifDate.getFullYear() + 6);
 
-    // Soustrait deux mois à la date d'expiration
+    // Soustrait deux mois à la date d&#39;expiration
     const twoMonthsBeforeExpiration = new Date(requalifDate);
     twoMonthsBeforeExpiration.setMonth(requalifDate.getMonth() - 2);
 
@@ -204,7 +204,7 @@ const ShowTank = () => {
                     // Afficher un message de chargement pendant le chargement des données
                     <p>Loading...</p>
                   ) : (
-                    // Afficher les données une fois qu'elles sont récupérées
+                    // Afficher les données une fois qu&#39;elles sont récupérées
                     <div className="table-responsive">
                       <Table striped bordered hover>
                         <tbody>
@@ -384,7 +384,7 @@ const ShowTank = () => {
                                 </td>
                               </tr>
                               <tr>
-                                <th>Compteur d'emprunt</th>
+                                <th>Compteur d&#39;emprunt</th>
                                 <td
                                   className={
                                     showTank.counter_loan_tank >= 100
@@ -426,7 +426,7 @@ const ShowTank = () => {
                           </tr>
                           {showTank.availability_tank === 0 ? (
                             <tr>
-                              <th>Cause d'indisponibilité</th>
+                              <th>Cause d&#39;indisponibilité</th>
                               <td>{showTank.cause_unavailability_tank}</td>
                             </tr>
                           ) : null}

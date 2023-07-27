@@ -90,7 +90,7 @@ const EditTank = () => {
       });
   };
 
-  // // ------------ GET - Récupère les valeurs de la fiche avec l'API----------------------------------------//
+  // // ------------ GET - Récupère les valeurs de la fiche avec l&#39;API----------------------------------------//
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,7 +136,7 @@ const EditTank = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        setIsLoading(false); // En cas d'erreur, définir isLoading sur false
+        setIsLoading(false); // En cas d&#39;erreur, définir isLoading sur false
       }
     };
 
@@ -192,7 +192,7 @@ const EditTank = () => {
 
     formData.append("counter_loan_tank", counterLoanTank);
 
-    // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l'objet FormData dans la console.
+    // La boucle suivante utilise la méthode formData.entries() pour afficher toutes les paires clé-valeur de l&#39;objet FormData dans la console.
     // for (var pair of formData.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
@@ -477,7 +477,7 @@ const EditTank = () => {
                       ) : (
                         <div>
                           {" "}
-                          {/* Ajout de la balise d'ouverture */}
+                          {/* Ajout de la balise d&#39;ouverture */}
                           <Row>
                             <Col md={4} className="mt-3">
                               <Form.Group controlId="availabilityTank">
@@ -514,7 +514,7 @@ const EditTank = () => {
                               {availabilityTank === 0 ? (
                                 <Form.Group controlId="causeUnavailabilityTank">
                                   <Form.Label className="label">
-                                    Cause d'indisponibilité
+                                    Cause d&#39;indisponibilité
                                   </Form.Label>
                                   <Form.Control
                                     type="text"

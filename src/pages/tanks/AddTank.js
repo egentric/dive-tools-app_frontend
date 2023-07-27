@@ -81,7 +81,7 @@ const AddTank = () => {
       })
       .then((res) => {
         setUsers(res.data.data);
-        // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
+        // Définir la valeur initiale de selectedUser avec l&#39;option correspondante au user actuel
         const currentUserOption = {
           value: userCoId,
           label: `${lastname} ${firstname}`,
@@ -90,7 +90,7 @@ const AddTank = () => {
       });
   };
 
-  // ----------------------- Fonction d'ajout de Tank----------------------------------------//
+  // ----------------------- Fonction d&#39;ajout de Tank----------------------------------------//
   const AddFormTank = async (e) => {
     e.preventDefault();
 
@@ -394,7 +394,7 @@ const AddTank = () => {
                       ) : (
                         <div>
                           {" "}
-                          {/* Ajout de la balise d'ouverture */}
+                          {/* Ajout de la balise d&#39;ouverture */}
                           <Row>
                             <Col md={4} className="mt-3">
                               <Form.Group controlId="availabilityTank">
@@ -431,7 +431,7 @@ const AddTank = () => {
                               {availabilityTank === 0 ? (
                                 <Form.Group controlId="causeUnavailabilityTank">
                                   <Form.Label className="label">
-                                    Cause d'indisponibilité
+                                    Cause d&#39;indisponibilité
                                   </Form.Label>
                                   <Form.Control
                                     type="text"

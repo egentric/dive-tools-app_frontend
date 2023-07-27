@@ -122,7 +122,7 @@ const AddReservation = () => {
       .then((res) => {
         setUsers(res.data.data);
 
-        // Définir la valeur initiale de selectedUser avec l'option correspondante au user actuel
+        // Définir la valeur initiale de selectedUser avec l&#39;option correspondante au user actuel
         const currentUserOption = {
           value: userCoId,
           label: `${lastname} ${firstname}`,
@@ -167,10 +167,10 @@ const AddReservation = () => {
       })),
     ].sort((a, b) => {
       if (a.label === "Aucune Stab") {
-        return -1; // Place 'Aucune Stab' en premier
+        return -1; // Place &#39;Aucune Stab&#39; en premier
       }
       if (b.label === "Aucune Stab") {
-        return 1; // Place 'Aucune Stab' en premier
+        return 1; // Place &#39;Aucune Stab&#39; en premier
       }
       return a.label.localeCompare(b.label);
     });
@@ -192,10 +192,10 @@ const AddReservation = () => {
       })),
     ].sort((a, b) => {
       if (a.label === "Aucun Bloc") {
-        return -1; // Place 'Aucun Bloc' en premier
+        return -1; // Place &#39;Aucun Bloc&#39; en premier
       }
       if (b.label === "Aucun Bloc") {
-        return 1; // Place 'Aucun Bloc' en premier
+        return 1; // Place &#39;Aucun Bloc&#39; en premier
       }
       return a.label.localeCompare(b.label);
     });
@@ -203,7 +203,7 @@ const AddReservation = () => {
     sortedOptionsT = [];
   }
 
-  // // ------------Fonction d'ajout de reservation-------------------------------------------
+  // // ------------Fonction d&#39;ajout de reservation-------------------------------------------
   const AddReservations = async (e) => {
     e.preventDefault();
 
@@ -304,7 +304,7 @@ const AddReservation = () => {
                                 <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                               </svg>{" "}
-                              Date d'emprunt
+                              Date d&#39;emprunt
                             </Form.Label>
                             <Form.Control
                               type="date"
@@ -489,7 +489,7 @@ const AddReservation = () => {
                                   >
                                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                   </svg>{" "}
-                                  Nom de l'emprunteur
+                                  Nom de l&#39;emprunteur
                                 </Form.Label>
                                 <Select
                                   options={sortedOptions}

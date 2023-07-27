@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 const Tanks = () => {
   const [tanks, setTanks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l&#39;affichage de chargement
 
   const formatDate = (date) => {
     const dateParts = date.split("-");
@@ -38,8 +38,8 @@ const Tanks = () => {
       // console.log(response.data);
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      // Gérer l&#39;erreur ici (par exemple, afficher un message d&#39;erreur à l&#39;utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d&#39;erreur également
     }
   };
   // ============= fonction delete =====================
@@ -70,7 +70,7 @@ const Tanks = () => {
   // ============================================================== vérification moins de 2 mois avant expiration =================================
   // console.log(showTank.requalification_date);
 
-  // Vérifie si on est à moins de 2 mois avant la date d'expiration (6 ans)
+  // Vérifie si on est à moins de 2 mois avant la date d&#39;expiration (6 ans)
   const isTwoMonthsBeforeExpiration6 = (date) => {
     const currentDate = new Date();
     const requalifDate = new Date(date);
@@ -78,7 +78,7 @@ const Tanks = () => {
     // Ajoute 6 ans à la date de requalification
     requalifDate.setFullYear(requalifDate.getFullYear() + 6);
 
-    // Soustrait deux mois à la date d'expiration
+    // Soustrait deux mois à la date d&#39;expiration
     const twoMonthsBeforeExpiration = new Date(requalifDate);
     twoMonthsBeforeExpiration.setMonth(requalifDate.getMonth() - 2);
 
@@ -141,7 +141,7 @@ const Tanks = () => {
                     // Afficher un message de chargement pendant le chargement des données
                     <p>Loading...</p>
                   ) : (
-                    // Afficher les données une fois qu'elles sont récupérées
+                    // Afficher les données une fois qu&#39;elles sont récupérées
 
                     <div className="table-responsive">
                       <Table striped bordered hover>
@@ -254,7 +254,7 @@ const Tanks = () => {
                                       width="30"
                                       height="30"
                                       fill="currentColor"
-                                      class="bi bi-exclamation-circle"
+                                      className="bi bi-exclamation-circle"
                                       viewBox="0 0 16 16"
                                     >
                                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />

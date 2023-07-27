@@ -194,7 +194,7 @@ const ShowBcd = () => {
                                   width="30"
                                   height="30"
                                   fill="currentColor"
-                                  class="bi bi-exclamation-circle"
+                                  className="bi bi-exclamation-circle"
                                   viewBox="0 0 16 16"
                                 >
                                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -227,7 +227,7 @@ const ShowBcd = () => {
                             </td>
                           </tr>
                           <tr>
-                            <th>Compteur d'emprunt</th>
+                            <th>Compteur d&#39;emprunt</th>
                             <td
                               className={
                                 showBcd.counter_loan_BCD >= 100
@@ -241,7 +241,7 @@ const ShowBcd = () => {
                                   width="30"
                                   height="30"
                                   fill="currentColor"
-                                  class="bi bi-exclamation-circle"
+                                  className="bi bi-exclamation-circle"
                                   viewBox="0 0 16 16"
                                 >
                                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -267,7 +267,7 @@ const ShowBcd = () => {
                           </tr>
                           {showBcd.availability_BCD === 0 ? (
                             <tr>
-                              <th>Cause d'indisponibilité</th>
+                              <th>Cause d&#39;indisponibilité</th>
                               <td>{showBcd.cause_unavailability_BCD}</td>
                             </tr>
                           ) : null}

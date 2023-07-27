@@ -247,7 +247,7 @@ const AddRegulator = () => {
                           {availabilityRegulator === 0 ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
                               <Form.Label className="label">
-                                Cause d'indisponibilité
+                                Cause d&#39;indisponibilité
                               </Form.Label>
                               <Form.Control
                                 type="text"

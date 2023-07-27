@@ -16,7 +16,7 @@ const ShowReservation = () => {
   const { reservation } = useParams();
   const navigate = useNavigate();
   const [showReservation, setShowReservation] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l&#39;affichage de chargement
 
   useEffect(() => {
     displayShowReservation();
@@ -39,8 +39,8 @@ const ShowReservation = () => {
       // console.log(response.data);
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      // Gérer l&#39;erreur ici (par exemple, afficher un message d&#39;erreur à l&#39;utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d&#39;erreur également
     }
   };
 
@@ -52,7 +52,7 @@ const ShowReservation = () => {
         },
       })
       .then(() => {
-        navigate("/reservations"); // Redirige vers la page d'index après la suppression
+        navigate("/reservations"); // Redirige vers la page d&#39;index après la suppression
       })
       .catch((error) => {
         console.log(error);
@@ -65,7 +65,7 @@ const ShowReservation = () => {
       const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
       return formattedDate;
     }
-    return ""; // ou une autre valeur par défaut si date n'est pas définie
+    return ""; // ou une autre valeur par défaut si date n&#39;est pas définie
   };
 
   const formatDateShow2 = (date) => {
@@ -82,7 +82,7 @@ const ShowReservation = () => {
       );
       return formattedDate;
     }
-    return ""; // ou une autre valeur par défaut si date n'est pas définie
+    return ""; // ou une autre valeur par défaut si date n&#39;est pas définie
   };
 
   return (
@@ -128,7 +128,7 @@ const ShowReservation = () => {
                     // Afficher un message de chargement pendant le chargement des données
                     <p>Loading...</p>
                   ) : (
-                    // Afficher les données une fois qu'elles sont récupérées
+                    // Afficher les données une fois qu&#39;elles sont récupérées
                     <div className="table-responsive">
                       <Table striped bordered hover>
                         <tbody>
@@ -144,7 +144,7 @@ const ShowReservation = () => {
                             </td>
                           </tr>
                           <tr>
-                            <th>Date de l'emprunt</th>
+                            <th>Date de l&#39;emprunt</th>
                             <td>
                               {formatDateShow(showReservation.reservation_date)}
                             </td>

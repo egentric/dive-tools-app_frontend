@@ -41,7 +41,7 @@ const EditReservation = () => {
   const [selectedBcdId, setSelectedBcdId] = useState("");
   const [tanks, setTanks] = useState([]);
   const [selectedTanks, setSelectedTanks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l&#39;affichage de chargement
 
   const [isFirstFormSubmitted, setIsFirstFormSubmitted] = useState(false);
   const [reservationsDateRegulator, setReservationsDateRegulator] = useState(
@@ -52,7 +52,7 @@ const EditReservation = () => {
 
   console.log(tanks);
   console.log(selectedTanks);
-  // ================== GET - Récupère les valeurs de la fiche avec l'API=====================================================
+  // ================== GET - Récupère les valeurs de la fiche avec l&#39;API=====================================================
   const getReservation = async () => {
     try {
       const response = await axios.get(
@@ -100,16 +100,16 @@ const EditReservation = () => {
       //   );
       //   return codesToSelect.includes(option.label.split(" - ")[0]);
       // });
-      // // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
+      // // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l&#39;API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l&#39;un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
 
-      // setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
+      // setSelectedTanks(selectedTankOptions); //met à jour l&#39;état de selectedTanks
 
       setIsLoading(false);
       // Mettez isLoading à false une fois les données récupérées
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      // Gérer l&#39;erreur ici (par exemple, afficher un message d&#39;erreur à l&#39;utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d&#39;erreur également
     }
   };
   console.log(selectedTanks);
@@ -181,9 +181,9 @@ const EditReservation = () => {
         const codesToSelect = tanks.map((tank) => tank.code_tank);
         return codesToSelect.includes(option.label.split(" - ")[0]);
       });
-      // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l'API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l'un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
+      // Cette ligne filtre les tankOptions pour ne conserver que les options de réservoir qui correspondent aux codes de réservoir obtenus à partir de la réponse de l&#39;API. Elle utilise la méthode filter pour comparer le code de chaque option de réservoir (option.label.split(" - ")[0]) avec les codes de réservoir de la réponse (codesToSelect). Seules les options de réservoir dont le code correspond à l&#39;un des codes de réservoir de la réponse seront conservées dans selectedTankOptions.
 
-      setSelectedTanks(selectedTankOptions); //met à jour l'état de selectedTanks
+      setSelectedTanks(selectedTankOptions); //met à jour l&#39;état de selectedTanks
     };
 
     updateSelectedTanks();
@@ -246,7 +246,7 @@ const EditReservation = () => {
     sortedOptionsR = [defaultOptionR];
   }
 
-  // Ajoutez l'option "Aucun détendeur" si aucun régulateur sélectionné
+  // Ajoutez l&#39;option "Aucun détendeur" si aucun régulateur sélectionné
   if (!selectedRegulatorId) {
     sortedOptionsR = [defaultOptionR, ...sortedOptionsR];
   }
@@ -303,10 +303,10 @@ const EditReservation = () => {
       })),
     ].sort((a, b) => {
       if (a.label === "Aucun Bloc") {
-        return -1; // Place 'Aucun Bloc' en premier
+        return -1; // Place &#39;Aucun Bloc&#39; en premier
       }
       if (b.label === "Aucun Bloc") {
-        return 1; // Place 'Aucun Bloc' en premier
+        return 1; // Place &#39;Aucun Bloc&#39; en premier
       }
       return a.label.localeCompare(b.label);
     });
@@ -422,7 +422,7 @@ const EditReservation = () => {
                                   <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
                                   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                 </svg>{" "}
-                                Date d'emprunt
+                                Date d&#39;emprunt
                               </Form.Label>
                               <Form.Control
                                 type="date"
@@ -608,7 +608,7 @@ const EditReservation = () => {
                                   >
                                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                   </svg>{" "}
-                                  Nom de l'emprunteur
+                                  Nom de l&#39;emprunteur
                                 </Form.Label>
                                 <Select
                                   options={sortedOptions}

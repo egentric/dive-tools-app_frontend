@@ -29,7 +29,7 @@ const ReturnReservation = () => {
   const [tanks, setTanks] = useState([]);
   //   const [selectedTanks, setSelectedTanks] = useState([]);
   //   const [selectedTanksLabel, setSelectedTanksLabel] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l'affichage de chargement
+  const [isLoading, setIsLoading] = useState(true); // Ajoutez un état isLoading pour gérer l&#39;affichage de chargement
 
   const [confirmationDate, setConfirmationDate] = useState("");
 
@@ -52,7 +52,7 @@ const ReturnReservation = () => {
   };
   //   console.log(tanks);
 
-  // ================== GET - Récupère les valeurs de la fiche avec l'API=====================================================
+  // ================== GET - Récupère les valeurs de la fiche avec l&#39;API=====================================================
   const getReservation = async () => {
     try {
       const response = await axios.get(
@@ -90,8 +90,8 @@ const ReturnReservation = () => {
       //   console.log(response.data);
     } catch (error) {
       console.log(error);
-      // Gérer l'erreur ici (par exemple, afficher un message d'erreur à l'utilisateur)
-      setIsLoading(false); // Mettez isLoading à false en cas d'erreur également
+      // Gérer l&#39;erreur ici (par exemple, afficher un message d&#39;erreur à l&#39;utilisateur)
+      setIsLoading(false); // Mettez isLoading à false en cas d&#39;erreur également
     }
   };
 
@@ -202,7 +202,7 @@ const ReturnReservation = () => {
                       // Afficher un message de chargement pendant le chargement des données
                       <p>Loading...</p>
                     ) : (
-                      // Afficher les données une fois qu'elles sont récupérées
+                      // Afficher les données une fois qu&#39;elles sont récupérées
 
                       <Form onSubmit={DisplayReturn}>
                         <Row className="align-items-end">
@@ -221,7 +221,7 @@ const ReturnReservation = () => {
                                   <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
                                   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                 </svg>{" "}
-                                Date d'emprunt
+                                Date d&#39;emprunt
                               </Form.Label>
                               <Form.Control
                                 readOnly
@@ -428,7 +428,7 @@ const ReturnReservation = () => {
                                 >
                                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                 </svg>{" "}
-                                Nom de l'emprunteur
+                                Nom de l&#39;emprunteur
                               </Form.Label>
                               <Form.Control
                                 readOnly
@@ -455,7 +455,7 @@ const ReturnReservation = () => {
                                   width="16"
                                   height="16"
                                   fill="currentColor"
-                                  class="bi bi-calendar"
+                                  className="bi bi-calendar"
                                   viewBox="0 0 16 16"
                                 >
                                   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
