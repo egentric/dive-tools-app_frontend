@@ -41,6 +41,7 @@ const Login = () => {
             isLoggedIn: true,
             expiryTime: response.data.authorisation.expiry_time,
           });
+          console.log(auth);
           navigate("/home");
         } else {
           if (response.data.status === "error" && response.data.message) {
