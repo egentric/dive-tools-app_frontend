@@ -55,7 +55,7 @@ const AddBcd = () => {
     // }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/bcds`, formData, {
+      .post(`http://api.erwangentric.fr/api/bcds`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -279,7 +279,9 @@ const AddBcd = () => {
                         <Col md={8} className="mt-3">
                           {availabilityBcd === 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
-                              <Form.Label className="label">Cause d&#39;indisponibilité</Form.Label>
+                              <Form.Label className="label">
+                                Cause d&#39;indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityBcd}

@@ -57,7 +57,7 @@ const AddRegulator = () => {
     // formData.append("counter_loan_regulator", counterLoanRegulator);
 
     await axios
-      .post(`http://127.0.0.1:8000/api/regulators`, formData, {
+      .post(`http://api.erwangentric.fr/api/regulators`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },

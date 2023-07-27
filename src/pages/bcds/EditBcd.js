@@ -55,7 +55,7 @@ const EditBcd = () => {
   // GET - Récupère les valeurs de la fiche avec l'API
   const getBcd = async () => {
     await axios
-      .get(`http://localhost:8000/api/bcds/${bcd}`, {
+      .get(`http://api.erwangentric.fr/api/bcds/${bcd}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -107,7 +107,7 @@ const EditBcd = () => {
     }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/bcds/${bcd}`, formData, {
+      .post(`http://api.erwangentric.fr/api/bcds/${bcd}`, formData, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -327,7 +327,9 @@ const EditBcd = () => {
                         <Col md={8} className="mt-3">
                           {availabilityBcd === 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
-                              <Form.Label>Cause d&#39;indisponibilité</Form.Label>
+                              <Form.Label>
+                                Cause d&#39;indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityBcd}

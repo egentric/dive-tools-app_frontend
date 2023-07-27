@@ -74,7 +74,7 @@ const AddTank = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://localhost:8000/api/users", {
+      .get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -120,7 +120,7 @@ const AddTank = () => {
     // }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/tanks`, formData, {
+      .post(`http://api.erwangentric.fr/api/tanks`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },

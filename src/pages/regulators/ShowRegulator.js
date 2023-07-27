@@ -27,7 +27,7 @@ const ShowRegulator = () => {
   const displayShowRegulator = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/regulators/${regulator}`,
+        `http://api.erwangentric.fr/api/regulators/${regulator}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -50,7 +50,7 @@ const ShowRegulator = () => {
 
   const deleteShowRegulator = (id) => {
     axios
-      .delete(`http://localhost:8000/api/regulators/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/regulators/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -252,7 +252,7 @@ const ShowRegulator = () => {
                                 "Aucune"
                               ) : (
                                 <img
-                                  src={`http://localhost:8000/storage/uploads/regulators/${image}`}
+                                  src={`http://api.erwangentric.fr/storage/uploads/regulators/${image}`}
                                   alt={showRegulator.qrcode_regulator}
                                   width="100px"
                                 />

@@ -51,7 +51,7 @@ const EditRegulator = () => {
   // GET - Récupère les valeurs de la fiche avec l'API
   const getRegulator = async () => {
     await axios
-      .get(`http://localhost:8000/api/regulators/${regulator}`, {
+      .get(`http://api.erwangentric.fr/api/regulators/${regulator}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -106,11 +106,15 @@ const EditRegulator = () => {
     // }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/regulators/${regulator}`, formData, {
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("access_token"),
-        },
-      })
+      .post(
+        `http://api.erwangentric.fr/api/regulators/${regulator}`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer" + localStorage.getItem("access_token"),
+          },
+        }
+      )
       .then(navigate("/regulators"))
       .catch(({ response }) => {
         if (response.status !== 422) {

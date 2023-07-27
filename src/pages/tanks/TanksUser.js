@@ -30,7 +30,7 @@ const TanksUser = () => {
   const displayTanksUser = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/tanks/user/${userId}`,
+        `http://api.erwangentric.fr/api/tanks/user/${userId}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -48,7 +48,7 @@ const TanksUser = () => {
 
   const deleteTank = (id) => {
     axios
-      .delete(`http://localhost:8000/api/tanks/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

@@ -59,7 +59,7 @@ const AddReservation = () => {
 
     await axios
       .post(
-        `http://127.0.0.1:8000/api/check-availability-regulator`,
+        `http://api.erwangentric.fr/api/check-availability-regulator`,
         formData,
         {
           headers: {
@@ -73,7 +73,7 @@ const AddReservation = () => {
       });
 
     await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-bcd`, formData, {
+      .post(`http://api.erwangentric.fr/api/check-availability-bcd`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -84,11 +84,15 @@ const AddReservation = () => {
       });
 
     await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-tank`, formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
+      .post(
+        `http://api.erwangentric.fr/api/check-availability-tank`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      )
       .then((res) => {
         setReservationsDateTank(res.data);
         // console.log(res.data);
@@ -114,7 +118,7 @@ const AddReservation = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://localhost:8000/api/users", {
+      .get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -229,7 +233,7 @@ const AddReservation = () => {
     }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/reservations`, formData, {
+      .post(`http://api.erwangentric.fr/api/reservations`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
