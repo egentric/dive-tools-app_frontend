@@ -327,7 +327,7 @@ const RegisterForm = () => {
                       <i>* champs obligatoire</i>
                     </Row>
                     <ReCAPTCHA
-                      sitekey="6LdqGEEnAAAAAGQZIeI6vNWfuuGvMXtA46T0ilvb"
+                      sitekey="6Lcl1F8nAAAAAJi7JLVWi_uyPXoXKCLPK6LODzNG"
                       onChange={(value) => setRecaptchaValue(value)}
                     />
                     <Button
