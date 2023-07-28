@@ -25,7 +25,7 @@ const Users = () => {
 
   const displayUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/users", {
+      const response = await axios.get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -43,7 +43,7 @@ const Users = () => {
   };
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:8000/api/users/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/users/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -54,7 +54,7 @@ const Users = () => {
   const handleConfirm = () => {
     axios
       .put(
-        `http://localhost:8000/api/users/update-licensee`,
+        `http://api.erwangentric.fr/api/users/update-licensee`,
         { licensee: 0 }, // Inclure la valeur 0 dans le corps de la requête
         {
           headers: {
@@ -178,7 +178,7 @@ const Users = () => {
                                   "Aucune"
                                 ) : (
                                   <img
-                                    src={`http://localhost:8000/storage/uploads/users/${user.picture}`}
+                                    src={`http://api.erwangentric.fr/storage/uploads/users/${user.picture}`}
                                     alt={user.picture}
                                     width="30px"
                                   />
@@ -193,7 +193,7 @@ const Users = () => {
                                 {user.email_user}
                               </td>
                               <td>
-                                {user.licensee === 1 ? (
+                                {user.licensee === "1" ? (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="30"

@@ -27,7 +27,7 @@ const Bcds = () => {
   // // ------------Affichage bcds----------------------------------------//
   const displayBcds = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/bcds", {
+      const response = await axios.get("http://api.erwangentric.fr/api/bcds", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -45,7 +45,7 @@ const Bcds = () => {
 
   const deleteBcd = (id) => {
     axios
-      .delete(`http://localhost:8000/api/bcds/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/bcds/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -178,12 +178,12 @@ const Bcds = () => {
 
                                 <td
                                   className={`d-none d-sm-table-cell ${
-                                    bcd.availability_BCD === 0
+                                    bcd.availability_BCD === "0"
                                       ? "expired2"
                                       : null
                                   }`}
                                 >
-                                  {bcd.availability_BCD === 1
+                                  {bcd.availability_BCD === "1"
                                     ? "Disponible"
                                     : "Indisponible"}
                                 </td>

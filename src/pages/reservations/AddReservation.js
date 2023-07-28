@@ -59,7 +59,7 @@ const AddReservation = () => {
 
     await axios
       .post(
-        `http://127.0.0.1:8000/api/check-availability-regulator`,
+        `http://api.erwangentric.fr/api/check-availability-regulator`,
         formData,
         {
           headers: {
@@ -73,7 +73,7 @@ const AddReservation = () => {
       });
 
     await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-bcd`, formData, {
+      .post(`http://api.erwangentric.fr/api/check-availability-bcd`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -84,11 +84,15 @@ const AddReservation = () => {
       });
 
     await axios
-      .post(`http://127.0.0.1:8000/api/check-availability-tank`, formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
+      .post(
+        `http://api.erwangentric.fr/api/check-availability-tank`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      )
       .then((res) => {
         setReservationsDateTank(res.data);
         // console.log(res.data);
@@ -114,7 +118,7 @@ const AddReservation = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://localhost:8000/api/users", {
+      .get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -208,7 +212,7 @@ const AddReservation = () => {
     e.preventDefault();
 
     // Determine the user ID based on the role
-    const userId = role === 1 || role === 2 ? selectedUser.value : userCoId;
+    const userId = role === "1" || role === "2" ? selectedUser.value : userCoId;
 
     const formData = new FormData();
     formData.append("reservation_date", reservationDate);
@@ -229,7 +233,7 @@ const AddReservation = () => {
     }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/reservations`, formData, {
+      .post(`http://api.erwangentric.fr/api/reservations`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -475,7 +479,7 @@ const AddReservation = () => {
                               />
                             </Form.Group>
                           </Col>
-                          {role === 1 || role === 2 ? (
+                          {role === "1" || role === "2" ? (
                             <Col md={6} className="mt-3">
                               <Form.Group>
                                 <Form.Label className="label">

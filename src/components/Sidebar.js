@@ -91,7 +91,7 @@ const Sidebar = () => {
             </li>
             {/* =============================================================LISTES RESERVATIONS========================================== */}
 
-            {role === 1 || role === 2 ? (
+            {role === "1" || role === "2" ? (
               <li>
                 <Nav.Link href="/reservations" className="menuG">
                   <svg
@@ -197,7 +197,7 @@ const Sidebar = () => {
                   </li>
 
                   {/* =============================================================BLOCS========================================== */}
-                  {role === 1 || role === 2 ? (
+                  {role === "1" || role === "2" ? (
                     <li>
                       <Dropdown.Item href="/tanks" className="menuG">
                         <svg
@@ -223,7 +223,7 @@ const Sidebar = () => {
                   ) : null}
 
                   {/* =============================================================STABS========================================== */}
-                  {role === 1 || role === 2 ? (
+                  {role === "1" || role === "2" ? (
                     <li>
                       <Dropdown.Item href="/bcds" className="menuG">
                         <svg
@@ -264,7 +264,7 @@ const Sidebar = () => {
                     </li>
                   ) : null}
                   {/* =============================================================DETENDEURS========================================== */}
-                  {role === 1 || role === 2 ? (
+                  {role === "1" || role === "2" ? (
                     <li>
                       <Dropdown.Item href="/regulators" className="menuG">
                         <svg
@@ -309,7 +309,7 @@ const Sidebar = () => {
             </li>
             {/* =============================================================UTILISATEURS========================================== */}
 
-            {role === 1 && (
+            {role === "1" && (
               <>
                 <li>
                   <Nav.Link href="/users" className="menuG">

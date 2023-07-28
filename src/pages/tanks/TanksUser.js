@@ -30,7 +30,7 @@ const TanksUser = () => {
   const displayTanksUser = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/tanks/user/${userId}`,
+        `http://api.erwangentric.fr/api/tanks/user/${userId}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -48,7 +48,7 @@ const TanksUser = () => {
 
   const deleteTank = (id) => {
     axios
-      .delete(`http://localhost:8000/api/tanks/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -153,13 +153,13 @@ const TanksUser = () => {
                               Capacités
                             </th>
                             <th className="d-none d-md-table-cell">Gaz</th>
-                            {role === 1 ? (
+                            {role === "1" ? (
                               <th className="d-none d-md-table-cell">
                                 Disponibilités
                               </th>
                             ) : null}
                             <th>Dates de requalification</th>
-                            {role === 1 ? (
+                            {role === "1" ? (
                               <th className="d-none d-md-table-cell">
                                 Compteurs
                               </th>
@@ -185,7 +185,7 @@ const TanksUser = () => {
                                 <td className="d-none d-md-table-cell">
                                   {tank.gas_tank}
                                 </td>
-                                {role === 1 ? (
+                                {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
                                       tank.availability_tank === 0
@@ -248,7 +248,7 @@ const TanksUser = () => {
                                     null}
                                   {requalifDate}
                                 </td>
-                                {role === 1 ? (
+                                {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
                                       tank.counter_loan_tank >= 100
@@ -310,7 +310,7 @@ const TanksUser = () => {
                                     </svg>{" "}
                                     <span className="menu">Modifier</span>
                                   </Link>
-                                  {role === 1 || role === 2 ? (
+                                  {role === "1" || role === "2" ? (
                                     <Button
                                       className="btn btnRed btn-sm"
                                       onClick={() => {
