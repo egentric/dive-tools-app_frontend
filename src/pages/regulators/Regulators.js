@@ -28,11 +28,14 @@ const Regulators = () => {
 
   const displayRegulators = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/regulators", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await axios.get(
+        "http://api.erwangentric.fr/api/regulators",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
       setRegulators(response.data.data);
       setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
       // console.log(response.data);
@@ -46,7 +49,7 @@ const Regulators = () => {
 
   const deleteRegulator = (id) => {
     axios
-      .delete(`http://localhost:8000/api/regulators/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/regulators/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -174,12 +177,12 @@ const Regulators = () => {
                                 <td
                                   className={`d-none d-sm-table-cell
                                   ${
-                                    regulator.availability_regulator === 0
+                                    regulator.availability_regulator === "0"
                                       ? "expired2"
                                       : null
                                   }`}
                                 >
-                                  {regulator.availability_regulator === 1
+                                  {regulator.availability_regulator === "1"
                                     ? "Disponible"
                                     : "Indisponible"}
                                 </td>

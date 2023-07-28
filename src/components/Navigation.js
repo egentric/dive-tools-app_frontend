@@ -47,7 +47,7 @@ const Navigation = () => {
                 <Nav.Link href={`/users/show/${userId}`} className="navLink">
                   {picture && ( // Vérifie si la variable picture existe
                     <img
-                      src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                      src={`http://api.erwangentric.fr/storage/uploads/users/${picture}`}
                       alt="Avatar adhérent"
                       width="40px"
                       className="rounded-image"

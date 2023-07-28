@@ -29,7 +29,7 @@ const Reservations = () => {
   const displayReservations = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/reservations",
+        "http://api.erwangentric.fr/api/reservations",
         {
           headers: {
             Authorization: "Bearer" + localStorage.getItem("access_token"),
@@ -54,7 +54,7 @@ const Reservations = () => {
 
   const deleteReservation = (id) => {
     axios
-      .delete(`http://localhost:8000/api/reservations/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/reservations/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -174,7 +174,7 @@ const Reservations = () => {
                                 </ul>
                               </td>
                               <td>
-                                {reservation.return_confirmation === 1 ? (
+                                {reservation.return_confirmation === "1" ? (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="30"
@@ -217,7 +217,7 @@ const Reservations = () => {
                                   </svg>{" "}
                                   <span className="menu">Voir</span>
                                 </Link>
-                                {reservation.return_confirmation === 0 ? (
+                                {reservation.return_confirmation === "0" ? (
                                   <Link
                                     to={`/reservations/edit/${reservation.id}`}
                                     className="btn btnGreen btn-sm me-2"
@@ -257,7 +257,7 @@ const Reservations = () => {
                                   </svg>{" "}
                                   <span className="menu">Supprimer</span>
                                 </Button>
-                                {reservation.return_confirmation === 0 ? (
+                                {reservation.return_confirmation === "0" ? (
                                   <Link
                                     to={`/reservations/return/${reservation.id}`}
                                     className="btn btnBlue3 btn-sm"
