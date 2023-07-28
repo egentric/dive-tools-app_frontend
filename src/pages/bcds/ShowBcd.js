@@ -27,7 +27,7 @@ const ShowBcd = () => {
   const displayShowBcd = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/bcds/${bcd}`,
+        `http://api.erwangentric.fr/api/bcds/${bcd}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -50,7 +50,7 @@ const ShowBcd = () => {
 
   const deleteShowBcd = (id) => {
     axios
-      .delete(`http://localhost:8000/api/bcds/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/bcds/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -219,7 +219,7 @@ const ShowBcd = () => {
                                 "Aucune"
                               ) : (
                                 <img
-                                  src={`http://localhost:8000/storage/uploads/bcds/${image}`}
+                                  src={`http://api.erwangentric.fr/storage/uploads/bcds/${image}`}
                                   alt={showBcd.qrcode_BCD}
                                   width="100px"
                                 />
@@ -255,17 +255,17 @@ const ShowBcd = () => {
                             <th>Disponibilité</th>
                             <td
                               className={
-                                showBcd.availability_BCD === 0
+                                showBcd.availability_BCD === "0"
                                   ? "expired2"
                                   : null
                               }
                             >
-                              {showBcd.availability_BCD === 1
+                              {showBcd.availability_BCD === "1"
                                 ? "Disponible"
                                 : "Indisponible"}
                             </td>
                           </tr>
-                          {showBcd.availability_BCD === 0 ? (
+                          {showBcd.availability_BCD === "0" ? (
                             <tr>
                               <th>Cause d&#39;indisponibilité</th>
                               <td>{showBcd.cause_unavailability_BCD}</td>

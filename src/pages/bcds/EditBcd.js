@@ -55,7 +55,7 @@ const EditBcd = () => {
   // GET - Récupère les valeurs de la fiche avec l'API
   const getBcd = async () => {
     await axios
-      .get(`http://localhost:8000/api/bcds/${bcd}`, {
+      .get(`http://api.erwangentric.fr/api/bcds/${bcd}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -107,7 +107,7 @@ const EditBcd = () => {
     }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/bcds/${bcd}`, formData, {
+      .post(`http://api.erwangentric.fr/api/bcds/${bcd}`, formData, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -303,7 +303,7 @@ const EditBcd = () => {
                               id="custom-switch-user"
                               label="Indisponible"
                               value="0"
-                              checked={availabilityBcd === 0}
+                              checked={availabilityBcd == 0}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityBcd(0);
@@ -315,7 +315,7 @@ const EditBcd = () => {
                               id="custom-switch-admin"
                               label="Disponible"
                               value="1"
-                              checked={availabilityBcd === 1}
+                              checked={availabilityBcd == 1}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityBcd(1);
@@ -325,9 +325,11 @@ const EditBcd = () => {
                           </Form.Group>
                         </Col>
                         <Col md={8} className="mt-3">
-                          {availabilityBcd === 0 ? (
+                          {availabilityBcd == 0 ? (
                             <Form.Group controlId="causeUnavailabilityBcd">
-                              <Form.Label>Cause d&#39;indisponibilité</Form.Label>
+                              <Form.Label>
+                                Cause d&#39;indisponibilité
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 value={causeUnavailabilityBcd}
@@ -349,7 +351,7 @@ const EditBcd = () => {
                               type="checkbox"
                               id="custom-checkbox-counter"
                               label="Remise à zéro du compteur"
-                              checked={counterLoanBcd === 0}
+                              checked={counterLoanBcd == 0}
                               onChange={handleCheckboxChange}
                             />
                           </Form.Group>

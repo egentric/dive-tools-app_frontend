@@ -30,7 +30,7 @@ const ShowUser = () => {
   const displayShowUser = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/users/${user}`,
+        `http://api.erwangentric.fr/api/users/${user}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -78,7 +78,7 @@ const ShowUser = () => {
 
   const deleteShowUser = (id) => {
     axios
-      .delete(`http://localhost:8000/api/users/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/users/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -134,7 +134,7 @@ const ShowUser = () => {
                                 "Aucune"
                               ) : (
                                 <img
-                                  src={`http://localhost:8000/storage/uploads/users/${image}`}
+                                  src={`http://api.erwangentric.fr/storage/uploads/users/${image}`}
                                   alt={showUser.picture}
                                   width="100px"
                                 />
@@ -201,7 +201,7 @@ const ShowUser = () => {
                           <tr>
                             <th>Licencié</th>
                             <td>
-                              {showUser.licensee === 1 ? (
+                              {showUser.licensee === "1" ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
@@ -291,7 +291,7 @@ const ShowUser = () => {
                                 </svg>{" "}
                                 <span className="menu">Modifier</span>
                               </Link>
-                              {role === 1 ? (
+                              {role === "1" ? (
                                 <Button
                                   className="btn btnRed btn-sm"
                                   onClick={() => {

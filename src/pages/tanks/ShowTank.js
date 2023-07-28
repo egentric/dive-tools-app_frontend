@@ -29,7 +29,7 @@ const ShowTank = () => {
   const displayShowTank = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/tanks/${tank}`,
+        `http://api.erwangentric.fr/api/tanks/${tank}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -51,7 +51,7 @@ const ShowTank = () => {
 
   const deleteShowTank = (id) => {
     axios
-      .delete(`http://localhost:8000/api/tanks/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -358,7 +358,7 @@ const ShowTank = () => {
                               {formatDateShow(showTank.first_test_date_tank)}
                             </td>
                           </tr>
-                          {role === 1 || role === 2 ? (
+                          {role === "1" || role === "2" ? (
                             <>
                               <tr>
                                 <th>nom QrCode</th>
@@ -376,7 +376,7 @@ const ShowTank = () => {
                                     "Aucune"
                                   ) : (
                                     <img
-                                      src={`http://localhost:8000/storage/uploads/tanks/${image}`}
+                                      src={`http://api.erwangentric.fr/storage/uploads/tanks/${image}`}
                                       alt={showTank.qrcode_tank}
                                       width="100px"
                                     />
@@ -414,17 +414,17 @@ const ShowTank = () => {
                             <th>Disponibilité</th>
                             <td
                               className={
-                                showTank.availability_tank === 0
+                                showTank.availability_tank === "0"
                                   ? "expired2"
                                   : null
                               }
                             >
-                              {showTank.availability_tank === 1
+                              {showTank.availability_tank === "1"
                                 ? "Disponible"
                                 : "Indisponible"}
                             </td>
                           </tr>
-                          {showTank.availability_tank === 0 ? (
+                          {showTank.availability_tank === "0" ? (
                             <tr>
                               <th>Cause d&#39;indisponibilité</th>
                               <td>{showTank.cause_unavailability_tank}</td>
@@ -487,7 +487,7 @@ const ShowTank = () => {
                                 </svg>{" "}
                                 <span className="menu">Modifier</span>
                               </Link>
-                              {role === 1 || role === 2 ? (
+                              {role === "1" || role === "2" ? (
                                 <Button
                                   className="btn btnRed btn-sm"
                                   onClick={() => {

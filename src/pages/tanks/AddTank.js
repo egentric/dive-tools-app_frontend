@@ -74,7 +74,7 @@ const AddTank = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://localhost:8000/api/users", {
+      .get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -95,7 +95,7 @@ const AddTank = () => {
     e.preventDefault();
 
     // Determine the user ID based on the role
-    const userId = role === 1 || role === 2 ? selectedUser.value : userCoId;
+    const userId = role === "1" || role === "2" ? selectedUser.value : userCoId;
 
     const formData = new FormData();
     formData.append("code_tank", codeTank);
@@ -120,7 +120,7 @@ const AddTank = () => {
     // }
 
     await axios
-      .post(`http://127.0.0.1:8000/api/tanks`, formData, {
+      .post(`http://api.erwangentric.fr/api/tanks`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -382,7 +382,7 @@ const AddTank = () => {
                           </Form.Group>
                         </Col>
                       </Row>
-                      {role === 3 ? (
+                      {role === "3" ? (
                         <>
                           <Form.Group controlId="availabilityTank">
                             <Form.Control type="hidden" value="0" />
@@ -406,7 +406,7 @@ const AddTank = () => {
                                   id="custom-switch-user"
                                   label="Indisponible"
                                   value="0"
-                                  checked={availabilityTank === 0}
+                                  checked={availabilityTank == 0}
                                   onChange={(event) => {
                                     if (event.target.checked) {
                                       setAvailabilityTank(0);
@@ -418,7 +418,7 @@ const AddTank = () => {
                                   id="custom-switch-admin"
                                   label="Disponible"
                                   value="1"
-                                  checked={availabilityTank === 1}
+                                  checked={availabilityTank == 1}
                                   onChange={(event) => {
                                     if (event.target.checked) {
                                       setAvailabilityTank(1);
@@ -428,7 +428,7 @@ const AddTank = () => {
                               </Form.Group>
                             </Col>
                             <Col md={8} className="mt-3">
-                              {availabilityTank === 0 ? (
+                              {availabilityTank == 0 ? (
                                 <Form.Group controlId="causeUnavailabilityTank">
                                   <Form.Label className="label">
                                     Cause d&#39;indisponibilité
@@ -449,7 +449,7 @@ const AddTank = () => {
                         </div>
                       )}
 
-                      {role === 1 || role === 2 ? (
+                      {role === "1" || role === "2" ? (
                         <Row>
                           <Col lg={12} xl={6} className="mt-3">
                             <Form.Group>

@@ -25,7 +25,7 @@ const Home = () => {
 
   const displayUsers = async () => {
     await axios
-      .get("http://localhost:8000/api/users", {
+      .get("http://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -38,7 +38,7 @@ const Home = () => {
   };
   const displayContacts = async () => {
     await axios
-      .get(`http://127.0.0.1:8000/api/contacts`, {
+      .get(`http://api.erwangentric.fr/api/contacts`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -198,7 +198,7 @@ const Home = () => {
                           <span className="menu">Mes réservations</span>
                         </Link>
                         <br />
-                        {role === 1 || role === 2 ? (
+                        {role === "1" || role === "2" ? (
                           <Link
                             to={`/reservations`}
                             className="btn btnWhite btn-sm"
@@ -287,7 +287,7 @@ const Home = () => {
                           </span>
                         </Link>
                         <br />
-                        {role === 1 || role === 2 ? (
+                        {role === "1" || role === "2" ? (
                           <>
                             <Link to={`/tanks`} className="btn btnWhite btn-sm">
                               <svg
@@ -379,7 +379,7 @@ const Home = () => {
             </Col>
 
             {/* ===================================================================== UTILISATEURS =============================================== */}
-            {role === 1 && (
+            {role === "1" && (
               <Col sm={11} md={6} lg={4}>
                 <Row className="justify-content-center p-4">
                   <Link to="/users" className="bloc">
@@ -449,7 +449,7 @@ const Home = () => {
                         <div className="text-center">
                           {picture && ( // Vérifie si la variable picture existe
                             <img
-                              src={`http://localhost:8000/storage/uploads/users/${picture}`}
+                              src={`http://api.erwangentric.fr/storage/uploads/users/${picture}`}
                               alt="Avatar adhérent"
                               width="130px"
                               className="rounded-image"
@@ -468,7 +468,7 @@ const Home = () => {
               </Row>
             </Col>
             {/* ===================================================================== Contacts =============================================== */}
-            {role === 1 && (
+            {role === "1" && (
               <Col sm={11} md={6} lg={4}>
                 <Row className="justify-content-center p-4">
                   <Link to="/contacts" className="bloc">

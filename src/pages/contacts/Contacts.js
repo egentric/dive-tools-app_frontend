@@ -37,11 +37,14 @@ const Contacts = () => {
 
   const displayContacts = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/contacts`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await axios.get(
+        `http://api.erwangentric.fr/api/contacts`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
       setContacts(response.data.data);
       setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
       // console.log(response.data);
@@ -54,7 +57,7 @@ const Contacts = () => {
 
   const deleteContact = (id) => {
     axios
-      .delete(`http://127.0.0.1:8000/api/contacts/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/contacts/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

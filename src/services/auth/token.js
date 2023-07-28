@@ -89,11 +89,11 @@ let getPicture = () => {
 
 let loggedAndAdmin = () => {
   // Check si il y a un token valide et check si le rôle est celui d'un admin, répond true quand c'est vrai
-  return !!(getExpiryTime() && getRoles() === 1);
+  return !!(getExpiryTime() && getRoles() === "1");
 };
 let loggedAndAdminOrEditorM = () => {
   // Check si il y a un token valide et check si le rôle est celui d'un editorM ou Admin, répond true quand c'est vrai
-  return !!((getExpiryTime() && getRoles() === 2) || getRoles() === 1);
+  return !!((getExpiryTime() && getRoles() === "2") || getRoles() === "1");
 };
 
 export default {

@@ -30,7 +30,7 @@ const Login = () => {
     // }
 
     axios
-      .post(`http://127.0.0.1:8000/api/login`, formData)
+      .post(`http://api.erwangentric.fr/api/login`, formData)
       .then((response) => {
         if (response.data.status === "success") {
           localStorage.setItem(

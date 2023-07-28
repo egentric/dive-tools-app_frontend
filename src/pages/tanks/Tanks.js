@@ -28,7 +28,7 @@ const Tanks = () => {
   // // ------------Affichage tanks----------------------------------------//
   const displayTanks = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/tanks", {
+      const response = await axios.get("http://api.erwangentric.fr/api/tanks", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -46,7 +46,7 @@ const Tanks = () => {
 
   const deleteTank = (id) => {
     axios
-      .delete(`http://localhost:8000/api/tanks/${id}`, {
+      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -182,12 +182,12 @@ const Tanks = () => {
                                 </td>
                                 <td
                                   className={`d-none d-md-table-cell ${
-                                    tank.availability_tank === 0
+                                    tank.availability_tank === "0"
                                       ? "expired2"
                                       : null
                                   }`}
                                 >
-                                  {tank.availability_tank === 1
+                                  {tank.availability_tank === "1"
                                     ? "Disponible"
                                     : "Indisponible"}
                                 </td>
