@@ -56,7 +56,7 @@ const EditReservation = () => {
   const getReservation = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/reservations/${reservation}`,
+        `https://api.erwangentric.fr/api/reservations/${reservation}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -125,7 +125,7 @@ const EditReservation = () => {
 
     await axios
       .post(
-        `http://api.erwangentric.fr/api/check-availability-tank`,
+        `https://api.erwangentric.fr/api/check-availability-tank`,
         formData,
         {
           headers: {
@@ -140,7 +140,7 @@ const EditReservation = () => {
 
     await axios
       .post(
-        `http://api.erwangentric.fr/api/check-availability-regulator`,
+        `https://api.erwangentric.fr/api/check-availability-regulator`,
         formData,
         {
           headers: {
@@ -154,11 +154,15 @@ const EditReservation = () => {
       });
 
     await axios
-      .post(`http://api.erwangentric.fr/api/check-availability-bcd`, formData, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
+      .post(
+        `https://api.erwangentric.fr/api/check-availability-bcd`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      )
       .then((res) => {
         setReservationsDateBcd(res.data);
         // console.log(res.data);
@@ -209,7 +213,7 @@ const EditReservation = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://api.erwangentric.fr/api/users", {
+      .get("https://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -347,7 +351,7 @@ const EditReservation = () => {
 
     await axios
       .post(
-        `http://api.erwangentric.fr/api/reservations/${reservation}`,
+        `https://api.erwangentric.fr/api/reservations/${reservation}`,
         formData,
         {
           headers: {

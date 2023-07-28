@@ -56,7 +56,7 @@ const ReturnReservation = () => {
   const getReservation = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/reservations/${reservation}`,
+        `https://api.erwangentric.fr/api/reservations/${reservation}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -140,7 +140,7 @@ const ReturnReservation = () => {
 
     await axios
       .post(
-        `http://api.erwangentric.fr/api/reservations/${reservation}`,
+        `https://api.erwangentric.fr/api/reservations/${reservation}`,
         formData,
         {
           headers: {

@@ -28,11 +28,14 @@ const Tanks = () => {
   // // ------------Affichage tanks----------------------------------------//
   const displayTanks = async () => {
     try {
-      const response = await axios.get("http://api.erwangentric.fr/api/tanks", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await axios.get(
+        "https://api.erwangentric.fr/api/tanks",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
       setTanks(response.data.data);
       setIsLoading(false); // Mettez isLoading à false une fois les données récupérées
       // console.log(response.data);
@@ -46,7 +49,7 @@ const Tanks = () => {
 
   const deleteTank = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

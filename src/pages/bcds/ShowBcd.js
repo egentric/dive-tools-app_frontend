@@ -27,7 +27,7 @@ const ShowBcd = () => {
   const displayShowBcd = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/bcds/${bcd}`,
+        `https://api.erwangentric.fr/api/bcds/${bcd}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -50,7 +50,7 @@ const ShowBcd = () => {
 
   const deleteShowBcd = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/bcds/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/bcds/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -219,7 +219,7 @@ const ShowBcd = () => {
                                 "Aucune"
                               ) : (
                                 <img
-                                  src={`http://api.erwangentric.fr/storage/uploads/bcds/${image}`}
+                                  src={`https://api.erwangentric.fr/storage/uploads/bcds/${image}`}
                                   alt={showBcd.qrcode_BCD}
                                   width="100px"
                                 />

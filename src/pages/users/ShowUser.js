@@ -30,7 +30,7 @@ const ShowUser = () => {
   const displayShowUser = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/users/${user}`,
+        `https://api.erwangentric.fr/api/users/${user}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -78,7 +78,7 @@ const ShowUser = () => {
 
   const deleteShowUser = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/users/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/users/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -134,7 +134,7 @@ const ShowUser = () => {
                                 "Aucune"
                               ) : (
                                 <img
-                                  src={`http://api.erwangentric.fr/storage/uploads/users/${image}`}
+                                  src={`https://api.erwangentric.fr/storage/uploads/users/${image}`}
                                   alt={showUser.picture}
                                   width="100px"
                                 />

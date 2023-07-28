@@ -29,7 +29,7 @@ const Regulators = () => {
   const displayRegulators = async () => {
     try {
       const response = await axios.get(
-        "http://api.erwangentric.fr/api/regulators",
+        "https://api.erwangentric.fr/api/regulators",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -49,7 +49,7 @@ const Regulators = () => {
 
   const deleteRegulator = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/regulators/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/regulators/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

@@ -25,7 +25,7 @@ const Home = () => {
 
   const displayUsers = async () => {
     await axios
-      .get("http://api.erwangentric.fr/api/users", {
+      .get("https://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -38,7 +38,7 @@ const Home = () => {
   };
   const displayContacts = async () => {
     await axios
-      .get(`http://api.erwangentric.fr/api/contacts`, {
+      .get(`https://api.erwangentric.fr/api/contacts`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -449,7 +449,7 @@ const Home = () => {
                         <div className="text-center">
                           {picture && ( // Vérifie si la variable picture existe
                             <img
-                              src={`http://api.erwangentric.fr/storage/uploads/users/${picture}`}
+                              src={`https://api.erwangentric.fr/storage/uploads/users/${picture}`}
                               alt="Avatar adhérent"
                               width="130px"
                               className="rounded-image"

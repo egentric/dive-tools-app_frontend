@@ -28,7 +28,7 @@ const AddContact = () => {
       console.log(pair[0] + ", " + pair[1]);
     }
     await axios
-      .post(`http://api.erwangentric.fr/api/contacts`, formData, {
+      .post(`https://api.erwangentric.fr/api/contacts`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },

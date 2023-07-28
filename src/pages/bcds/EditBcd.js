@@ -55,7 +55,7 @@ const EditBcd = () => {
   // GET - Récupère les valeurs de la fiche avec l'API
   const getBcd = async () => {
     await axios
-      .get(`http://api.erwangentric.fr/api/bcds/${bcd}`, {
+      .get(`https://api.erwangentric.fr/api/bcds/${bcd}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -107,7 +107,7 @@ const EditBcd = () => {
     }
 
     await axios
-      .post(`http://api.erwangentric.fr/api/bcds/${bcd}`, formData, {
+      .post(`https://api.erwangentric.fr/api/bcds/${bcd}`, formData, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

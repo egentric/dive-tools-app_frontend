@@ -29,7 +29,7 @@ const ShowTank = () => {
   const displayShowTank = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/tanks/${tank}`,
+        `https://api.erwangentric.fr/api/tanks/${tank}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -51,7 +51,7 @@ const ShowTank = () => {
 
   const deleteShowTank = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/tanks/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/tanks/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -376,7 +376,7 @@ const ShowTank = () => {
                                     "Aucune"
                                   ) : (
                                     <img
-                                      src={`http://api.erwangentric.fr/storage/uploads/tanks/${image}`}
+                                      src={`https://api.erwangentric.fr/storage/uploads/tanks/${image}`}
                                       alt={showTank.qrcode_tank}
                                       width="100px"
                                     />

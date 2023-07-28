@@ -29,7 +29,7 @@ const ReservationsUser = () => {
   const displayReservations = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/reservations/user/${userId}`,
+        `https://api.erwangentric.fr/api/reservations/user/${userId}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -52,7 +52,7 @@ const ReservationsUser = () => {
 
   const deleteReservation = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/reservations/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/reservations/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

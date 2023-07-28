@@ -64,7 +64,7 @@ const EditUser = () => {
   // GET - Récupère les valeurs de la fiche avec l'API
   const getUser = async () => {
     await axios
-      .get(`http://api.erwangentric.fr/api/users/${user}`, {
+      .get(`https://api.erwangentric.fr/api/users/${user}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -134,7 +134,7 @@ const EditUser = () => {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
     await axios
-      .post(`http://api.erwangentric.fr/api/users/${user}`, formData, {
+      .post(`https://api.erwangentric.fr/api/users/${user}`, formData, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

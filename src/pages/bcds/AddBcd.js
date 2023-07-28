@@ -55,7 +55,7 @@ const AddBcd = () => {
     // }
 
     await axios
-      .post(`http://api.erwangentric.fr/api/bcds`, formData, {
+      .post(`https://api.erwangentric.fr/api/bcds`, formData, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },

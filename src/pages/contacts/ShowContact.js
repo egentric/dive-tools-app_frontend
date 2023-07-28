@@ -40,7 +40,7 @@ const ShowContact = () => {
   const displayShowContact = async () => {
     try {
       const response = await axios.get(
-        `http://api.erwangentric.fr/api/contacts/${contact}`,
+        `https://api.erwangentric.fr/api/contacts/${contact}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -61,7 +61,7 @@ const ShowContact = () => {
 
   const deleteShowContact = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/contacts/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/contacts/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

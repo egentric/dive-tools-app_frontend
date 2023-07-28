@@ -93,7 +93,7 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post(
-        `http://api.erwangentric.fr/api/register`,
+        `https://api.erwangentric.fr/api/register`,
         formData
       );
       const data = response.data; // Les données sont déjà parsées par Axios

@@ -27,7 +27,7 @@ const Bcds = () => {
   // // ------------Affichage bcds----------------------------------------//
   const displayBcds = async () => {
     try {
-      const response = await axios.get("http://api.erwangentric.fr/api/bcds", {
+      const response = await axios.get("https://api.erwangentric.fr/api/bcds", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -45,7 +45,7 @@ const Bcds = () => {
 
   const deleteBcd = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/bcds/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/bcds/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },

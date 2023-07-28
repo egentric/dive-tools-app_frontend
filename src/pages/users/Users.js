@@ -25,11 +25,14 @@ const Users = () => {
 
   const displayUsers = async () => {
     try {
-      const response = await axios.get("http://api.erwangentric.fr/api/users", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await axios.get(
+        "https://api.erwangentric.fr/api/users",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
       setUsers(response.data.data);
       // setImage(res.data.data.picture);
       // console.log(setImage);
@@ -43,7 +46,7 @@ const Users = () => {
   };
   const deleteUser = (id) => {
     axios
-      .delete(`http://api.erwangentric.fr/api/users/${id}`, {
+      .delete(`https://api.erwangentric.fr/api/users/${id}`, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
@@ -54,7 +57,7 @@ const Users = () => {
   const handleConfirm = () => {
     axios
       .put(
-        `http://api.erwangentric.fr/api/users/update-licensee`,
+        `https://api.erwangentric.fr/api/users/update-licensee`,
         { licensee: 0 }, // Inclure la valeur 0 dans le corps de la requête
         {
           headers: {
@@ -178,7 +181,7 @@ const Users = () => {
                                   "Aucune"
                                 ) : (
                                   <img
-                                    src={`http://api.erwangentric.fr/storage/uploads/users/${user.picture}`}
+                                    src={`https://api.erwangentric.fr/storage/uploads/users/${user.picture}`}
                                     alt={user.picture}
                                     width="30px"
                                   />

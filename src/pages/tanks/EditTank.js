@@ -80,7 +80,7 @@ const EditTank = () => {
   // // ------------Récupération Users----------------------------------------//
   const displayUsers = async () => {
     await axios
-      .get("http://api.erwangentric.fr/api/users", {
+      .get("https://api.erwangentric.fr/api/users", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -98,7 +98,7 @@ const EditTank = () => {
         setIsLoading(true);
 
         const response = await axios.get(
-          `http://api.erwangentric.fr/api/tanks/${tank}`,
+          `https://api.erwangentric.fr/api/tanks/${tank}`,
           {
             headers: {
               Authorization: "Bearer" + localStorage.getItem("access_token"),
@@ -198,7 +198,7 @@ const EditTank = () => {
     // }
 
     await axios
-      .post(`http://api.erwangentric.fr/api/tanks/${tank}`, formData, {
+      .post(`https://api.erwangentric.fr/api/tanks/${tank}`, formData, {
         headers: {
           Authorization: "Bearer" + localStorage.getItem("access_token"),
         },
