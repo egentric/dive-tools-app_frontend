@@ -240,12 +240,12 @@ const Regulators = () => {
                                 <td
                                   className={`d-none d-sm-table-cell 
                                   ${
-                                    regulator.counter_loan_regulator >= "100"
+                                    regulator.counter_loan_regulator >= 100
                                       ? "expired"
                                       : ""
                                   }`}
                                 >
-                                  {regulator.counter_loan_regulator >= "100" ? (
+                                  {regulator.counter_loan_regulator >= 100 ? (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="30"

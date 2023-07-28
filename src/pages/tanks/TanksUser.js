@@ -188,12 +188,12 @@ const TanksUser = () => {
                                 {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
-                                      tank.availability_tank === "0"
+                                      tank.availability_tank === 0
                                         ? "expired2"
                                         : null
                                     }`}
                                   >
-                                    {tank.availability_tank === "1"
+                                    {tank.availability_tank === 1
                                       ? "Disponible"
                                       : "Indisponible"}
                                   </td>
@@ -251,12 +251,12 @@ const TanksUser = () => {
                                 {role === "1" ? (
                                   <td
                                     className={`d-none d-md-table-cell ${
-                                      tank.counter_loan_tank >= "100"
+                                      tank.counter_loan_tank >= 100
                                         ? "expired2"
                                         : ""
                                     }`}
                                   >
-                                    {tank.counter_loan_tank >= "100" ? (
+                                    {tank.counter_loan_tank >= 100 ? (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="30"

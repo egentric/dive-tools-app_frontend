@@ -263,12 +263,12 @@ const ShowRegulator = () => {
                             <th>Compteur d&#39;emprunt</th>
                             <td
                               className={
-                                showRegulator.counter_loan_regulator >= "100"
+                                showRegulator.counter_loan_regulator >= 100
                                   ? "expired"
                                   : ""
                               }
                             >
-                              {showRegulator.counter_loan_regulator >= "100" ? (
+                              {showRegulator.counter_loan_regulator >= 100 ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"

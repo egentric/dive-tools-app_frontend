@@ -387,12 +387,12 @@ const ShowTank = () => {
                                 <th>Compteur d&#39;emprunt</th>
                                 <td
                                   className={
-                                    showTank.counter_loan_tank >= "100"
+                                    showTank.counter_loan_tank >= 100
                                       ? "expired2"
                                       : ""
                                   }
                                 >
-                                  {showTank.counter_loan_tank >= "100" ? (
+                                  {showTank.counter_loan_tank >= 100 ? (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="30"

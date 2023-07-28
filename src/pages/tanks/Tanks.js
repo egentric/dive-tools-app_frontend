@@ -243,12 +243,12 @@ const Tanks = () => {
                                 </td>
                                 <td
                                   className={`d-none d-md-table-cell ${
-                                    tank.counter_loan_tank >= "100"
+                                    tank.counter_loan_tank >= 100
                                       ? "expired2"
                                       : ""
                                   }`}
                                 >
-                                  {tank.counter_loan_tank >= "100" ? (
+                                  {tank.counter_loan_tank >= 100 ? (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="30"

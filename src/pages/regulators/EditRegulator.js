@@ -276,7 +276,7 @@ const EditRegulator = () => {
                               id="custom-switch-user"
                               label="Indisponible"
                               value="0"
-                              checked={availabilityRegulator === "0"}
+                              checked={availabilityRegulator == 0}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityRegulator(0);
@@ -288,7 +288,7 @@ const EditRegulator = () => {
                               id="custom-switch-admin"
                               label="Disponible"
                               value="1"
-                              checked={availabilityRegulator === "1"}
+                              checked={availabilityRegulator == 1}
                               onChange={(event) => {
                                 if (event.target.checked) {
                                   setAvailabilityRegulator(1);
@@ -298,7 +298,7 @@ const EditRegulator = () => {
                           </Form.Group>
                         </Col>
                         <Col md={8} className="mt-3">
-                          {availabilityRegulator === "0" ? (
+                          {availabilityRegulator == 0 ? (
                             <Form.Group controlId="causeUnavailabilityRegulator">
                               <Form.Label className="label">
                                 Cause d&#39;indisponibilité
@@ -326,7 +326,7 @@ const EditRegulator = () => {
                               type="checkbox"
                               id="custom-checkbox-counter"
                               label="Remise à zéro du compteur"
-                              checked={counterLoanRegulator === "0"}
+                              checked={counterLoanRegulator == 0}
                               onChange={handleCheckboxChange}
                             />
                           </Form.Group>

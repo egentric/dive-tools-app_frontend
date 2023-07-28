@@ -406,7 +406,7 @@ const AddTank = () => {
                                   id="custom-switch-user"
                                   label="Indisponible"
                                   value="0"
-                                  checked={availabilityTank === "0"}
+                                  checked={availabilityTank == 0}
                                   onChange={(event) => {
                                     if (event.target.checked) {
                                       setAvailabilityTank(0);
@@ -418,7 +418,7 @@ const AddTank = () => {
                                   id="custom-switch-admin"
                                   label="Disponible"
                                   value="1"
-                                  checked={availabilityTank === "1"}
+                                  checked={availabilityTank == 1}
                                   onChange={(event) => {
                                     if (event.target.checked) {
                                       setAvailabilityTank(1);
@@ -428,7 +428,7 @@ const AddTank = () => {
                               </Form.Group>
                             </Col>
                             <Col md={8} className="mt-3">
-                              {availabilityTank === "0" ? (
+                              {availabilityTank == 0 ? (
                                 <Form.Group controlId="causeUnavailabilityTank">
                                   <Form.Label className="label">
                                     Cause d&#39;indisponibilité

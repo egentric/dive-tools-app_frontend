@@ -230,12 +230,12 @@ const ShowBcd = () => {
                             <th>Compteur d&#39;emprunt</th>
                             <td
                               className={
-                                showBcd.counter_loan_BCD >= "100"
+                                showBcd.counter_loan_BCD >= 100
                                   ? "expired2"
                                   : ""
                               }
                             >
-                              {showBcd.counter_loan_BCD >= "100" ? (
+                              {showBcd.counter_loan_BCD >= 100 ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="30"
