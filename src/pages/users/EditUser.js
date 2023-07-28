@@ -56,7 +56,7 @@ const EditUser = () => {
       window.alert("La licence sera activée !");
     }
   };
-
+  console.log(labelValue);
   useEffect(() => {
     getUser();
   }, []);
